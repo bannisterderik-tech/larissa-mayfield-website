@@ -67,12 +67,12 @@
       <p class="body-text reveal reveal-d2" style="color:rgba(244,239,230,.85);margin-top:32px;max-width:460px">I provide a detailed, honest valuation based on actual comparable sales in your area &mdash; not automated estimates. Every valuation includes a conversation about your property&rsquo;s unique features and the current market conditions in your neighborhood.</p>
       <p class="body-text reveal reveal-d3" style="color:rgba(244,239,230,.65);margin-top:24px;max-width:460px;font-size:14px">Free. No obligation. No pressure. Just the information you need to make an informed decision.</p>
     </div>
-    <form class="valuation-form reveal reveal-d2" onsubmit="event.preventDefault()">
-      <label><div class="label-text">PROPERTY ADDRESS</div><input type="text" placeholder="24500 Hwy 126, Veneta OR"></label>
-      <label><div class="label-text">APPROXIMATE ACREAGE</div><input type="text" placeholder="12.5"></label>
-      <label><div class="label-text">PROPERTY TYPE</div><input type="text" placeholder="Rural / Acreage / Residential"></label>
-      <label><div class="label-text">YOUR NAME</div><input type="text" placeholder="Your name"></label>
-      <label><div class="label-text">EMAIL OR PHONE</div><input type="text" placeholder="you@email.com"></label>
+    <form class="valuation-form reveal reveal-d2" data-form-type="valuation">
+      <label><div class="label-text">PROPERTY ADDRESS</div><input type="text" name="property_address" placeholder="24500 Hwy 126, Veneta OR" required></label>
+      <label><div class="label-text">APPROXIMATE ACREAGE</div><input type="text" name="acreage" placeholder="12.5"></label>
+      <label><div class="label-text">PROPERTY TYPE</div><input type="text" name="property_type" placeholder="Rural / Acreage / Residential"></label>
+      <label><div class="label-text">YOUR NAME</div><input type="text" name="name" placeholder="Your name" required></label>
+      <label><div class="label-text">EMAIL OR PHONE</div><input type="text" name="contact" placeholder="you@email.com" required></label>
       <button type="submit">REQUEST VALUATION &rarr;</button>
     </form>
   </div>

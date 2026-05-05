@@ -72,6 +72,62 @@ document.addEventListener('DOMContentLoaded',function(){
       s.classList.add('active');
     });
   });
+  // Form submission → Supabase webhook
+  var WEBHOOK_URL='https://ayskxkjorhoaknkqtyvm.supabase.co/functions/v1/webhook-receive';
+  var WEBHOOK_KEY='e3302b5d21fc46979aacd6da8576642f';
+  document.querySelectorAll('form[data-form-type]').forEach(function(form){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var btn=form.querySelector('button[type="submit"]');
+      var origText=btn.textContent;
+      btn.textContent='SENDING...';
+      btn.disabled=true;
+      var formType=form.dataset.formType;
+      var fields={};
+      form.querySelectorAll('input[name],textarea[name]').forEach(function(el){
+        if(el.value.trim())fields[el.name]=el.value.trim();
+      });
+      var chips=form.querySelectorAll('.chip.active');
+      var interests=[];
+      chips.forEach(function(c){interests.push(c.textContent)});
+      var notesParts=[];
+      if(formType==='valuation'){
+        if(fields.property_address)notesParts.push('Address: '+fields.property_address);
+        if(fields.acreage)notesParts.push('Acreage: '+fields.acreage);
+        if(fields.property_type)notesParts.push('Type: '+fields.property_type);
+      }
+      if(interests.length)notesParts.push('Interests: '+interests.join(', '));
+      if(fields.message)notesParts.push(fields.message);
+      var contactVal=fields.contact||'';
+      var emailVal=fields.email||'';
+      var phoneVal=fields.phone||'';
+      if(contactVal&&!emailVal&&!phoneVal){
+        if(contactVal.indexOf('@')>-1)emailVal=contactVal;
+        else phoneVal=contactVal;
+      }
+      var payload={
+        assigned_to:'Larissa Mayfield',
+        name:fields.name||'Unknown',
+        email:emailVal||null,
+        phone:phoneVal||null,
+        source:'larissamayfield.com'+window.location.pathname+' ('+formType+')',
+        notes:notesParts.join(' | ')||null
+      };
+      fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json','X-Webhook-Key':WEBHOOK_KEY},body:JSON.stringify(payload)})
+        .then(function(r){
+          if(!r.ok)throw new Error(r.status);
+          btn.textContent='SENT ✓';
+          form.reset();
+          form.querySelectorAll('.chip.active').forEach(function(c){c.classList.remove('active')});
+          setTimeout(function(){btn.textContent=origText;btn.disabled=false},3000);
+        })
+        .catch(function(){
+          btn.textContent='ERROR — TRY AGAIN';
+          btn.disabled=false;
+          setTimeout(function(){btn.textContent=origText},3000);
+        });
+    });
+  });
   // Reveal init
   observeReveals();
 });

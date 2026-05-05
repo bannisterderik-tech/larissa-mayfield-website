@@ -74,12 +74,12 @@
       <h2 class="section-heading reveal reveal-d1" style="color:var(--cream)">What is your property<br><em style="color:var(--cream)"><i>worth today?</i></em></h2>
       <p class="body-text reveal reveal-d2" style="color:rgba(244,239,230,.85);margin-top:24px;max-width:420px">A free, no-obligation valuation built from real comparable sales and an honest conversation about your property in today&rsquo;s market.</p>
     </div>
-    <form class="valuation-form reveal reveal-d2" onsubmit="event.preventDefault()">
-      <label><div class="label-text">PROPERTY ADDRESS</div><input type="text" placeholder="24500 Hwy 126, Veneta OR"></label>
-      <label><div class="label-text">APPROXIMATE ACREAGE</div><input type="text" placeholder="12.5"></label>
-      <label><div class="label-text">PROPERTY TYPE</div><input type="text" placeholder="Rural / Acreage / Residential"></label>
-      <label><div class="label-text">YOUR NAME</div><input type="text" placeholder="Your name"></label>
-      <label><div class="label-text">EMAIL OR PHONE</div><input type="text" placeholder="you@email.com"></label>
+    <form class="valuation-form reveal reveal-d2" data-form-type="valuation">
+      <label><div class="label-text">PROPERTY ADDRESS</div><input type="text" name="property_address" placeholder="24500 Hwy 126, Veneta OR" required></label>
+      <label><div class="label-text">APPROXIMATE ACREAGE</div><input type="text" name="acreage" placeholder="12.5"></label>
+      <label><div class="label-text">PROPERTY TYPE</div><input type="text" name="property_type" placeholder="Rural / Acreage / Residential"></label>
+      <label><div class="label-text">YOUR NAME</div><input type="text" name="name" placeholder="Your name" required></label>
+      <label><div class="label-text">EMAIL OR PHONE</div><input type="text" name="contact" placeholder="you@email.com" required></label>
       <button type="submit">REQUEST VALUATION &rarr;</button>
     </form>
   </div>

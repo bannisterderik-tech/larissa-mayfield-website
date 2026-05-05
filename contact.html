@@ -69,10 +69,10 @@
 </section>
 <section>
   <div class="contact-grid">
-    <form class="contact-form reveal" onsubmit="event.preventDefault()">
-      <div><div class="form-label">YOUR NAME</div><input type="text" placeholder="Full name"></div>
-      <div><div class="form-label">EMAIL</div><input type="email" placeholder="you@email.com"></div>
-      <div><div class="form-label">PHONE</div><input type="tel" placeholder="541-000-0000"></div>
+    <form class="contact-form reveal" data-form-type="contact">
+      <div><div class="form-label">YOUR NAME</div><input type="text" name="name" placeholder="Full name" required></div>
+      <div><div class="form-label">EMAIL</div><input type="email" name="email" placeholder="you@email.com" required></div>
+      <div><div class="form-label">PHONE</div><input type="tel" name="phone" placeholder="541-000-0000"></div>
       <div><div class="form-label">I AM INTERESTED IN</div>
         <div class="interest-chips">
           <button class="chip" type="button">Buying</button>
@@ -83,7 +83,7 @@
           <button class="chip" type="button">Just Exploring</button>
         </div>
       </div>
-      <div><div class="form-label">MESSAGE</div><textarea rows="5" placeholder="Tell me a little about your situation..."></textarea></div>
+      <div><div class="form-label">MESSAGE</div><textarea name="message" rows="5" placeholder="Tell me a little about your situation..."></textarea></div>
       <button class="btn-mono" type="submit">SEND MESSAGE &rarr;</button>
     </form>
     <div class="contact-sidebar reveal reveal-d1">

@@ -11,7 +11,7 @@ EXTRA_BLOGS = [
         "tag": "BUYERS &middot; INSPECTIONS",
         "date": "APR 2026",
         "excerpt": "A home inspection is your best protection against expensive surprises. Here is what inspectors look for and what you should ask about.",
-        "img": IMG["house"],
+        "img_key": "house",
         "seo_desc": "Home inspection checklist for Oregon buyers. What inspectors check, common issues, and how to use the report. Guide by Larissa Mayfield.",
         "body_sections": [
             ("What a Home Inspection Covers", "A standard home inspection evaluates the structure, roof, foundation, electrical, plumbing, HVAC, windows, doors, insulation, and visible components of the property. The inspector produces a detailed written report, typically 30 to 50 pages, with photos and descriptions of any concerns."),
@@ -27,7 +27,7 @@ EXTRA_BLOGS = [
         "tag": "SELLERS &middot; STAGING",
         "date": "MAR 2026",
         "excerpt": "Professional staging can increase your sale price by 5% to 10%. But you do not always need a professional &mdash; here is what works on any budget.",
-        "img": IMG["cottage"],
+        "img_key": "cottage",
         "seo_desc": "Home staging tips for Oregon sellers. DIY and professional staging strategies that increase sale price. By Larissa Mayfield, Real Broker.",
         "body_sections": [
             ("Why Staging Works", "Staging helps buyers visualize themselves living in the space. A well-staged home photographs better, shows better in person, and creates an emotional connection that translates to higher offers. The National Association of Realtors reports that staged homes sell for 1% to 5% more than unstaged comparable properties."),
@@ -43,7 +43,7 @@ EXTRA_BLOGS = [
         "tag": "RELOCATION &middot; CALIFORNIA",
         "date": "FEB 2026",
         "excerpt": "Oregon is attracting California transplants at record rates. Here is what to expect about housing, taxes, climate, and culture.",
-        "img": IMG["valley"],
+        "img_key": "valley",
         "seo_desc": "Guide to moving from California to Oregon. Housing costs, taxes, climate, culture differences. By Oregon Realtor Larissa Mayfield.",
         "body_sections": [
             ("Housing Cost Comparison", "The median home price in Lane County is approximately $410,000, compared to $750,000 or more in most California metros. Your California equity can buy significantly more property here. Many transplants use their proceeds to purchase acreage or upgrade to a larger home."),
@@ -59,7 +59,7 @@ EXTRA_BLOGS = [
         "tag": "BUYERS &middot; TAXES",
         "date": "JAN 2026",
         "excerpt": "Oregon&rsquo;s property tax system is unique. Measure 50, assessed value caps, and compression &mdash; here is what homeowners need to know.",
-        "img": IMG["docs"],
+        "img_key": "docs",
         "seo_desc": "Oregon property tax explained. Measure 50, assessed value, tax rates, and how it affects home buyers. Guide by Larissa Mayfield.",
         "body_sections": [
             ("How Oregon Property Tax Works", "Oregon&rsquo;s property tax system is governed by Measure 50, passed in 1997. Unlike most states, your tax is based on assessed value, not market value. Assessed value can only increase by 3% per year, regardless of how much the market value increases. This means long-held properties often have assessed values well below market value."),
@@ -75,7 +75,7 @@ EXTRA_BLOGS = [
         "tag": "SELLERS &middot; MARKETING",
         "date": "DEC 2025",
         "excerpt": "Aerial photography shows buyers what a property truly offers. For acreage and rural listings, drone photos are not optional &mdash; they are essential.",
-        "img": IMG["aerial"],
+        "img_key": "aerial",
         "seo_desc": "Drone photography for rural real estate listings in Oregon. Why aerial photos sell acreage faster. By Larissa Mayfield, Real Broker.",
         "body_sections": [
             ("The Problem With Ground-Level Photos", "A ground-level photo of a 20-acre property shows you a house, some grass, and maybe a tree line. It does not communicate the scale, layout, boundaries, or landscape features that make the property special. Buyers scrolling online have no way to understand what they are looking at."),
@@ -91,7 +91,7 @@ EXTRA_BLOGS = [
         "tag": "BUYERS &middot; LIFESTYLE",
         "date": "NOV 2025",
         "excerpt": "Oregon&rsquo;s ADU-friendly laws make multigenerational living more accessible than ever. Here is what buyers need to know.",
-        "img": IMG["farmhouse"],
+        "img_key": "farmhouse",
         "seo_desc": "Multigenerational homes and ADUs in Oregon. Zoning, financing, and finding properties for extended families. By Larissa Mayfield.",
         "body_sections": [
             ("Oregon&rsquo;s ADU Laws", "Oregon is one of the most ADU-friendly states in the country. House Bill 2001, effective since 2021, requires cities with populations over 25,000 to allow at least two dwelling units on residential lots. This means you can build an accessory dwelling unit on most urban residential properties in Eugene and Springfield."),

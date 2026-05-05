@@ -137,7 +137,7 @@ input,textarea,button,select{font-family:inherit}
 .photo-grid-2x2{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:start}
 .photo-grid-2x2 img:nth-child(odd){height:220px}
 .photo-grid-2x2 img:nth-child(even){height:300px}
-.photo-grid-2x2 img{width:100%;object-fit:cover}
+.photo-grid-2x2 img{width:100%;object-fit:cover;object-position:center top}
 
 /* === LEAD MAGNETS === */
 .section-alt{background:var(--cream-deep);padding:80px 56px}
@@ -165,7 +165,7 @@ input,textarea,button,select{font-family:inherit}
 .photo-grid-section{background:var(--cream-deep);padding:96px 56px}
 .photo-grid-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .photo-grid-4{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.photo-grid-4 img{width:100%;object-fit:cover}
+.photo-grid-4 img{width:100%;object-fit:cover;object-position:center top}
 .photo-grid-4 img:nth-child(1){height:240px}
 .photo-grid-4 img:nth-child(2){height:300px}
 .photo-grid-4 img:nth-child(3){height:300px}
@@ -268,8 +268,8 @@ input,textarea,button,select{font-family:inherit}
 .blog-card p{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--muted)}
 
 /* === ARTICLE === */
-.article-header{padding:80px 56px 48px;max-width:800px}
-.article-body{padding:0 56px 96px;max-width:800px}
+.article-header{padding:80px 56px 48px;max-width:800px;margin:0 auto}
+.article-body{padding:0 56px 96px;max-width:800px;margin:0 auto}
 .article-body h2{font-family:var(--serif);font-size:36px;letter-spacing:-.02em;font-weight:400;margin:48px 0 16px}
 .article-body h3{font-family:var(--serif);font-size:28px;letter-spacing:-.01em;font-weight:400;margin:36px 0 12px}
 .article-body p{font-family:var(--sans);font-size:17px;line-height:1.8;color:#3a342e;margin-bottom:20px}

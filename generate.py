@@ -144,27 +144,42 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
     print(f"  ✓ {canonical}")
 
 # Unsplash photo URLs used as placeholders
-IMG = {
-    "valley": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1600&q=80",
-    "farmhouse": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1600&q=80",
-    "rural": "https://images.unsplash.com/photo-1500076656116-558758c991c1?w=1600&q=80",
-    "house": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1600&q=80",
-    "creek": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1600&q=80",
-    "cottage": "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1600&q=80",
-    "mountain": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80",
-    "meadow": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1600&q=80",
-    "barn": "https://images.unsplash.com/photo-1595880723089-69855e0e3a5a?w=1600&q=80",
-    "vineyard": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&q=80",
-    "keys": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1600&q=80",
-    "couple": "https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?w=1600&q=80",
-    "aerial": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80",
-    "town": "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=1600&q=80",
-    "forest": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600&q=80",
-    "well": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1600&q=80",
-    "septic": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1600&q=80",
-    "docs": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1600&q=80",
-    "contract": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1600&q=80",
+# Local stock photos — verified Pacific Northwest / Willamette Valley appropriate
+# All photos live in /images/stock/ — never linking to remote Unsplash URLs again.
+STOCK_FILES = {
+    "valley":    ("stock", "wheat-field"),
+    "farmhouse": ("stock", "barn-sunset"),
+    "rural":     ("stock", "barn-sunset"),
+    "house":     ("stock", "white-home"),
+    "creek":     ("stock", "forest-path"),
+    "cottage":   ("stock", "suburban-home"),
+    "mountain":  ("stock", "mountain-valley"),
+    "meadow":    ("stock", "wheat-field"),
+    "barn":      ("stock", "barn-sunset"),
+    "vineyard":  ("stock", "wheat-field"),
+    "keys":      ("portrait", "larissa-laptop"),
+    "couple":    ("stock", "interior"),
+    "aerial":    ("stock", "valley-vista"),
+    "town":      ("stock", "suburban-home"),
+    "forest":    ("stock", "misty-forest"),
+    "well":      ("stock", "forest-path"),
+    "septic":    ("stock", "documents"),
+    "docs":      ("stock", "documents"),
+    "contract":  ("stock", "signing"),
+    "fog":       ("stock", "cascade-fog"),
+    "drone":     ("stock", "aerial-forest"),
 }
+
+def stock_path(key, depth=0):
+    """Build a relative path to a stock photo from given page depth."""
+    pfx = "." if depth == 0 else "/".join([".."] * depth)
+    kind, name = STOCK_FILES[key]
+    if kind == "portrait":
+        return f"{pfx}/images/{name}.jpg"
+    return f"{pfx}/images/stock/{name}.jpg"
+
+# Backward-compat shim — IMG[key] returns depth-0 path used by root-level pages.
+IMG = {k: stock_path(k, 0) for k in STOCK_FILES}
 
 # ── Testimonials data ────────────────────────────────────────────────────────
 TESTIMONIALS = [
@@ -198,7 +213,7 @@ COMMUNITIES = [
         "tagline": "Small-town roots, ten minutes from Eugene.",
         "desc": "Veneta sits at the western edge of the Willamette Valley where farmland meets the foothills of the Coast Range. It is one of the most affordable communities in Lane County with strong demand for acreage properties.",
         "bullets": ["Median home ~$385K", "Strong acreage market", "Fern Ridge Lake access", "Elmira-Veneta school district", "10 min to west Eugene"],
-        "img": IMG["valley"],
+        "img_key": "valley",
         "seo_desc": "Explore Veneta, Oregon real estate with Larissa Mayfield. Affordable acreage, rural homes, and land near Eugene. Fern Ridge Lake, Elmira-Veneta schools."
     },
     {
@@ -207,7 +222,7 @@ COMMUNITIES = [
         "tagline": "Quiet acreage living, close to everything.",
         "desc": "Elmira is an unincorporated community northwest of Eugene known for its larger lot sizes and rural character. Hobby farms, horse properties, and quiet residential acreages define the area.",
         "bullets": ["Average lot 2-10 acres", "Equestrian-friendly", "Elmira-Veneta schools", "15 min to downtown Eugene", "Fern Ridge Lake nearby"],
-        "img": IMG["farmhouse"],
+        "img_key": "farmhouse",
         "seo_desc": "Elmira, Oregon homes and acreage for sale. Horse properties, hobby farms, and rural living near Eugene. Agent Larissa Mayfield, Real Broker."
     },
     {
@@ -216,7 +231,7 @@ COMMUNITIES = [
         "tagline": "Oregon&rsquo;s second city &mdash; culture meets nature.",
         "desc": "Eugene is the cultural and economic hub of Lane County. From the University of Oregon campus to Skinner Butte, Eugene offers walkable neighborhoods, excellent schools, and a vibrant food and arts scene.",
         "bullets": ["Population ~176K", "University of Oregon", "Strong rental market", "Bikeable infrastructure", "Gateway to the Cascades"],
-        "img": IMG["town"],
+        "img_key": "town",
         "seo_desc": "Eugene, Oregon real estate — homes, condos, investment properties. University of Oregon area. Agent Larissa Mayfield, Real Broker."
     },
     {
@@ -225,7 +240,7 @@ COMMUNITIES = [
         "tagline": "Affordable homes, growing opportunity.",
         "desc": "Springfield has experienced significant revitalization with a growing downtown, the Glenwood riverfront district, and strong residential demand. It remains one of the most affordable markets adjacent to Eugene.",
         "bullets": ["Median home ~$365K", "Glenwood riverfront growth", "PeaceHealth medical hub", "Springfield school district", "McKenzie River access"],
-        "img": IMG["house"],
+        "img_key": "house",
         "seo_desc": "Springfield, Oregon homes for sale. Affordable real estate near Eugene, Glenwood riverfront, McKenzie River. Agent Larissa Mayfield."
     },
     {
@@ -234,7 +249,7 @@ COMMUNITIES = [
         "tagline": "Farmland and heritage in the heart of the valley.",
         "desc": "Junction City occupies some of the richest agricultural land in the Willamette Valley. Known for its Scandinavian Festival and strong farming community, it offers a quieter alternative to the Eugene-Springfield metro.",
         "bullets": ["Small-town community", "Excellent farmland", "Scandinavian heritage", "Junction City schools", "20 min to Eugene"],
-        "img": IMG["meadow"],
+        "img_key": "meadow",
         "seo_desc": "Junction City, Oregon real estate — farmland, acreage, rural homes in the Willamette Valley. Agent Larissa Mayfield, Real Broker."
     },
     {
@@ -243,7 +258,7 @@ COMMUNITIES = [
         "tagline": "Covered bridges and forested hills.",
         "desc": "Cottage Grove sits along the Coast Fork of the Willamette River, surrounded by forested hills and famous covered bridges. It offers some of the most affordable housing in Lane County with a charming historic downtown.",
         "bullets": ["Historic downtown core", "Covered bridge capital", "Dorena Lake recreation", "Affordable entry prices", "Row River Trail"],
-        "img": IMG["creek"],
+        "img_key": "creek",
         "seo_desc": "Cottage Grove, Oregon homes and land for sale. Covered bridges, Dorena Lake, affordable living. Agent Larissa Mayfield, Real Broker."
     },
     {
@@ -252,7 +267,7 @@ COMMUNITIES = [
         "tagline": "Mountain biking capital of the Northwest.",
         "desc": "Oakridge is a mountain community at the edge of the Cascade Range, known globally for world-class mountain biking trails. It offers cabin retreats, timber properties, and a small-town pace of life.",
         "bullets": ["World-class MTB trails", "Cascade Range gateway", "Cabin & retreat market", "National forest access", "Growing tourism economy"],
-        "img": IMG["mountain"],
+        "img_key": "mountain",
         "seo_desc": "Oakridge, Oregon cabins, retreats, and mountain homes. Cascade Range gateway, world-class mountain biking. Agent Larissa Mayfield."
     },
     {
@@ -261,7 +276,7 @@ COMMUNITIES = [
         "tagline": "Family-friendly and freeway-close.",
         "desc": "Creswell offers an appealing balance of small-town livability and convenient I-5 access. It is one of the fastest-growing communities in Lane County with strong schools and new residential development.",
         "bullets": ["Fast-growing community", "Creswell school district", "I-5 corridor access", "New construction market", "10 min to south Eugene"],
-        "img": IMG["cottage"],
+        "img_key": "cottage",
         "seo_desc": "Creswell, Oregon homes for sale — new construction, family-friendly, I-5 access. Agent Larissa Mayfield, Real Broker."
     },
     {
@@ -270,7 +285,7 @@ COMMUNITIES = [
         "tagline": "Timber country with room to breathe.",
         "desc": "Drain is a small timber town in Douglas County along Highway 99. It offers very affordable large-acreage properties, rolling hills, and a genuine rural lifestyle that draws buyers seeking self-sufficiency.",
         "bullets": ["Affordable large acreage", "Timber & ranch properties", "Douglas County schools", "40 min to Roseburg", "Off-grid potential"],
-        "img": IMG["barn"],
+        "img_key": "fog",
         "seo_desc": "Drain, Oregon land, acreage, and rural homes. Affordable timber country in Douglas County. Agent Larissa Mayfield, Real Broker."
     },
     {
@@ -279,7 +294,7 @@ COMMUNITIES = [
         "tagline": "From the ocean to the Cascades.",
         "desc": "Lane County stretches from the Oregon Coast to the Cascade Range, encompassing Eugene-Springfield and dozens of rural communities. It offers the widest range of property types in western Oregon.",
         "bullets": ["Population ~385K", "Eugene-Springfield metro", "Coast to Cascades geography", "Strong agricultural base", "University of Oregon"],
-        "img": IMG["aerial"],
+        "img_key": "aerial",
         "seo_desc": "Lane County, Oregon real estate overview — cities, rural communities, acreage, farmland. Agent Larissa Mayfield, Real Broker."
     },
     {
@@ -288,7 +303,7 @@ COMMUNITIES = [
         "tagline": "Grass seed capital and Cascade foothills.",
         "desc": "Linn County is one of Oregon&rsquo;s top agricultural counties, anchored by Albany and Lebanon. The eastern foothills offer recreational properties near the Santiam corridor.",
         "bullets": ["Albany & Lebanon hubs", "Top agricultural county", "Santiam Canyon access", "Affordable rural land", "Strong hobby farm market"],
-        "img": IMG["vineyard"],
+        "img_key": "drone",
         "seo_desc": "Linn County, Oregon farms, acreage, and rural homes. Albany, Lebanon, Santiam Canyon. Agent Larissa Mayfield, Real Broker."
     },
     {
@@ -297,7 +312,7 @@ COMMUNITIES = [
         "tagline": "Corvallis, Oregon State, and rolling hills.",
         "desc": "Benton County is home to Corvallis and Oregon State University. It offers a highly educated population, excellent schools, and a mix of in-town homes and surrounding rural properties.",
         "bullets": ["Corvallis hub", "Oregon State University", "High quality of life", "Mary&rsquo;s Peak area", "Strong school districts"],
-        "img": IMG["rural"],
+        "img_key": "rural",
         "seo_desc": "Benton County, Oregon real estate — Corvallis homes, rural acreage, Oregon State University area. Agent Larissa Mayfield."
     },
     {
@@ -306,7 +321,7 @@ COMMUNITIES = [
         "tagline": "Umpqua Valley &mdash; wine, timber, and wide open land.",
         "desc": "Douglas County stretches from the Umpqua Valley to the Coast Range, offering some of the most affordable acreage in western Oregon. Roseburg is the county seat and economic center.",
         "bullets": ["Roseburg county seat", "Umpqua Valley wine region", "Affordable large acreage", "Timber industry base", "South Umpqua River"],
-        "img": IMG["forest"],
+        "img_key": "forest",
         "seo_desc": "Douglas County, Oregon land, acreage, and rural homes. Umpqua Valley, Roseburg, timber country. Agent Larissa Mayfield, Real Broker."
     },
 ]
@@ -319,7 +334,7 @@ BLOGS = [
         "tag": "RURAL &middot; WELLS",
         "date": "APR 2026",
         "excerpt": "A well flow test tells you how much water a property can reliably deliver. Here is what to expect, what the numbers mean, and when to walk away.",
-        "img": IMG["well"],
+        "img_key": "well",
         "seo_desc": "What is a well flow test in Oregon? Learn GPM standards, testing procedures, and red flags for rural property buyers. Guide by Larissa Mayfield.",
         "body_sections": [
             ("What Is a Well Flow Test?", "A well flow test measures the sustained yield of a water well in gallons per minute (GPM). In Oregon, this is not legally required for a residential sale, but most lenders require one, and any buyer of rural property should insist on it. The test typically runs for two to four hours, drawing water at a steady rate while monitoring the static water level and the recovery rate."),
@@ -335,7 +350,7 @@ BLOGS = [
         "tag": "FINANCING &middot; FIRST-TIME BUYERS",
         "date": "MAR 2026",
         "excerpt": "Oregon&rsquo;s Bond program and FHA loans both serve first-time buyers, but the differences matter. Down payment, PMI, income limits &mdash; here is how they compare.",
-        "img": IMG["docs"],
+        "img_key": "docs",
         "seo_desc": "Oregon Bond loan vs FHA loan for first-time buyers. Compare down payments, income limits, PMI, and eligibility. Guide by Larissa Mayfield.",
         "body_sections": [
             ("Oregon Bond Program Basics", "Oregon Housing and Community Services (OHCS) offers the Oregon Bond Residential Loan through approved lenders. It provides below-market interest rates and can be combined with down payment assistance. Income limits apply based on county and household size &mdash; for Lane County in 2026, the limit is approximately $110,000 for a household of two."),
@@ -351,7 +366,7 @@ BLOGS = [
         "tag": "SELLERS &middot; RURAL",
         "date": "FEB 2026",
         "excerpt": "Pricing rural land is not like pricing a subdivision home. Comps are sparse, improvements vary wildly, and the buyer pool is different. Here is how it works.",
-        "img": IMG["valley"],
+        "img_key": "valley",
         "seo_desc": "How to price acreage and rural land in Oregon's Willamette Valley in 2026. CMA methods, comps, and rural pricing strategy by Larissa Mayfield.",
         "body_sections": [
             ("Why Standard CMAs Fall Short", "A traditional comparative market analysis works well in subdivisions where homes share floor plans and lot sizes. On rural acreage, no two properties are alike. One parcel might have a well, a barn, and timber rights; the next might be bare pasture with a seasonal creek. You cannot simply adjust price per square foot."),
@@ -367,7 +382,7 @@ BLOGS = [
         "tag": "MARKET &middot; VENETA",
         "date": "APR 2026",
         "excerpt": "What is happening in the Veneta and west Lane County real estate market right now? Inventory, pricing, and what buyers and sellers should expect.",
-        "img": IMG["valley"],
+        "img_key": "valley",
         "seo_desc": "Veneta, Oregon and west Lane County real estate market update 2026. Inventory, pricing, trends for buyers and sellers. By Larissa Mayfield.",
         "body_sections": [
             ("Inventory Snapshot", "As of spring 2026, active residential listings in the Veneta-Elmira area hover around 25 to 35 homes at any given time, with a roughly even split between in-town properties and acreage. This represents a slight increase from the lows of 2023 and 2024, but demand remains strong for properties under $450K."),
@@ -383,7 +398,7 @@ BLOGS = [
         "tag": "RURAL &middot; SEPTIC",
         "date": "JAN 2026",
         "excerpt": "Buying a property with a septic system? Here is what you need to know about inspections, permits, and what can go wrong.",
-        "img": IMG["septic"],
+        "img_key": "septic",
         "seo_desc": "Septic system guide for Oregon home buyers. Inspections, permits, DEQ rules, and costs. Rural property guide by Larissa Mayfield.",
         "body_sections": [
             ("How Septic Systems Work", "A standard septic system has two main components: a tank that collects and partially treats wastewater, and a drain field that disperses the effluent into the soil. Oregon&rsquo;s Department of Environmental Quality (DEQ) regulates all onsite sewage systems. The system must be designed for the property&rsquo;s soil type and expected usage."),
@@ -399,7 +414,7 @@ BLOGS = [
         "tag": "BUYERS &middot; FINANCING",
         "date": "MAR 2026",
         "excerpt": "A pre-approval letter is your ticket to writing competitive offers. But not all pre-approvals are created equal. Here is what matters.",
-        "img": IMG["contract"],
+        "img_key": "contract",
         "seo_desc": "What is a pre-approval letter? How it works, what sellers look for, and how to get a strong one. Guide by Oregon Realtor Larissa Mayfield.",
         "body_sections": [
             ("Pre-Qualification vs. Pre-Approval", "A pre-qualification is a quick estimate based on self-reported income and debt. A pre-approval involves a full credit pull, income verification, and underwriter review. In a competitive market, only a pre-approval carries weight. Sellers and listing agents can tell the difference immediately."),
@@ -415,7 +430,7 @@ BLOGS = [
         "tag": "RURAL &middot; LEGAL",
         "date": "FEB 2026",
         "excerpt": "An easement gives someone else a right to use part of your property. Here is how to read them, what they mean, and when to worry.",
-        "img": IMG["docs"],
+        "img_key": "docs",
         "seo_desc": "Understanding easements on rural property in Oregon. Access, utility, conservation easements explained. Guide by Larissa Mayfield.",
         "body_sections": [
             ("What Is an Easement?", "An easement is a legal right to use another person&rsquo;s property for a specific purpose. Common examples include access easements (a neighbor drives across your land to reach theirs), utility easements (power lines, water lines), and conservation easements (restrictions on development to protect habitat or farmland)."),
@@ -431,7 +446,7 @@ BLOGS = [
         "tag": "RURAL &middot; WATER",
         "date": "JAN 2026",
         "excerpt": "Oregon&rsquo;s water law is different from most states. If the property has irrigation, a pond, or diverts from a stream, water rights matter.",
-        "img": IMG["creek"],
+        "img_key": "creek",
         "seo_desc": "Oregon water rights for rural property buyers. Permits, transfers, and what to check before buying land. Guide by Larissa Mayfield.",
         "body_sections": [
             ("Oregon&rsquo;s Prior Appropriation System", "Oregon follows the doctrine of prior appropriation, meaning water rights are separate from land ownership and are allocated based on who filed first. If you buy a property with water rights, those rights transfer with the land only if they are properly documented and have been used regularly."),
@@ -447,7 +462,7 @@ BLOGS = [
         "tag": "FINANCING &middot; RURAL",
         "date": "DEC 2025",
         "excerpt": "USDA Rural Development loans offer zero down payment for qualifying properties. Many Lane County homes are eligible &mdash; here is how it works.",
-        "img": IMG["keys"],
+        "img_key": "keys",
         "seo_desc": "USDA loan eligibility in Lane County, Oregon. Zero down payment, income limits, eligible areas. Guide by Larissa Mayfield, Real Broker.",
         "body_sections": [
             ("What Is a USDA Loan?", "The USDA Rural Development Guaranteed Loan program offers 100% financing (zero down payment) for homes in eligible rural areas. The program is designed to help moderate-income buyers purchase homes in communities that the USDA designates as rural. Despite the name, many suburban areas qualify."),
@@ -463,7 +478,7 @@ BLOGS = [
         "tag": "BUYERS &middot; FINANCE",
         "date": "NOV 2025",
         "excerpt": "Beyond the down payment, buyers in Oregon face closing costs that typically run 2% to 4% of the purchase price. Here is the breakdown.",
-        "img": IMG["docs"],
+        "img_key": "docs",
         "seo_desc": "Oregon closing costs for home buyers explained. Title insurance, escrow, recording fees, and how to negotiate. Guide by Larissa Mayfield.",
         "body_sections": [
             ("Typical Closing Cost Range", "In Oregon, buyer closing costs generally fall between 2% and 4% of the purchase price. On a $400,000 home, that means $8,000 to $16,000 in addition to your down payment. The exact amount depends on your loan type, lender fees, and whether you negotiate seller concessions."),
@@ -479,7 +494,7 @@ BLOGS = [
         "tag": "FINANCING &middot; RURAL",
         "date": "JAN 2026",
         "excerpt": "Rural properties have financing quirks that standard loans do not cover. From USDA to portfolio lenders, here are your options.",
-        "img": IMG["farmhouse"],
+        "img_key": "farmhouse",
         "seo_desc": "How to finance rural property in Oregon. USDA, conventional, portfolio, and land loans. Guide by Larissa Mayfield, Real Broker.",
         "body_sections": [
             ("Why Rural Financing Is Different", "Standard Fannie Mae and Freddie Mac guidelines have rules about acreage, outbuildings, and property condition that can disqualify rural properties. A home on 40 acres with a large barn may not fit conventional underwriting. Road access, water source, and land use can all affect eligibility."),
@@ -495,7 +510,7 @@ BLOGS = [
         "tag": "BUYERS &middot; TIPS",
         "date": "MAR 2026",
         "excerpt": "After hundreds of transactions, these are the mistakes first-time buyers make most often. All of them are preventable.",
-        "img": IMG["couple"],
+        "img_key": "couple",
         "seo_desc": "Common first-time home buyer mistakes in Oregon and how to avoid them. Tips from experienced Realtor Larissa Mayfield.",
         "body_sections": [
             ("Skipping Pre-Approval", "Touring homes without a pre-approval letter is like test-driving cars you cannot afford. You fall in love with something outside your budget, waste time, and lose credibility with sellers. Get pre-approved before you look at a single property."),
@@ -513,7 +528,7 @@ BLOGS = [
         "tag": "SELLERS &middot; STRATEGY",
         "date": "APR 2026",
         "excerpt": "The 2026 market rewards preparation. Here is the playbook I use with every seller to maximize price and minimize time on market.",
-        "img": IMG["house"],
+        "img_key": "house",
         "seo_desc": "How to sell your home in Oregon in 2026. Pricing strategy, staging, photography, and marketing. Seller's guide by Larissa Mayfield.",
         "body_sections": [
             ("Start With Honest Pricing", "Overpricing is the number one mistake sellers make. A home priced 5% too high will sit, accumulate days on market, and eventually sell for less than it would have at the correct price. I provide a detailed CMA with real comps and an honest conversation about where your home fits."),
@@ -529,7 +544,7 @@ BLOGS = [
         "tag": "BUYERS &middot; FINANCE",
         "date": "DEC 2025",
         "excerpt": "A higher credit score means a lower interest rate, which means lower monthly payments. Here is how to improve your score before you apply.",
-        "img": IMG["docs"],
+        "img_key": "docs",
         "seo_desc": "How to improve your credit score before buying a home. Practical tips for Oregon buyers. Guide by Larissa Mayfield, Real Broker.",
         "body_sections": [
             ("Why Your Score Matters", "Your credit score directly affects your mortgage interest rate. The difference between a 680 and a 740 score can mean 0.5% to 1% in rate difference. On a $350,000 loan over 30 years, that is $35,000 to $70,000 in additional interest. A few months of credit work can save you real money."),
@@ -548,7 +563,7 @@ GUIDES = [
         "title": "The First-Time Buyer&rsquo;s Guide to Oregon",
         "tag": "GUIDE &middot; 2026 EDITION",
         "desc": "Everything you need to know about buying your first home in Oregon. From pre-approval to closing day, this guide walks you through every step.",
-        "img": IMG["keys"],
+        "img_key": "keys",
         "seo_desc": "Complete first-time home buyer guide for Oregon. Pre-approval, loan types, inspections, closing process. By Larissa Mayfield, Real Broker.",
         "sections": [
             ("Step 1: Check Your Financial Readiness", "Before you start touring homes, assess your financial position. Check your credit score, calculate your debt-to-income ratio, and review your savings. Most lenders want to see a DTI below 43% and at least two months of reserves after closing. If your score is below 620, consider spending three to six months improving it before applying."),
@@ -565,7 +580,7 @@ GUIDES = [
         "title": "The Rural Buyer&rsquo;s Playbook",
         "tag": "GUIDE &middot; ACREAGE &amp; LAND",
         "desc": "Buying rural property in Oregon is not like buying in a subdivision. Wells, septic, easements, zoning, and more &mdash; this playbook covers everything.",
-        "img": IMG["valley"],
+        "img_key": "valley",
         "seo_desc": "Complete guide to buying rural property and acreage in Oregon. Wells, septic, easements, zoning, financing. By Larissa Mayfield.",
         "sections": [
             ("Why Rural Is Different", "Rural property transactions involve complexities that suburban sales do not. Water comes from a well, not a city line. Wastewater goes to a septic system, not a sewer. Roads may be private with shared maintenance agreements. Zoning can restrict what you build and how you use the land. This guide prepares you for all of it."),
@@ -582,7 +597,7 @@ GUIDES = [
         "title": "Lane County Real Estate: Market Notes",
         "tag": "MARKET &middot; 2026",
         "desc": "Current market conditions, trends, and outlook for Lane County, Oregon real estate. Updated for 2026.",
-        "img": IMG["aerial"],
+        "img_key": "aerial",
         "seo_desc": "Lane County, Oregon real estate market report 2026. Median prices, inventory, trends, and outlook. By Larissa Mayfield, Real Broker.",
         "sections": [
             ("Market Overview", "Lane County&rsquo;s real estate market in 2026 is characterized by moderate appreciation, improving inventory, and steady demand. The median home price across the county is approximately $410,000, up about 3.5% year over year. Urban Eugene-Springfield and rural communities are performing differently, and understanding those differences is key."),
@@ -973,14 +988,14 @@ def gen_communities_index():
     cards = ""
     for i, c in enumerate(COMMUNITIES):
         delay = f" reveal-d{(i % 4) + 1}" if i % 4 else ""
-        cards += f'''    <article class="reveal{delay}"><a href="{c['slug']}.html"><img src="{c['img']}" alt="{c['name']} Oregon"><h3>{c['name']}</h3><p>{c['tagline']}</p></a></article>\n'''
+        cards += f'''    <article class="reveal{delay}"><a href="{c['slug']}.html"><img src="{stock_path(c['img_key'], 1)}" alt="{c['name']} Oregon"><h3>{c['name']}</h3><p>{c['tagline']}</p></a></article>\n'''
     body = f'''<section class="inner-hero">
   <div>
     <div class="tag tag-purple reveal">Communities</div>
     <h1 class="page-title reveal reveal-d1" style="margin-top:18px">Where I<br><em>work.</em></h1>
     <p class="body-text reveal reveal-d2" style="margin-top:32px;max-width:440px">From Eugene to Drain, the Willamette Valley to the Coast Range &mdash; I serve buyers and sellers across Lane, Linn, Benton, and Douglas counties.</p>
   </div>
-  <div class="parallax-wrap"><img class="parallax-img reveal" src="{IMG['aerial']}" alt="Willamette Valley aerial"></div>
+  <div class="parallax-wrap"><img class="parallax-img reveal" src="{stock_path('aerial', 1)}" alt="Willamette Valley aerial"></div>
 </section>
 <section style="padding:96px 56px">
   <div class="tag tag-purple reveal">Towns &amp; Counties</div>
@@ -1001,7 +1016,7 @@ def gen_communities_index():
 def gen_community_page(c):
     bullets = "\n      ".join(f'<li><span class="dash">&mdash;</span> {b}</li>' for b in c["bullets"])
     body = f'''<section class="hero-fullbleed">
-  <img src="{c['img']}" alt="{c['name']} Oregon">
+  <img src="{stock_path(c['img_key'], 1)}" alt="{c['name']} Oregon">
   <div class="overlay"></div>
   <div class="content">
     <div>
@@ -1036,11 +1051,11 @@ def gen_community_page(c):
 def gen_resources():
     guide_cards = ""
     for g in GUIDES:
-        guide_cards += f'''    <div class="guide-card reveal"><img src="{g['img']}" alt="{g['title']}"><div class="guide-card-body"><div class="tag tag-purple" style="margin-bottom:12px">{g['tag']}</div><h3 style="font-size:26px;letter-spacing:-.01em;margin-bottom:8px;font-weight:400">{g['title']}</h3><p class="body-text" style="font-size:14px;margin-bottom:auto">{g['desc']}</p><a class="btn-link" href="guides/{g['slug']}.html" style="margin-top:20px">Read &rarr;</a></div></div>\n'''
+        guide_cards += f'''    <div class="guide-card reveal"><img src="{stock_path(g['img_key'], 0)}" alt="{g['title']}"><div class="guide-card-body"><div class="tag tag-purple" style="margin-bottom:12px">{g['tag']}</div><h3 style="font-size:26px;letter-spacing:-.01em;margin-bottom:8px;font-weight:400">{g['title']}</h3><p class="body-text" style="font-size:14px;margin-bottom:auto">{g['desc']}</p><a class="btn-link" href="guides/{g['slug']}.html" style="margin-top:20px">Read &rarr;</a></div></div>\n'''
 
     blog_cards = ""
     for i, b in enumerate(BLOGS[:6]):
-        blog_cards += f'''    <div class="blog-card reveal"><img src="{b['img']}" alt="{b['title']}"><div class="meta">{b['tag']} &middot; {b['date']}</div><h3><a href="blog/{b['slug']}.html">{b['title']}</a></h3><p>{b['excerpt'][:120]}...</p></div>\n'''
+        blog_cards += f'''    <div class="blog-card reveal"><img src="{stock_path(b['img_key'], 0)}" alt="{b['title']}"><div class="meta">{b['tag']} &middot; {b['date']}</div><h3><a href="blog/{b['slug']}.html">{b['title']}</a></h3><p>{b['excerpt'][:120]}...</p></div>\n'''
 
     body = f'''<section class="inner-hero">
   <div>
@@ -1161,14 +1176,14 @@ def gen_blog_index():
     cards = ""
     for i, b in enumerate(BLOGS):
         delay = f" reveal-d{(i % 3) + 1}" if i % 3 else ""
-        cards += f'''    <div class="blog-card reveal{delay}"><img src="../{'' if b['img'].startswith('http') else ''}{b['img']}" alt="{b['title']}"><div class="meta">{b['tag']} &middot; {b['date']}</div><h3><a href="{b['slug']}.html">{b['title']}</a></h3><p>{b['excerpt']}</p></div>\n'''
+        cards += f'''    <div class="blog-card reveal{delay}"><img src="{stock_path(b['img_key'], 1)}" alt="{b['title']}"><div class="meta">{b['tag']} &middot; {b['date']}</div><h3><a href="{b['slug']}.html">{b['title']}</a></h3><p>{b['excerpt']}</p></div>\n'''
     body = f'''<section class="inner-hero">
   <div>
     <div class="tag tag-purple reveal">Blog</div>
     <h1 class="page-title reveal reveal-d1" style="margin-top:18px">Articles &amp;<br><em>insights.</em></h1>
     <p class="body-text reveal reveal-d2" style="margin-top:32px;max-width:440px">Practical advice on buying, selling, and owning real estate in Oregon. Written by Larissa Mayfield.</p>
   </div>
-  <div class="parallax-wrap"><img class="parallax-img reveal" src="{IMG['docs']}" alt="Real estate blog"></div>
+  <div class="parallax-wrap"><img class="parallax-img reveal" src="{stock_path('docs', 1)}" alt="Real estate blog"></div>
 </section>
 <section style="padding:96px 56px">
   <div class="blog-grid">

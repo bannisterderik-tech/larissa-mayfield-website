@@ -8,7 +8,12 @@ function observeReveals(){
       if(e.isIntersecting){e.target.classList.add('revealed');obs.unobserve(e.target)}
     });
   },{threshold:.08,rootMargin:'0px 0px -30px 0px'});
-  els.forEach(function(el){obs.observe(el)});
+  var vh=window.innerHeight;
+  els.forEach(function(el){
+    var rect=el.getBoundingClientRect();
+    if(rect.top<vh&&rect.bottom>0){el.classList.add('revealed');return;}
+    obs.observe(el);
+  });
 }
 
 // Header scroll shadow

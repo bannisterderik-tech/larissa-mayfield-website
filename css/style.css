@@ -93,9 +93,10 @@ input,textarea,button,select{font-family:inherit}
 
 .inner-hero{padding:96px 56px 80px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:end}
 .inner-hero img{width:100%;height:620px;object-fit:cover;object-position:center 30%}
+.inner-hero img.is-portrait{object-position:50% 18%}
 
 .hero-fullbleed{position:relative;height:720px;overflow:hidden}
-.hero-fullbleed img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-fullbleed img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
 .hero-fullbleed .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(31,18,38,.15),rgba(31,18,38,.7))}
 .hero-fullbleed .content{position:absolute;left:56px;right:56px;bottom:56px;color:var(--cream);display:grid;grid-template-columns:1.5fr 1fr;gap:48px;align-items:end}
 .hero-fullbleed h1{font-family:var(--serif);font-size:clamp(48px,8vw,116px);line-height:.92;letter-spacing:-.035em;font-weight:400}
@@ -125,7 +126,7 @@ input,textarea,button,select{font-family:inherit}
 
 /* === COMMUNITY GRID === */
 .community-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.community-grid article img{width:100%;height:280px;object-fit:cover}
+.community-grid article img{width:100%;aspect-ratio:16/9;height:auto;object-fit:cover}
 .community-grid article h3{font-size:24px;letter-spacing:-.01em;margin:16px 0 4px;font-weight:400}
 .community-grid article p{font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--muted)}
 .community-grid article a{display:block;transition:opacity .3s}
@@ -135,9 +136,7 @@ input,textarea,button,select{font-family:inherit}
 .about-teaser{border-top:1px solid var(--rule);padding:96px 56px;display:grid;grid-template-columns:1.2fr 1fr;gap:56px}
 .about-teaser blockquote{font-size:clamp(24px,3vw,36px);line-height:1.2;letter-spacing:-.02em}
 .photo-grid-2x2{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:start}
-.photo-grid-2x2 img:nth-child(odd){height:220px}
-.photo-grid-2x2 img:nth-child(even){height:300px}
-.photo-grid-2x2 img{width:100%;object-fit:cover;object-position:center top}
+.photo-grid-2x2 img{width:100%;aspect-ratio:4/5;height:auto;object-fit:cover;object-position:50% 18%}
 
 /* === LEAD MAGNETS === */
 .section-alt{background:var(--cream-deep);padding:80px 56px}
@@ -165,11 +164,7 @@ input,textarea,button,select{font-family:inherit}
 .photo-grid-section{background:var(--cream-deep);padding:96px 56px}
 .photo-grid-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .photo-grid-4{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.photo-grid-4 img{width:100%;object-fit:cover;object-position:center top}
-.photo-grid-4 img:nth-child(1){height:240px}
-.photo-grid-4 img:nth-child(2){height:300px}
-.photo-grid-4 img:nth-child(3){height:300px}
-.photo-grid-4 img:nth-child(4){height:240px}
+.photo-grid-4 img{width:100%;aspect-ratio:4/5;height:auto;object-fit:cover;object-position:50% 18%}
 
 /* === CTA CENTERED === */
 .cta-centered{padding:120px 56px;text-align:center;max-width:900px;margin:0 auto}
@@ -255,12 +250,12 @@ input,textarea,button,select{font-family:inherit}
 /* === GUIDE CARDS === */
 .guide-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .guide-card{background:var(--cream);border:1px solid var(--rule);display:flex;flex-direction:column}
-.guide-card img{width:100%;height:260px;object-fit:cover}
+.guide-card img{width:100%;aspect-ratio:3/2;height:auto;object-fit:cover}
 .guide-card-body{padding:28px;flex:1;display:flex;flex-direction:column}
 
 /* === BLOG === */
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.blog-card img{width:100%;height:220px;object-fit:cover}
+.blog-card img{width:100%;aspect-ratio:3/2;height:auto;object-fit:cover}
 .blog-card .meta{margin-top:16px;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--purple)}
 .blog-card h3{font-family:var(--serif);font-size:24px;letter-spacing:-.01em;margin:8px 0;font-weight:400}
 .blog-card h3 a{transition:color .3s}
@@ -361,7 +356,7 @@ input,textarea,button,select{font-family:inherit}
   .community-detail h2{font-size:40px}
   .testimonials-masonry{column-count:1}
   .hero-split img,.inner-hero img{height:400px}
-  .community-grid article img{height:220px}
+  .community-grid article img{aspect-ratio:16/9;height:auto}
   .testimonial-featured blockquote{font-size:28px;padding:40px 28px}
-  .photo-grid-2x2 img:nth-child(odd),.photo-grid-2x2 img:nth-child(even){height:200px}
+  .photo-grid-2x2 img{aspect-ratio:4/5;height:auto}
 }

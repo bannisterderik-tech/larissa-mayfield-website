@@ -116,10 +116,12 @@ document.addEventListener('DOMContentLoaded',function(){
       fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json','X-Webhook-Key':WEBHOOK_KEY},body:JSON.stringify(payload)})
         .then(function(r){
           if(!r.ok)throw new Error(r.status);
-          btn.textContent='SENT ✓';
-          form.reset();
-          form.querySelectorAll('.chip.active').forEach(function(c){c.classList.remove('active')});
-          setTimeout(function(){btn.textContent=origText;btn.disabled=false},3000);
+          var msg=document.createElement('div');
+          msg.className='form-success';
+          msg.innerHTML='<div class="form-success-check">✓</div>'
+            +'<h3>Thank you'+(fields.name?', '+fields.name.split(' ')[0]:'')+'.</h3>'
+            +'<p>'+(formType==='valuation'?'I’ll review your property details and be in touch shortly.':'Your message has been received. I’ll be in touch shortly.')+'</p>';
+          form.parentNode.replaceChild(msg,form);
         })
         .catch(function(){
           btn.textContent='ERROR — TRY AGAIN';

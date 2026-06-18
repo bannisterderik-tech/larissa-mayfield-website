@@ -26,8 +26,18 @@ window.addEventListener('scroll',function(){
   lastScroll=y;
 },{passive:true});
 
-// Parallax
+// Parallax — desktop only. On mobile the browser chrome (address bar)
+// shows/hides while scrolling, which resizes the viewport mid-scroll and
+// makes the transform jump; the translate can also reveal gaps inside the
+// overflow:hidden wrapper. We also honor prefers-reduced-motion.
+var mqDesktop=window.matchMedia('(min-width:769px)');
+var mqReduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+function parallaxEnabled(){return mqDesktop.matches&&!mqReduce.matches;}
+function resetParallax(){
+  document.querySelectorAll('.parallax-img').forEach(function(img){img.style.transform='';});
+}
 window.addEventListener('scroll',function(){
+  if(!parallaxEnabled())return;
   document.querySelectorAll('.parallax-img').forEach(function(img){
     var rect=img.getBoundingClientRect();
     var viewH=window.innerHeight;
@@ -37,6 +47,10 @@ window.addEventListener('scroll',function(){
     }
   });
 },{passive:true});
+// When crossing the breakpoint (resize / rotate), clear any stale transform
+// so the image sits naturally on mobile.
+if(mqDesktop.addEventListener){mqDesktop.addEventListener('change',resetParallax);}
+else if(mqDesktop.addListener){mqDesktop.addListener(resetParallax);}
 
 // Mobile menu
 document.addEventListener('DOMContentLoaded',function(){
@@ -76,8 +90,35 @@ document.addEventListener('DOMContentLoaded',function(){
   var WEBHOOK_URL='https://ayskxkjorhoaknkqtyvm.supabase.co/functions/v1/webhook-receive';
   var WEBHOOK_KEY='e3302b5d21fc46979aacd6da8576642f';
   document.querySelectorAll('form[data-form-type]').forEach(function(form){
+    // Spam defenses. Stamp when the form became interactive (time trap),
+    // and inject a hidden honeypot field that real users never see.
+    form._renderedAt=Date.now();
+    var hp=document.createElement('input');
+    hp.type='text';
+    hp.name='company_website';
+    hp.className='hp-field';
+    hp.tabIndex=-1;
+    hp.setAttribute('autocomplete','off');
+    hp.setAttribute('aria-hidden','true');
+    form.appendChild(hp);
+    // Render a generic success state and remove the form (used both for a
+    // real submit and to silently dead-end bots so they think they won).
+    function showSuccess(name){
+      var msg=document.createElement('div');
+      msg.className='form-success';
+      msg.innerHTML='<div class="form-success-check">✓</div>'
+        +'<h3>Thank you'+(name?', '+name.split(' ')[0]:'')+'.</h3>'
+        +'<p>'+(form.dataset.formType==='valuation'?'I’ll review your property details and be in touch shortly.':'Your message has been received. I’ll be in touch shortly.')+'</p>';
+      form.parentNode.replaceChild(msg,form);
+    }
     form.addEventListener('submit',function(e){
       e.preventDefault();
+      // Bot caught: honeypot filled, or submitted implausibly fast.
+      // Fake success silently — don't tip the bot off, don't hit the webhook.
+      if(hp.value.trim()||Date.now()-(form._renderedAt||0)<3000){
+        showSuccess('');
+        return;
+      }
       var btn=form.querySelector('button[type="submit"]');
       var origText=btn.textContent;
       btn.textContent='SENDING...';
@@ -85,6 +126,7 @@ document.addEventListener('DOMContentLoaded',function(){
       var formType=form.dataset.formType;
       var fields={};
       form.querySelectorAll('input[name],textarea[name]').forEach(function(el){
+        if(el.classList.contains('hp-field'))return;
         if(el.value.trim())fields[el.name]=el.value.trim();
       });
       var chips=form.querySelectorAll('.chip.active');
@@ -116,12 +158,7 @@ document.addEventListener('DOMContentLoaded',function(){
       fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json','X-Webhook-Key':WEBHOOK_KEY},body:JSON.stringify(payload)})
         .then(function(r){
           if(!r.ok)throw new Error(r.status);
-          var msg=document.createElement('div');
-          msg.className='form-success';
-          msg.innerHTML='<div class="form-success-check">✓</div>'
-            +'<h3>Thank you'+(fields.name?', '+fields.name.split(' ')[0]:'')+'.</h3>'
-            +'<p>'+(formType==='valuation'?'I’ll review your property details and be in touch shortly.':'Your message has been received. I’ll be in touch shortly.')+'</p>';
-          form.parentNode.replaceChild(msg,form);
+          showSuccess(fields.name);
         })
         .catch(function(){
           btn.textContent='ERROR — TRY AGAIN';

@@ -343,6 +343,9 @@ input,textarea,button,select{font-family:inherit}
 /* === RESPONSIVE === */
 @media(max-width:1024px){
   .hero-split,.inner-hero,.feature-section,.chapter,.about-teaser,.valuation-grid,.split-alt-inner,.lead-inline-inner,.photo-grid-inner,.community-detail-inner,.community-detail.reverse .community-detail-inner,.contact-grid,.hero-fullbleed .content{grid-template-columns:1fr}
+  /* Once these go single-column, sticky pins the heading at the top while
+     the rest scrolls past — broken on mobile. Let it flow normally. */
+  .feature-sticky,.chapter-sticky{position:static;top:auto}
   .hero-split h1{font-size:72px}
   .inner-hero h1{font-size:64px}
   .hero-fullbleed h1{font-size:64px}

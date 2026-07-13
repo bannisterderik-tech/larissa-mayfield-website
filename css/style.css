@@ -339,6 +339,8 @@ input,textarea,button,select{font-family:inherit}
 .footer-col a{color:rgba(244,239,230,.85);transition:color .3s}
 .footer-col a:hover{color:var(--cream)}
 .footer-bottom{border-top:1px solid rgba(244,239,230,.15);padding-top:20px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:rgba(244,239,230,.5);flex-wrap:wrap;gap:8px}
+.footer-bottom a{color:rgba(244,239,230,.5);text-decoration:underline;text-underline-offset:3px;transition:color .3s}
+.footer-bottom a:hover{color:var(--cream)}
 
 /* === RESPONSIVE === */
 @media(max-width:1024px){

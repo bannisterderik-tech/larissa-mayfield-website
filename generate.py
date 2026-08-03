@@ -78,6 +78,7 @@ def footer(pfx):
       <ul>
         <li><a href="tel:5417847745">541.784.7745</a></li>
         <li><a href="mailto:larissa@theoperativegroup.com">larissa@theoperativegroup.com</a></li>
+        <li>PO Box 161, Elmira, OR 97437</li>
         <li><a href="{pfx}/contact.html">Schedule a Call</a></li>
       </ul>
     </div>
@@ -1155,6 +1156,10 @@ def gen_contact():
       <div class="contact-card-light">
         <div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-bottom:16px">EMAIL</div>
         <div style="font-family:var(--sans);font-size:16px"><a href="mailto:larissa@theoperativegroup.com" style="color:var(--purple)">larissa@theoperativegroup.com</a></div>
+      </div>
+      <div class="contact-card-light">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-bottom:16px">MAILING</div>
+        <div style="font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--muted)">PO Box 161<br>Elmira, OR 97437</div>
       </div>
       <div class="contact-card-light">
         <div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-bottom:16px">SERVICE AREA</div>

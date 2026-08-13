@@ -8,7 +8,11 @@ SITE = "/Users/derikbannister9/larissa-mayfield-website"
 # Listing pages are built and reachable by direct URL, but the "Listings" nav
 # item and the listings index stay out of the site until Larissa signs off on
 # the design. Flip to True to surface them everywhere (nav, footer, sitemap).
-SHOW_LISTINGS_NAV = False
+SHOW_LISTINGS_NAV = True
+
+# Live host. The site is served from larissamayfieldre.com; the old
+# larissamayfield.com does not resolve. Change here, not in 11 places.
+DOMAIN = "https://larissamayfieldre.com"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -114,8 +118,8 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
     canonical = path.replace(SITE + "/", "")
     # Listing pages pass their hero photo so a shared link previews the house
     # rather than the generic brand card.
-    og = og_image or "https://larissamayfield.com/images/og-share.jpg"
-    schema = f'''{{"@context":"https://schema.org","@type":"{schema_type}","name":"{title}","description":"{desc}","url":"https://larissamayfield.com/{canonical}","author":{{"@type":"RealEstateAgent","name":"Larissa Mayfield","telephone":"541-784-7745","email":"larissa@theoperativegroup.com","url":"https://larissamayfield.com","areaServed":[{{"@type":"City","name":"Veneta, Oregon"}},{{"@type":"City","name":"Elmira, Oregon"}},{{"@type":"AdministrativeArea","name":"Lane County, Oregon"}},{{"@type":"AdministrativeArea","name":"Linn County, Oregon"}},{{"@type":"AdministrativeArea","name":"Benton County, Oregon"}},{{"@type":"AdministrativeArea","name":"Douglas County, Oregon"}}]}}{extra_schema}}}'''
+    og = og_image or "https://larissamayfieldre.com/images/og-share.jpg"
+    schema = f'''{{"@context":"https://schema.org","@type":"{schema_type}","name":"{title}","description":"{desc}","url":"https://larissamayfieldre.com/{canonical}","author":{{"@type":"RealEstateAgent","name":"Larissa Mayfield","telephone":"541-784-7745","email":"larissa@theoperativegroup.com","url":"https://larissamayfieldre.com","areaServed":[{{"@type":"City","name":"Veneta, Oregon"}},{{"@type":"City","name":"Elmira, Oregon"}},{{"@type":"AdministrativeArea","name":"Lane County, Oregon"}},{{"@type":"AdministrativeArea","name":"Linn County, Oregon"}},{{"@type":"AdministrativeArea","name":"Benton County, Oregon"}},{{"@type":"AdministrativeArea","name":"Douglas County, Oregon"}}]}}{extra_schema}}}'''
     html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,7 +130,7 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
 <meta property="og:title" content="{title} | Larissa Mayfield">
 <meta property="og:description" content="{desc}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://larissamayfield.com/{canonical}">
+<meta property="og:url" content="https://larissamayfieldre.com/{canonical}">
 <meta property="og:image" content="{og}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -134,7 +138,7 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
 <meta name="twitter:title" content="{title} | Larissa Mayfield">
 <meta name="twitter:description" content="{desc}">
 <meta name="twitter:image" content="{og}">
-<link rel="canonical" href="https://larissamayfield.com/{canonical}">
+<link rel="canonical" href="https://larissamayfieldre.com/{canonical}">
 <link rel="icon" href="{pfx}/favicon.ico" sizes="any">
 <link rel="icon" href="{pfx}/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{pfx}/apple-touch-icon.png">
@@ -1461,7 +1465,7 @@ def listing_price_block(l):
 def listing_schema(l, photos):
     """RealEstateListing + Residence + Offer graph. The reference site ships
     none of this; it's the cheapest rich-result win on the page."""
-    base = f"https://larissamayfield.com/listings/{l['slug']}.html"
+    base = f"https://larissamayfieldre.com/listings/{l['slug']}.html"
     avail = {"active": "InStock", "coming-soon": "PreOrder",
              "pending": "LimitedAvailability", "sold": "SoldOut"}.get(l.get("status"), "InStock")
     prop = {
@@ -1486,11 +1490,11 @@ def listing_schema(l, photos):
     if l.get("lat") and l.get("lng"):
         prop["geo"] = {"@type": "GeoCoordinates", "latitude": l["lat"], "longitude": l["lng"]}
     if photos:
-        prop["photo"] = [f"https://larissamayfield.com/{p[0].replace('../', '')}" for p in photos[:12]]
+        prop["photo"] = [f"https://larissamayfieldre.com/{p[0].replace('../', '')}" for p in photos[:12]]
 
     agent = {"@type": "RealEstateAgent", "name": "Larissa Mayfield",
              "telephone": "541-784-7745", "email": "larissa@theoperativegroup.com",
-             "url": "https://larissamayfield.com", "parentOrganization": {
+             "url": "https://larissamayfieldre.com", "parentOrganization": {
                  "@type": "Organization", "name": "Real Broker, LLC"}}
 
     graph = [{
@@ -1920,7 +1924,7 @@ def gen_listing_page(l):
     make_page(f"{SITE}/listings/{slug}.html", 1, title, desc, "listings",
               [("listings/index.html", "LISTINGS"), (f"listings/{slug}.html", l['address'].upper())],
               "\n".join(S), extra_head=extra_head,
-              og_image=f"https://larissamayfield.com/{photos[0][0].replace('../', '')}")
+              og_image=f"https://larissamayfieldre.com/{photos[0][0].replace('../', '')}")
 
 
 def gen_listings_index():
@@ -2019,7 +2023,7 @@ def gen_sitemap():
 
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u in urls:
-        xml += f'  <url><loc>https://larissamayfield.com/{u}</loc></url>\n'
+        xml += f'  <url><loc>https://larissamayfieldre.com/{u}</loc></url>\n'
     xml += '</urlset>'
     with open(f"{SITE}/sitemap.xml", "w") as f:
         f.write(xml)
@@ -2027,7 +2031,7 @@ def gen_sitemap():
 
 def gen_robots():
     with open(f"{SITE}/robots.txt", "w") as f:
-        f.write("User-agent: *\nAllow: /\nSitemap: https://larissamayfield.com/sitemap.xml\n")
+        f.write("User-agent: *\nAllow: /\nSitemap: https://larissamayfieldre.com/sitemap.xml\n")
     print("  ✓ robots.txt")
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -2380,7 +2384,7 @@ def gen_photo_credits():
 </section>'''
     make_page(f"{SITE}/photo-credits.html", 0,
         "Photo Credits",
-        "Attribution for the location photographs used on larissamayfield.com, with photographer and licence for each image.",
+        "Attribution for the location photographs used on larissamayfieldre.com, with photographer and licence for each image.",
         "", [("photo-credits.html", "PHOTO CREDITS")], body)
 
 

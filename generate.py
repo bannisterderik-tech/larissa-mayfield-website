@@ -1339,6 +1339,62 @@ def gen_communities_index():
         "Explore Oregon communities served by Larissa Mayfield: Veneta, Elmira, Eugene, Springfield, Junction City, Cottage Grove, Oakridge, Creswell, Drain, and more.",
         "communities", [("communities/index.html", "COMMUNITIES")], body)
 
+
+# ── Verified market data ─────────────────────────────────────────────────────
+# Every figure below was read off that city's Redfin housing-market page on
+# 13 Aug 2026, covering the three months ending June 2026. ONE source, ONE
+# period, so the numbers are comparable across communities and citable.
+#
+# DO NOT hand-edit these to "look better" and DO NOT extend this dict to a
+# community you have not actually looked up — a wrong median on a licensed
+# broker's site is a real problem. Refresh quarterly; bump PERIOD when you do.
+MARKET_PERIOD = "three months ending June 2026"
+MARKET_SOURCE = "Redfin"
+MARKET_ASOF = "13 August 2026"
+MARKET = {
+    "veneta":        {"median": "$420,671", "yoy": "-3.3%", "dom": 19, "dom_prev": 11,
+                      "ppsf": "$281", "ppsf_yoy": "+6.6%", "sold": 28},
+    "eugene":        {"median": "$499,000", "yoy": "-1.2%", "dom": 14, "dom_prev": 17,
+                      "sold": 499},
+    "springfield":   {"median": "$440,000", "yoy": "+2.3%", "dom": 15,
+                      "ppsf": "$299", "ppsf_yoy": "+1.9%"},
+    "junction-city": {"median": "$405,000", "yoy": "-13.2%", "dom": 36, "dom_prev": 16},
+    "cottage-grove": {"median": "$367,000", "yoy": "-4.6%", "dom": 24, "dom_prev": 38},
+}
+
+
+def market_block(slug, name):
+    """Real, dated market numbers — or nothing at all. Communities without a
+    verified lookup render no block rather than a plausible-looking guess."""
+    m = MARKET.get(slug)
+    if not m:
+        return ""
+    cells = [("Median sale price", m["median"], m.get("yoy")),
+             ("Days on market", str(m["dom"]),
+              f"was {m['dom_prev']} a year ago" if m.get("dom_prev") else None),
+             ("Price per sq ft", m.get("ppsf"), m.get("ppsf_yoy")),
+             ("Homes sold", str(m["sold"]) if m.get("sold") else None, "in June")]
+    tiles = "".join(
+        f'<div class="mk-cell"><span class="mk-n">{v}</span>'
+        f'<span class="mk-k">{k}</span>'
+        + (f'<span class="mk-d">{d}</span>' if d else "")
+        + "</div>"
+        for k, v, d in cells if v)
+    return f'''<section class="market-section" id="market">
+  <div class="mk-head">
+    <div class="tag tag-purple">Market Data</div>
+    <h2 class="section-heading" style="margin-top:14px">What {name} is actually doing.</h2>
+    <p class="body-text" style="margin-top:16px;max-width:560px">Numbers, not adjectives.
+      Figures cover the {MARKET_PERIOD}.</p>
+  </div>
+  <div class="mk-grid">{tiles}</div>
+  <p class="fine">Source: {MARKET_SOURCE} market data for {name}, retrieved {MARKET_ASOF},
+    covering the {MARKET_PERIOD}. Market data is a snapshot of past sales, not a valuation
+    of any particular property and not a forecast. For what your own place is worth, ask me
+    for a comparative market analysis.</p>
+</section>'''
+
+
 def gen_community_page(c):
     bullets = "\n      ".join(f'<li><span class="dash">&mdash;</span> {b}</li>' for b in c["bullets"])
     body = f'''<section class="hero-fullbleed">
@@ -1364,6 +1420,7 @@ def gen_community_page(c):
     </ul>
   </div>
 </section>
+{market_block(c['slug'], c['name'])}
 <section class="cta-dark">
   <h2>Interested in {c['name']}?</h2>
   <p>I know this community well. Let&rsquo;s talk about what&rsquo;s available and what fits your goals.</p>

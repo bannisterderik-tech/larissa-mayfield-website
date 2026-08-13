@@ -719,3 +719,14 @@ body.lb-open{overflow:hidden}
   .listings-masthead{grid-template-columns:1fr;gap:20px;padding:36px 24px 26px;align-items:start}
   .listings-section{padding:28px 24px 72px}
 }
+
+/* --- Community market data -------------------------------------------------- */
+.market-section{padding:80px 56px;background:var(--cream-deep)}
+.mk-head{margin-bottom:34px}
+.mk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border:1px solid var(--rule)}
+.mk-cell{background:var(--cream);padding:26px 24px}
+.mk-n{display:block;font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);letter-spacing:-.025em;color:var(--purple);line-height:1}
+.mk-k{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:12px}
+.mk-d{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:8px}
+@media(max-width:1024px){.market-section{padding:56px 24px}.mk-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.mk-grid{grid-template-columns:1fr}}

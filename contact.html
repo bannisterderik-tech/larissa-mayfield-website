@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/style.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Contact Larissa Mayfield — Oregon Real Estate Agent","description":"Contact Larissa Mayfield for real estate help in Oregon. Phone 541.784.7745, email larissa@theoperativegroup.com. Lane, Linn, Benton, Douglas counties.","url":"https://larissamayfield.com/contact.html","author":{"@type":"RealEstateAgent","name":"Larissa Mayfield","telephone":"541-784-7745","email":"larissa@theoperativegroup.com","url":"https://larissamayfield.com","areaServed":[{"@type":"AdministrativeArea","name":"Lane County, Oregon"},{"@type":"AdministrativeArea","name":"Linn County, Oregon"},{"@type":"AdministrativeArea","name":"Benton County, Oregon"},{"@type":"AdministrativeArea","name":"Douglas County, Oregon"}]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Contact Larissa Mayfield — Oregon Real Estate Agent","description":"Contact Larissa Mayfield for real estate help in Oregon. Phone 541.784.7745, email larissa@theoperativegroup.com. Lane, Linn, Benton, Douglas counties.","url":"https://larissamayfield.com/contact.html","author":{"@type":"RealEstateAgent","name":"Larissa Mayfield","telephone":"541-784-7745","email":"larissa@theoperativegroup.com","url":"https://larissamayfield.com","areaServed":[{"@type":"City","name":"Veneta, Oregon"},{"@type":"City","name":"Elmira, Oregon"},{"@type":"AdministrativeArea","name":"Lane County, Oregon"},{"@type":"AdministrativeArea","name":"Linn County, Oregon"},{"@type":"AdministrativeArea","name":"Benton County, Oregon"},{"@type":"AdministrativeArea","name":"Douglas County, Oregon"}]}}</script>
 </head>
 <body>
 <header class="site-header">
@@ -65,14 +65,14 @@
     <h1 class="page-title reveal reveal-d1" style="margin-top:18px">Let&rsquo;s<br><em>connect.</em></h1>
     <p class="body-text reveal reveal-d2" style="margin-top:32px;max-width:440px">Whether you are ready to buy, thinking about selling, or just have questions &mdash; I am here. No pressure, no obligation.</p>
   </div>
-  <div class="parallax-wrap"><img class="parallax-img reveal" src="images/larissa-hat-smile.jpg" alt="Larissa Mayfield"></div>
+  <div class="parallax-wrap"><img class="parallax-img reveal is-portrait" src="images/larissa-hat-smile.jpg" alt="Larissa Mayfield smiling, wearing a wide-brimmed hat"></div>
 </section>
 <section>
   <div class="contact-grid">
-    <form class="contact-form reveal" onsubmit="event.preventDefault()">
-      <div><div class="form-label">YOUR NAME</div><input type="text" placeholder="Full name"></div>
-      <div><div class="form-label">EMAIL</div><input type="email" placeholder="you@email.com"></div>
-      <div><div class="form-label">PHONE</div><input type="tel" placeholder="541-000-0000"></div>
+    <form class="contact-form reveal" data-form-type="contact">
+      <div><div class="form-label">YOUR NAME</div><input type="text" name="name" placeholder="Full name" required></div>
+      <div><div class="form-label">EMAIL</div><input type="email" name="email" placeholder="you@email.com" required></div>
+      <div><div class="form-label">PHONE</div><input type="tel" name="phone" placeholder="541-000-0000"></div>
       <div><div class="form-label">I AM INTERESTED IN</div>
         <div class="interest-chips">
           <button class="chip" type="button">Buying</button>
@@ -83,7 +83,7 @@
           <button class="chip" type="button">Just Exploring</button>
         </div>
       </div>
-      <div><div class="form-label">MESSAGE</div><textarea rows="5" placeholder="Tell me a little about your situation..."></textarea></div>
+      <div><div class="form-label">MESSAGE</div><textarea name="message" rows="5" placeholder="Tell me a little about your situation..."></textarea></div>
       <button class="btn-mono" type="submit">SEND MESSAGE &rarr;</button>
     </form>
     <div class="contact-sidebar reveal reveal-d1">
@@ -122,6 +122,7 @@
       <div class="footer-col-title">Pages</div>
       <ul>
         <li><a href="./about.html">About</a></li>
+        
         <li><a href="./sellers.html">Sellers</a></li>
         <li><a href="./rural-acreage.html">Rural &amp; Acreage</a></li>
         <li><a href="./buyers.html">Buyers</a></li>
@@ -148,7 +149,8 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>&copy; 2026 LARISSA MAYFIELD &middot; REAL BROKER LLC</span>
+    <span>&copy; 2026 LARISSA MAYFIELD &middot; REAL BROKER, LLC</span>
+    <span><a href="./terms.html">TERMS OF SERVICE</a> &middot; <a href="./privacy.html">PRIVACY POLICY</a> &middot; <a href="./do-not-sell.html">YOUR PRIVACY CHOICES</a> &middot; <a href="./photo-credits.html">PHOTO CREDITS</a></span>
     <span>EQUAL HOUSING OPPORTUNITY</span>
   </div>
 </footer>

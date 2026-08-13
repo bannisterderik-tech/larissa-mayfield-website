@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Free Home Valuation — Larissa Mayfield, Real Broker","description":"Free home valuation in Lane County, Oregon. Honest pricing based on real comps. Request yours from Larissa Mayfield, Real Broker.","url":"https://larissamayfield.com/services/home-valuation.html","author":{"@type":"RealEstateAgent","name":"Larissa Mayfield","telephone":"541-784-7745","email":"larissa@theoperativegroup.com","url":"https://larissamayfield.com","areaServed":[{"@type":"AdministrativeArea","name":"Lane County, Oregon"},{"@type":"AdministrativeArea","name":"Linn County, Oregon"},{"@type":"AdministrativeArea","name":"Benton County, Oregon"},{"@type":"AdministrativeArea","name":"Douglas County, Oregon"}]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Free Home Valuation — Larissa Mayfield, Real Broker","description":"Free home valuation in Lane County, Oregon. Honest pricing based on real comps. Request yours from Larissa Mayfield, Real Broker.","url":"https://larissamayfield.com/services/home-valuation.html","author":{"@type":"RealEstateAgent","name":"Larissa Mayfield","telephone":"541-784-7745","email":"larissa@theoperativegroup.com","url":"https://larissamayfield.com","areaServed":[{"@type":"City","name":"Veneta, Oregon"},{"@type":"City","name":"Elmira, Oregon"},{"@type":"AdministrativeArea","name":"Lane County, Oregon"},{"@type":"AdministrativeArea","name":"Linn County, Oregon"},{"@type":"AdministrativeArea","name":"Benton County, Oregon"},{"@type":"AdministrativeArea","name":"Douglas County, Oregon"}]}}</script>
 </head>
 <body>
 <header class="site-header">
@@ -67,12 +67,12 @@
       <p class="body-text reveal reveal-d2" style="color:rgba(244,239,230,.85);margin-top:32px;max-width:460px">I provide a detailed, honest valuation based on actual comparable sales in your area &mdash; not automated estimates. Every valuation includes a conversation about your property&rsquo;s unique features and the current market conditions in your neighborhood.</p>
       <p class="body-text reveal reveal-d3" style="color:rgba(244,239,230,.65);margin-top:24px;max-width:460px;font-size:14px">Free. No obligation. No pressure. Just the information you need to make an informed decision.</p>
     </div>
-    <form class="valuation-form reveal reveal-d2" onsubmit="event.preventDefault()">
-      <label><div class="label-text">PROPERTY ADDRESS</div><input type="text" placeholder="24500 Hwy 126, Veneta OR"></label>
-      <label><div class="label-text">APPROXIMATE ACREAGE</div><input type="text" placeholder="12.5"></label>
-      <label><div class="label-text">PROPERTY TYPE</div><input type="text" placeholder="Rural / Acreage / Residential"></label>
-      <label><div class="label-text">YOUR NAME</div><input type="text" placeholder="Your name"></label>
-      <label><div class="label-text">EMAIL OR PHONE</div><input type="text" placeholder="you@email.com"></label>
+    <form class="valuation-form reveal reveal-d2" data-form-type="valuation">
+      <label><div class="label-text">PROPERTY ADDRESS</div><input type="text" name="property_address" placeholder="24500 Hwy 126, Veneta OR" required></label>
+      <label><div class="label-text">APPROXIMATE ACREAGE</div><input type="text" name="acreage" placeholder="12.5"></label>
+      <label><div class="label-text">PROPERTY TYPE</div><input type="text" name="property_type" placeholder="Rural / Acreage / Residential"></label>
+      <label><div class="label-text">YOUR NAME</div><input type="text" name="name" placeholder="Your name" required></label>
+      <label><div class="label-text">EMAIL OR PHONE</div><input type="text" name="contact" placeholder="you@email.com" required></label>
       <button type="submit">REQUEST VALUATION &rarr;</button>
     </form>
   </div>
@@ -97,6 +97,7 @@
       <div class="footer-col-title">Pages</div>
       <ul>
         <li><a href="../about.html">About</a></li>
+        
         <li><a href="../sellers.html">Sellers</a></li>
         <li><a href="../rural-acreage.html">Rural &amp; Acreage</a></li>
         <li><a href="../buyers.html">Buyers</a></li>
@@ -123,7 +124,8 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>&copy; 2026 LARISSA MAYFIELD &middot; REAL BROKER LLC</span>
+    <span>&copy; 2026 LARISSA MAYFIELD &middot; REAL BROKER, LLC</span>
+    <span><a href="../terms.html">TERMS OF SERVICE</a> &middot; <a href="../privacy.html">PRIVACY POLICY</a> &middot; <a href="../do-not-sell.html">YOUR PRIVACY CHOICES</a> &middot; <a href="../photo-credits.html">PHOTO CREDITS</a></span>
     <span>EQUAL HOUSING OPPORTUNITY</span>
   </div>
 </footer>

@@ -497,7 +497,7 @@ input,textarea,button,select{font-family:inherit}
 .feat-col .dash{font-family:var(--mono);font-size:10px;color:var(--purple);flex-shrink:0}
 
 /* --- Payment estimator ----------------------------------------------------- */
-.calc-section{background:var(--ink);color:var(--cream);padding:96px 56px;display:grid;grid-template-columns:1fr 1.25fr;gap:56px;align-items:start}
+.calc-section{background:var(--purple);color:var(--cream);padding:96px 56px;display:grid;grid-template-columns:1fr 1.25fr;gap:56px;align-items:start}
 .calc-intro h2{font-family:var(--serif);font-size:clamp(34px,4.2vw,54px);line-height:1.04;letter-spacing:-.025em;font-weight:400;margin:16px 0 18px}
 .calc-intro p{font-family:var(--sans);font-size:16px;line-height:1.65;color:rgba(244,239,230,.8);margin-bottom:16px}
 .calc-disclaim{font-size:12.5px!important;color:rgba(244,239,230,.55)!important;border-left:2px solid rgba(244,239,230,.25);padding-left:14px}
@@ -508,7 +508,7 @@ input,textarea,button,select{font-family:inherit}
 .calc-grid label>span b{color:var(--cream);font-weight:500}
 .calc-grid input[type=text],.calc-grid select{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(244,239,230,.3);color:var(--cream);font-family:var(--sans);font-size:19px;padding:0 0 9px;outline:none;transition:border-color .3s}
 .calc-grid input[type=text]:focus,.calc-grid select:focus{border-color:var(--cream)}
-.calc-grid select option{background:var(--ink);color:var(--cream)}
+.calc-grid select option{background:var(--purple);color:var(--cream)}
 .calc-grid em{display:block;font-family:var(--mono);font-size:12px;color:rgba(244,239,230,.6);font-style:normal;margin-top:8px}
 .calc-grid input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:22px;cursor:pointer;margin:0}
 .calc-grid input[type=range]::-webkit-slider-runnable-track{height:2px;background:rgba(244,239,230,.3)}

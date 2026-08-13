@@ -258,7 +258,7 @@ LISTINGS = [
 
     {
         "slug": "1009-royal-saint-georges-dr",
-        "status": "draft",
+        "status": "active",
         "address": "1009 Royal Saint Georges Dr",
         "city": "Florence", "state": "OR", "zip": "97439", "county": "Lane County",
         "map_query": "1009 Royal Saint Georges Dr, Florence, OR 97439",
@@ -326,7 +326,7 @@ LISTINGS = [
 
     {
         "slug": "310-pitney-ln-71",
-        "status": "draft",
+        "status": "active",
         "address": "310 Pitney Ln, Space 71",
         "city": "Junction City", "state": "OR", "zip": "97448", "county": "Lane County",
         "map_query": "310 Pitney Ln, Junction City, OR 97448",

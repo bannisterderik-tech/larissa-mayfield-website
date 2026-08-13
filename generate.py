@@ -2425,10 +2425,16 @@ def verify_site():
                 errors.append(f"{p[len(SITE)+1:]}: missing image {src}")
 
     # 2. No page may use the same photo twice — that is the "lazy stock" smell.
+    # Compare resolved paths, not bare filenames: every listing's hero photo is
+    # its folder's 01.jpg, so two different properties' heroes on one page are
+    # distinct files that share a name. Basenames would flag that as a dupe.
     for p in pages:
-        srcs = [m.group(1).split("?")[0].split("/")[-1]
+        base = os.path.dirname(p)
+        srcs = [os.path.normpath(os.path.join(base, m.group(1).split("?")[0]))
                 for m in re.finditer(r'<img[^>]+src="([^"]+)"', open(p).read())]
-        srcs = [s for s in srcs if s != "larissa-headshot-square.jpg"]  # byline avatar
+        srcs = [s for s in srcs
+                if not s.endswith("larissa-headshot-square.jpg")  # byline avatar
+                and not s.startswith(("http://", "https://", "data:"))]
         for name, n in collections.Counter(srcs).items():
             if n > 1:
                 errors.append(f"{p[len(SITE)+1:]}: image {name} used {n}x on one page")

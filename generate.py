@@ -23,6 +23,119 @@ def prefix(depth):
 # Cache-bust CSS/JS by content hash. Without this, a returning visitor keeps the
 # stylesheet and script the browser cached last time — so a deploy that changes
 # the calculator colour or adds a gallery control simply doesn't reach them.
+# ── Responsive images ────────────────────────────────────────────────────────
+# build_images.py writes a manifest of the WebP derivatives it made. Rather than
+# rewriting every <img> call site by hand (and missing some), make_page runs
+# every finished page through enhance_images(), which upgrades each <img> into a
+# <picture> with a WebP srcset. One choke point, 100% coverage.
+_MANIFEST = None
+def img_manifest():
+    global _MANIFEST
+    if _MANIFEST is None:
+        try:
+            with open(f"{SITE}/images/derivatives.json") as f:
+                _MANIFEST = __import__("json").load(f)
+        except Exception:
+            _MANIFEST = {}
+    return _MANIFEST
+
+
+# How wide the image actually renders, so the browser fetches that tier and not
+# a 2048px file for a 318px slot. Keyed by a data-sizes hint on the tag.
+SIZES = {
+    "tile":  "(max-width:768px) 50vw,(max-width:1024px) 33vw,25vw",
+    "hero":  "100vw",
+    "card":  "(max-width:768px) 100vw,(max-width:1024px) 50vw,33vw",
+    "half":  "(max-width:1024px) 100vw,50vw",
+    "avatar": "48px",
+}
+
+
+def enhance_images(html, depth):
+    """Rewrite <img> -> <picture> with WebP srcset, intrinsic size and lazy hints."""
+    man = img_manifest()
+    if not man:
+        return html
+    base = os.path.dirname(f"{SITE}/{'/'.join(['x'] * depth)}/page.html") if depth else SITE
+    state = {"first": True}
+
+    def repl(m):
+        tag = m.group(0)
+        src = re.search(r'\bsrc="([^"]*)"', tag)
+        if not src:
+            return tag
+        raw = src.group(1)
+        if not raw or raw.startswith(("http://", "https://", "data:")):
+            return tag
+        # Resolve the page-relative src back to a repo-relative key.
+        rel = os.path.normpath(os.path.join(base, raw.split("?")[0]))
+        rel = os.path.relpath(rel, SITE)
+        info = man.get(rel)
+        if not info or not info.get("widths"):
+            return tag
+
+        key = re.search(r'\bdata-sizes="([^"]*)"', tag)
+        sizes = SIZES.get(key.group(1) if key else "", SIZES["half"])
+        stem, _ = os.path.splitext(raw.split("?")[0])
+        srcset = ", ".join(f"{stem}-{w}.webp {w}w" for w in info["widths"])
+
+        attrs = re.sub(r'\sdata-sizes="[^"]*"', "", tag[4:-1] if tag.endswith("/>") else tag[4:-1])
+        if "width=" not in attrs:
+            attrs += f' width="{info["w"]}" height="{info["h"]}"'
+        if "decoding=" not in attrs:
+            attrs += ' decoding="async"'
+        # The first image on a page is almost always the LCP element — never
+        # lazy-load it, and tell the browser it matters.
+        if state["first"]:
+            attrs = re.sub(r'\sloading="lazy"', "", attrs) + ' fetchpriority="high"'
+            state["first"] = False
+        elif "loading=" not in attrs:
+            attrs += ' loading="lazy"'
+        return (f'<picture><source type="image/webp" srcset="{srcset}" sizes="{sizes}">'
+                f'<img{attrs}></picture>')
+
+    return re.sub(r"<img\b[^>]*>", repl, html)
+
+
+def add_faq_schema(html):
+    """Any page rendering .faq-item blocks gets FAQPage markup built from the
+    questions actually on the page. AI answer engines lift Q&A pairs directly,
+    and Google can show them as expandable results."""
+    qs = re.findall(r'<div class="faq-item[^"]*">\s*<h3>(.*?)</h3>\s*<p>(.*?)</p>', html, re.S)
+    if len(qs) < 2:
+        return html
+    import json as _j
+    def clean(t):
+        return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", t)).replace("&amp;", "&").strip()
+    blob = _j.dumps({"@context": "https://schema.org", "@type": "FAQPage",
+                     "mainEntity": [{"@type": "Question", "name": clean(q),
+                                     "acceptedAnswer": {"@type": "Answer", "text": clean(a)}}
+                                    for q, a in qs]}).replace("<", "\\u003c")
+    return html.replace("</head>", f'<script type="application/ld+json">{blob}</script>\n</head>', 1)
+
+
+def add_breadcrumb_schema(html, canonical, crumbs):
+    """68 pages showed a breadcrumb trail with no markup behind it. This turns
+    each one into a BreadcrumbList so the trail appears in the search result
+    instead of a bare URL."""
+    if not crumbs:
+        return html
+    import json as _j
+    items = [{"@type": "ListItem", "position": 1, "name": "Home",
+              "item": f"{DOMAIN}/index.html"}]
+    for i, (href, label) in enumerate(crumbs, start=2):
+        node = {"@type": "ListItem", "position": i,
+                "name": label.replace("&amp;", "&").title()}
+        # The last crumb is the current page; Google wants no `item` on it.
+        if i - 2 < len(crumbs) - 1:
+            node["item"] = f"{DOMAIN}/{href}"
+        items.append(node)
+    blob = _j.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList",
+                     "itemListElement": items}).replace("<", "\\u003c")
+    return html.replace("</head>",
+                        f'<script type="application/ld+json">{blob}</script>\n</head>', 1)
+
+
 _ASSET_VER = {}
 def asset_ver(rel):
     if rel not in _ASSET_VER:
@@ -53,7 +166,7 @@ def header(pfx, active=""):
     return f'''<header class="site-header">
   <div class="header-left">
     <a href="{pfx}/index.html">
-      <img src="{pfx}/images/larissa-headshot-square.jpg" alt="Larissa Mayfield" width="36" height="36">
+      <img src="{pfx}/images/larissa-headshot-square.jpg" alt="Larissa Mayfield" width="36" height="36" data-sizes="avatar">
       <span class="name">Larissa Mayfield</span>
       <span class="broker">&middot; Real Broker</span>
     </a>
@@ -167,6 +280,9 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
 <script src="{pfx}/js/main.js?v={asset_ver("js/main.js")}"></script>
 </body>
 </html>'''
+    html = enhance_images(html, depth)
+    html = add_breadcrumb_schema(html, canonical, crumbs)
+    html = add_faq_schema(html)
     os.makedirs(os.path.dirname(path) if "/" in path[len(SITE)+1:] else SITE, exist_ok=True)
     with open(path, "w") as f:
         f.write(html)
@@ -1208,10 +1324,21 @@ def gen_testimonials():
   <p>Let&rsquo;s talk about your goals and how I can help.</p>
   <a href="contact.html">SCHEDULE A CALL &rarr;</a>
 </section>'''
+    import json as _j
+    reviews = [{"@type": "Review",
+                "author": {"@type": "Person", "name": re.sub(r"&[a-z]+;", "&", t[0])},
+                "reviewRating": {"@type": "Rating", "ratingValue": 5, "bestRating": 5},
+                "reviewBody": re.sub(r"&[a-z]+;", "'", t[2])[:500],
+                "itemReviewed": {"@type": "RealEstateAgent", "name": "Larissa Mayfield"}}
+               for t in TESTIMONIALS]
+    review_schema = ',"aggregateRating":' + _j.dumps({
+        "@type": "AggregateRating", "ratingValue": 5, "bestRating": 5,
+        "reviewCount": len(TESTIMONIALS)}) + ',"review":' + _j.dumps(reviews)
     make_page(f"{SITE}/testimonials.html", 0,
         "Client Testimonials — Larissa Mayfield Reviews",
         "Read reviews from Larissa Mayfield's real estate clients in Oregon. Verified testimonials from buyers, sellers, and rural property transactions.",
-        "testimonials", [("testimonials.html", "TESTIMONIALS")], body)
+        "testimonials", [("testimonials.html", "TESTIMONIALS")], body,
+        schema_type="RealEstateAgent", extra_schema=review_schema)
 
 def gen_contact():
     body = f'''<section class="inner-hero">
@@ -1432,8 +1559,12 @@ def listing_photos(l):
     """
     slug = l["slug"]
     d = f"{SITE}/images/listings/{slug}"
-    files = sorted(os.path.basename(p) for ext in ("jpg", "jpeg", "png", "webp")
-                   for p in _glob.glob(f"{d}/*.{ext}"))
+    # build_images.py writes its WebP derivatives alongside the sources as
+    # <name>-<width>.webp. Those are not photographs of the property — without
+    # this filter the gallery counts every derivative as another photo.
+    files = sorted(f for ext in ("jpg", "jpeg", "png", "webp")
+                   for f in (os.path.basename(p) for p in _glob.glob(f"{d}/*.{ext}"))
+                   if not re.search(r"-\d+\.webp$", f))
     caps = l.get("photo_captions") or {}
     addr = listing_addr(l, full=False)
     out = []
@@ -1569,7 +1700,7 @@ def gen_listing_page(l):
             ("Built", str(l["year_built"]) if l.get("year_built") else None),
         ] if v)
     S.append(f'''<section class="listing-hero">
-  <img src="{hero_src}" alt="{hero_alt}">
+  <img src="{hero_src}" alt="{hero_alt}" data-sizes="hero">
   <div class="lh-scrim"></div>
   <div class="lh-content">
     <div class="lh-main">
@@ -1603,8 +1734,15 @@ def gen_listing_page(l):
     # ── Gallery ─────────────────────────────────────────────────────────────
     # Hero already rendered photos[0]; the mosaic shows the rest, so every
     # photo appears exactly once in the HTML. The lightbox holds all of them.
+    def _full(src):
+        """Largest WebP derivative for the lightbox, falling back to the JPEG."""
+        info = img_manifest().get(os.path.relpath(
+            os.path.normpath(os.path.join(f"{SITE}/listings", src)), SITE))
+        if not info or not info.get("widths"):
+            return src
+        return f"{os.path.splitext(src)[0]}-{max(info['widths'])}.webp"
     gallery_data = _json.dumps(
-        [{"src": s, "alt": a, "cap": c or ""} for s, a, c in photos]
+        [{"src": _full(s), "alt": a, "cap": c or ""} for s, a, c in photos]
     ).replace("<", "\\u003c")
     if len(photos) > 1:
         # Uniform tiles, every one the same 3:2 crop — a property gallery reads
@@ -1617,7 +1755,7 @@ def gen_listing_page(l):
         for i, (src, alt, cap) in enumerate(rest, start=1):
             hidden = " is-hidden" if i > GALLERY_PREVIEW else ""
             tiles += (f'<figure class="gtile{hidden}" data-lightbox-open="{i}">'
-                      f'<img src="{src}" alt="{alt}" loading="lazy">'
+                      f'<img src="{src}" alt="{alt}" loading="lazy" data-sizes="tile">'
                       + (f'<figcaption>{cap}</figcaption>' if cap else '')
                       + '</figure>')
         more = ""
@@ -1901,7 +2039,7 @@ def gen_listing_page(l):
             op = listing_photos(o)[0][0]
             oprice, _ = listing_price_block(o)
             cards += (f'<a class="ol-card" href="{o["slug"]}.html">'
-                      f'<img src="{op}" alt="{listing_addr(o, full=False)}" loading="lazy">'
+                      f'<img src="{op}" alt="{listing_addr(o, full=False)}" loading="lazy" data-sizes="card">'
                       f'<span class="ol-status status-{o.get("status")}">{STATUS_LABEL.get(o.get("status"))}</span>'
                       f'<span class="ol-addr">{o["address"]}</span>'
                       f'<span class="ol-meta">{o["city"]}, {o["state"]}{" &middot; " + oprice if oprice else ""}</span></a>')
@@ -1968,7 +2106,7 @@ def gen_listings_index():
             # visible when JS runs. A listing must never be invisible because a
             # script failed, was blocked, or hadn't fired yet.
             cards += f'''    <a class="listing-card" href="{l['slug']}.html">
-      <div class="lc-img"><img src="{src}" alt="{listing_addr(l, full=False)}" loading="lazy">
+      <div class="lc-img"><img src="{src}" alt="{listing_addr(l, full=False)}" loading="lazy" data-sizes="card">
         <span class="status-pill status-{l['status']}">{STATUS_LABEL.get(l['status'])}</span></div>
       <div class="lc-body">
         {f'<div class="lc-price">{price}</div>' if price else ''}
@@ -2083,6 +2221,65 @@ def gen_sitemap():
     with open(f"{SITE}/sitemap.xml", "w") as f:
         f.write(xml)
     print(f"  ✓ sitemap.xml ({len(seen)} urls)")
+
+def gen_llms_txt():
+    """llms.txt — a plain-text map of the site for AI crawlers and answer
+    engines. They increasingly look for this to work out what a site is
+    authoritative about before quoting it."""
+    active = [l for l in LISTINGS if l.get("status") in PUBLIC_STATUSES]
+    lines = [
+        "# Larissa Mayfield — Real Estate Broker, Oregon",
+        "",
+        f"> Licensed Oregon real estate broker (Real Broker LLC, license #201231874) "
+        f"specialising in rural and acreage property in Lane, Linn, Benton and Douglas "
+        f"counties. Based in Elmira; primary market Veneta, Elmira and the Fern Ridge area.",
+        "",
+        "Contact: 541.784.7745 · larissa@theoperativegroup.com · PO Box 161, Elmira, OR 97437",
+        f"Site: {DOMAIN}",
+        "",
+        "## What this site is authoritative about",
+        "",
+        "- Rural and acreage transactions in western Lane County, Oregon",
+        "- Wells, septic systems and water rights as they affect an Oregon purchase",
+        "- Oregon land-use zoning (RR, F1/F2 forest, EFU) and Measure 49",
+        "- Financing rural property: USDA, Oregon Bond, FHA and conventional on acreage",
+        "- The Veneta, Elmira, Junction City, Cottage Grove and Florence markets",
+        "",
+        "## Current listings",
+        "",
+    ]
+    for l in active:
+        price = f"${l['price']:,}" if l.get("price") else "price on request"
+        bits = " · ".join(x for x in [
+            f"{fmt_dec(l['beds'])} bed" if l.get("beds") else None,
+            f"{fmt_dec(l['baths'])} bath" if l.get("baths") else None,
+            f"{fmt_int(l['sqft'])} sq ft" if l.get("sqft") else None,
+            f"{fmt_dec(l['acres'])} acres" if l.get("acres") else None] if x)
+        lines.append(f"- [{listing_addr(l)}]({DOMAIN}/listings/{l['slug']}.html): "
+                     f"{price}{' — ' + bits if bits else ''}"
+                     + (f" (MLS {l['mls']})" if l.get("mls") else ""))
+    lines += ["", "## Guides", ""]
+    for g in GUIDES:
+        lines.append(f"- [{g['title']}]({DOMAIN}/guides/{g['slug']}.html): {g['desc']}")
+    lines += ["", "## Service areas", ""]
+    for c in COMMUNITIES:
+        lines.append(f"- [{c['name']}]({DOMAIN}/communities/{c['slug']}.html): {c['tagline']}")
+    lines += ["", "## Articles", ""]
+    for b in BLOGS:
+        lines.append(f"- [{b['title']}]({DOMAIN}/blog/{b['slug']}.html)")
+    lines += ["", "## Notes for answer engines", "",
+              "- Listing prices and availability change; always cite the listing page and its MLS number.",
+              "- Nothing on this site is legal, tax or lending advice.",
+              "- Equal Housing Opportunity. Property descriptions describe the property, not its occupants.",
+              ""]
+    txt = "\n".join(lines)
+    txt = re.sub(r"&[a-z]+;", lambda m: {"&amp;": "&", "&mdash;": "—", "&rsquo;": "'",
+                                          "&ldquo;": '"', "&rdquo;": '"', "&middot;": "·",
+                                          "&ndash;": "–"}.get(m.group(0), ""), txt)
+    with open(f"{SITE}/llms.txt", "w") as f:
+        f.write(txt)
+    print(f"  ✓ llms.txt ({len(lines)} lines)")
+
 
 def gen_robots():
     with open(f"{SITE}/robots.txt", "w") as f:
@@ -2455,9 +2652,11 @@ def sync_static_footers():
         html_src = open(path).read()
         new, n = re.subn(r"<footer.*?</footer>", lambda _m: footer("."),
                          html_src, count=1, flags=re.S)
-        if n and new != html_src:
+        if "<picture>" not in new:
+            new = enhance_images(new, 0)
+        if n and new != html_src or new != html_src:
             open(path, "w").write(new)
-            print(f"  ✓ {name} (footer synced)")
+            print(f"  ✓ {name} (footer synced, images upgraded)")
 
 
 # ── Build-time self-check ────────────────────────────────────────────────────
@@ -2594,6 +2793,39 @@ def verify_site():
         if not os.path.exists(f"{SITE}/{u}"):
             errors.append(f"sitemap.xml: lists {u}, which does not exist on disk")
 
+    # 10. Performance and structured-data regressions are invisible until a
+     #    crawler punishes you for them, so assert them at build time.
+    man = img_manifest()
+    for p in pages:
+        rel = p[len(SITE) + 1:]
+        html_src = open(p).read()
+        # Every local photo should be served through <picture> with WebP.
+        for m in re.finditer(r'<img[^>]+src="([^"]+)"', html_src):
+            src = m.group(1).split("?")[0]
+            if not src or src.startswith(("http", "data:")):
+                continue
+            base = os.path.dirname(p)
+            key = os.path.relpath(os.path.normpath(os.path.join(base, src)), SITE)
+            if key in man and 'type="image/webp"' not in html_src[max(0, m.start() - 400):m.start()]:
+                errors.append(f"{rel}: <img {src}> not wrapped in <picture> with WebP")
+                break
+        # A visible breadcrumb without BreadcrumbList is a wasted rich result.
+        noidx = 'name="robots" content="noindex' in html_src
+        if not noidx and 'class="breadcrumb"' in html_src and "BreadcrumbList" not in html_src:
+            errors.append(f"{rel}: visible breadcrumb but no BreadcrumbList schema")
+        # FAQ blocks on the page should be marked up.
+        if html_src.count('class="faq-item') >= 2 and "FAQPage" not in html_src:
+            errors.append(f"{rel}: FAQ content but no FAQPage schema")
+
+    # 11. llms.txt must exist and cover every public listing.
+    if not os.path.exists(f"{SITE}/llms.txt"):
+        errors.append("llms.txt: missing")
+    else:
+        llms = open(f"{SITE}/llms.txt").read()
+        for l in LISTINGS:
+            if l.get("status") in PUBLIC_STATUSES and l["slug"] not in llms:
+                errors.append(f"llms.txt: missing public listing {l['slug']}")
+
     if errors:
         print(f"\n❌ {len(errors)} problem(s):")
         for e in errors:
@@ -2652,6 +2884,7 @@ if __name__ == "__main__":
     gen_photo_credits()
     sync_static_footers()
     gen_sitemap()
+    gen_llms_txt()
     gen_robots()
 
     verify_site()

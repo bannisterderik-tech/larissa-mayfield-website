@@ -1352,20 +1352,61 @@ MARKET_PERIOD = "three months ending June 2026"
 MARKET_SOURCE = "Redfin"
 MARKET_ASOF = "13 August 2026"
 MARKET = {
-    "veneta":        {"median": "$420,671", "yoy": "-3.3%", "dom": 19, "dom_prev": 11,
-                      "ppsf": "$281", "ppsf_yoy": "+6.6%", "sold": 28},
-    "eugene":        {"median": "$499,000", "yoy": "-1.2%", "dom": 14, "dom_prev": 17,
-                      "sold": 499},
-    "springfield":   {"median": "$440,000", "yoy": "+2.3%", "dom": 15,
-                      "ppsf": "$299", "ppsf_yoy": "+1.9%"},
-    "junction-city": {"median": "$405,000", "yoy": "-13.2%", "dom": 36, "dom_prev": 16},
-    "cottage-grove": {"median": "$367,000", "yoy": "-4.6%", "dom": 24, "dom_prev": 38},
+    # ── Cities ──────────────────────────────────────────────────────────────
+    "veneta":         {"median": "$420,671", "yoy": "-3.3%",  "dom": 19,  "dom_prev": 11,
+                       "ppsf": "$281", "ppsf_yoy": "+6.6%", "sold": 28},
+    "eugene":         {"median": "$499,000", "yoy": "-1.2%",  "dom": 14,  "dom_prev": 17,
+                       "sold": 499},
+    "springfield":    {"median": "$440,000", "yoy": "+2.3%",  "dom": 15,
+                       "ppsf": "$299", "ppsf_yoy": "+1.9%"},
+    "junction-city":  {"median": "$405,000", "yoy": "-13.2%", "dom": 36,  "dom_prev": 16},
+    "cottage-grove":  {"median": "$367,000", "yoy": "-4.6%",  "dom": 24,  "dom_prev": 38},
+    "creswell":       {"median": "$455,000", "yoy": "+6.2%",  "dom": 5,   "dom_prev": 31,
+                       "sold": 13},
+    "oakridge":       {"median": "$260,000", "yoy": "-8.7%",  "dom": 198, "dom_prev": 44,
+                       "note": "Oakridge is a thin market — a handful of sales moves the "
+                               "median a long way, and 198 days is a real signal about how "
+                               "long a listing sits here. Price accordingly."},
+    "drain":          {"median": "$292,000", "yoy": "+10.2%", "dom": 97,  "dom_prev": 84,
+                       "sold": 6,
+                       "note": "Six sales in the quarter. Treat the percentage change as "
+                               "noise and the days-on-market as the number that matters."},
+    # ── Counties ────────────────────────────────────────────────────────────
+    "lane-county":    {"median": "$464,000", "yoy": "-3.5%",  "dom": 18, "dom_prev": 22},
+    "linn-county":    {"median": "$431,000", "yoy": "+1.4%",  "dom": 56, "dom_prev": 54},
+    "benton-county":  {"median": "$588,000", "yoy": "+0.2%",  "dom": 55, "dom_prev": 47},
+    "douglas-county": {"median": "$374,000", "yoy": "+1.1%",  "dom": 33, "dom_prev": 25},
+    # Elmira is deliberately absent. Redfin's most recent Elmira trend data is
+    # for the three months ending DECEMBER 2024 and contradicts itself ($685K
+    # in the summary, $310K in the tiles) — too few sales to compute. Publishing
+    # it would be worse than publishing nothing. See elmira_note() below.
 }
+
+
+
+ELMIRA_NOTE = '''<section class="market-section" id="market">
+  <div class="mk-head">
+    <div class="tag tag-purple">Market Data</div>
+    <h2 class="section-heading" style="margin-top:14px">Why there are no Elmira numbers here.</h2>
+  </div>
+  <p class="body-text" style="max-width:720px">Elmira is unincorporated and small enough that
+    the national portals cannot compute a reliable median for it &mdash; the most recent
+    trend figures they publish for Elmira cover late 2024, and their own summary and tiles
+    disagree with each other by a factor of two. Rather than repeat a number I cannot stand
+    behind, here is the honest version: Elmira trades with the wider Fern Ridge area, and
+    <a href="veneta.html">Veneta</a> is the closest market with enough volume to mean
+    anything. For what a specific Elmira property is worth, the answer comes from comparable
+    sales on comparable acreage &mdash; not from a town-level median.</p>
+  <p class="fine">If you want that comparison run on your own place,
+    <a href="../contact.html">ask me</a> and I will pull the comparables.</p>
+</section>'''
 
 
 def market_block(slug, name):
     """Real, dated market numbers — or nothing at all. Communities without a
     verified lookup render no block rather than a plausible-looking guess."""
+    if slug == "elmira":
+        return ELMIRA_NOTE
     m = MARKET.get(slug)
     if not m:
         return ""
@@ -1388,6 +1429,7 @@ def market_block(slug, name):
       Figures cover the {MARKET_PERIOD}.</p>
   </div>
   <div class="mk-grid">{tiles}</div>
+  {f'<p class="body-text" style="margin-top:26px;max-width:680px">{m["note"]}</p>' if m.get("note") else ""}
   <p class="fine">Source: {MARKET_SOURCE} market data for {name}, retrieved {MARKET_ASOF},
     covering the {MARKET_PERIOD}. Market data is a snapshot of past sales, not a valuation
     of any particular property and not a forecast. For what your own place is worth, ask me

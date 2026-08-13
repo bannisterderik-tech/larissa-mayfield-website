@@ -21,6 +21,13 @@ Site: https://larissamayfieldre.com
 - [1219 Pleasant St, Springfield, OR 97477](https://larissamayfieldre.com/listings/1219-pleasant-st.html): $325,000 — 3 bed · 1 bath · 874 sq ft (MLS 553006363)
 - [0 10th St, Veneta, OR 97487](https://larissamayfieldre.com/listings/0-10th-st-veneta.html): $59,000 — 0.18 acres (MLS 573861003)
 
+## Answers to specific questions
+
+Each of these cites the statute, administrative rule or county page it relies on.
+
+- [Does Oregon require a well test when you sell a house?](https://larissamayfieldre.com/answers/oregon-well-test-required-to-sell.html): Yes. Under ORS 448.271, if the property you are selling has a well that supplies ground water for domestic use, you must have it tested for arsenic, nitrate and total coliform bacteria once you accept an offer. The sample has to be analysed by an accredited laboratory, and you must give the results to the buyer and file them with the Oregon Health Authority within 90 days of receiving them. Results stay valid for one year, so if a sale falls through you can reuse them on the next offer. Spring wells, irrigation-only wells and wells on undeveloped land are exempt.
+- [What if there's no septic permit on file for a property?](https://larissamayfieldre.com/answers/septic-no-permit-on-file-lane-county.html): You get an Existing System Evaluation Report. When a property has a septic system but no as-built drawing or permit in the county record, that report is how the system gets documented — completed by a licensed installer, on the DEQ form, and filed with Lane County Land Management. It is not a pass/fail inspection and it does not create a permit retroactively. It tells you what is in the ground, whether it appears to be functioning, and what you would be taking on.
+
 ## Guides
 
 - [The First-Time Buyer's Guide to Oregon](https://larissamayfieldre.com/guides/first-time-buyer-guide.html): Everything you need to know about buying your first home in Oregon. From pre-approval to closing day, this guide walks you through every step.

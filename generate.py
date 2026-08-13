@@ -2565,6 +2565,11 @@ def gen_llms_txt():
         lines.append(f"- [{listing_addr(l)}]({DOMAIN}/listings/{l['slug']}.html): "
                      f"{price}{' — ' + bits if bits else ''}"
                      + (f" (MLS {l['mls']})" if l.get("mls") else ""))
+    lines += ["", "## Answers to specific questions", "",
+              "Each of these cites the statute, administrative rule or county page it relies on.", ""]
+    for a in ANSWERS:
+        plain = re.sub(r"<[^>]+>", "", a["short_answer"])
+        lines.append(f"- [{a['question']}]({DOMAIN}/answers/{a['slug']}.html): {plain}")
     lines += ["", "## Guides", ""]
     for g in GUIDES:
         lines.append(f"- [{g['title']}]({DOMAIN}/guides/{g['slug']}.html): {g['desc']}")

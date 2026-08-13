@@ -388,12 +388,12 @@ LISTINGS = [
 
     {
         "slug": "88790-faulhaber-rd",
-        "status": "draft",
+        "status": "active",
         "address": "88790 Faulhaber Rd",
         "city": "Elmira", "state": "OR", "zip": "97437", "county": "Lane County",
         "map_query": "88790 Faulhaber Rd, Elmira, OR 97437",
         "lat": None, "lng": None,
-        "price": None, "sold_price": None, "sold_date": None,
+        "price": 525000, "sold_price": None, "sold_date": None,
         "beds": 4, "baths": 1.5, "sqft": 1910, "acres": 0.78,
         "year_built": None,   # form says 1965, public remarks say 1966 — Larissa to confirm
         "property_type": "Single-Family Residence",
@@ -473,12 +473,12 @@ LISTINGS = [
 
     {
         "slug": "1219-pleasant-st",
-        "status": "draft",
+        "status": "active",
         "address": "1219 Pleasant St",
         "city": "Springfield", "state": "OR", "zip": "97477", "county": "Lane County",
         "map_query": "1219 Pleasant St, Springfield, OR 97477",
         "lat": None, "lng": None,
-        "price": None,   # form reads "325.00" in an 8-char field — Larissa to confirm
+        "price": 325000,   # form reads "325.00" in an 8-char field — Larissa to confirm
         "sold_price": None, "sold_date": None,
         "beds": 3, "baths": 1, "sqft": 874, "acres": None,
         "year_built": 1954, "property_type": "Single-Family Residence",
@@ -542,12 +542,12 @@ LISTINGS = [
 
     {
         "slug": "0-10th-st-veneta",
-        "status": "draft",
+        "status": "active",
         "address": "0 10th St",
         "city": "Veneta", "state": "OR", "zip": "97487", "county": "Lane County",
         "map_query": "Aspen Heights, Veneta, OR 97487",
         "lat": None, "lng": None,
-        "price": None, "sold_price": None, "sold_date": None,
+        "price": 59000, "sold_price": None, "sold_date": None,
         "beds": None, "baths": None, "sqft": None, "acres": 0.18,
         "year_built": None, "property_type": "Residential Lot",
         "mls": None, "taxes_annual": None, "tax_year": None, "hoa": None,

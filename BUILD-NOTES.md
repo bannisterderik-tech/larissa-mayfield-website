@@ -22,10 +22,19 @@ agent remarks or from any of the transaction paperwork in those folders.
 
 ## Open items — Larissa needs to answer these before any page goes public
 
-1. **Three prices are missing.** The list-price field is blank on the Faulhaber
-   and 0 10th St forms. On the 1219 Pleasant St form it reads `325.00` in an
-   8-character field — almost certainly $325,000, but "almost certainly" is not
-   good enough for a published price, so it is left blank.
+1. **~~Three prices are missing~~ — filled from the live syndicated listings,
+   NOT from the MLS sheet. Confirm these against RMLS.**
+   - 88790 Faulhaber Rd — **$525,000**
+   - 1219 Pleasant St — **$325,000** (matches the `325.00` on the form, and
+     Redfin/Estately/Movoto all agree)
+   - 0 10th St, Veneta — **$59,000**
+
+   These came from third-party aggregators, which are not one of this site's
+   allowed sources. Each was cross-checked against facts already verified from
+   the input form (acreage, beds, sq ft, and in two cases the public remarks
+   verbatim), and one conflict was resolved: a $485,000 figure for Faulhaber
+   came attached to a 20.06-acre lot, i.e. a different property on that road.
+   Still worth ten seconds in RMLS to confirm all three.
 2. **88790 Faulhaber Rd year built.** The form says **1965**; the public remarks
    on the same form say "this **1966** ranch-style home". Left blank until she
    confirms which is right.
@@ -35,7 +44,12 @@ agent remarks or from any of the transaction paperwork in those folders.
    guess. These are the two facts rural buyers ask about first — worth adding.
 5. **0 10th St is dated.** Its paperwork is from Sep–Oct 2025. Confirm it is
    still on the market before publishing.
-6. **555 N Danebo Ave Spc 7 was not built.** That folder has listing paperwork
+6. **Who is the listing agent on 1219 Pleasant St?** A search result for that
+   address names **Daniel Gandee** at Real Broker as the listing agent, not
+   Larissa. Derik confirmed all six are hers, so this is probably a team or
+   co-listing arrangement — but if the listing is held by another agent, the
+   page should say so rather than presenting it as Larissa's.
+7. **555 N Danebo Ave Spc 7 was not built.** That folder has listing paperwork
    only (dated 9–11 Aug 2026) — no RMLS input form and no photos yet. Nothing to
    build a page from. It needs to be shot and entered into RMLS first.
 

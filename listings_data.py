@@ -266,7 +266,7 @@ LISTINGS = [
         "price": 710000, "sold_price": None, "sold_date": None,
         "beds": 3, "baths": 2.5, "sqft": 2047, "acres": None,
         "year_built": 1993, "property_type": "Single-Family Residence",
-        "mls": None, "taxes_annual": None, "tax_year": None, "hoa": None,
+        "mls": "132439191", "taxes_annual": None, "tax_year": None, "hoa": None,
         "kicker": "Sandpines West \u00b7 Gated",
         "tagline": "An updated Craftsman inside the gates at Sandpines West, a few minutes from the dunes.",
         "description": [
@@ -331,10 +331,10 @@ LISTINGS = [
         "city": "Junction City", "state": "OR", "zip": "97448", "county": "Lane County",
         "map_query": "310 Pitney Ln, Junction City, OR 97448",
         "lat": None, "lng": None,
-        "price": 225000, "sold_price": None, "sold_date": None,
-        "beds": 3, "baths": None, "sqft": 1337, "acres": None,
+        "price": 189000, "sold_price": None, "sold_date": None,
+        "beds": 3, "baths": 2, "sqft": 1337, "acres": None,
         "year_built": 2018, "property_type": "Manufactured Home in Park &mdash; home only, no land",
-        "mls": None, "taxes_annual": None, "tax_year": None, "hoa": None,
+        "mls": "547423009", "taxes_annual": None, "tax_year": None, "hoa": None,
         "kicker": "Manufactured Home \u00b7 Home Only",
         "tagline": "A 2018 Palm Harbor in an all-ages park \u2014 the home is for sale, the land is not.",
         "description": [
@@ -361,7 +361,7 @@ LISTINGS = [
             ("Structure", [
                 ("Make", "Palm Harbor"), ("Year built", "2018"),
                 ("Living area", "1,337 sq ft"), ("Levels", "1"),
-                ("Bedrooms", "3"), ("Bathrooms", None),
+                ("Bedrooms", "3"), ("Bathrooms", "2"),
                 ("Flooring", "Newer vinyl in living room and primary"),
             ]),
             ("Park &amp; ownership", [
@@ -395,9 +395,9 @@ LISTINGS = [
         "lat": None, "lng": None,
         "price": 525000, "sold_price": None, "sold_date": None,
         "beds": 4, "baths": 1.5, "sqft": 1910, "acres": 0.78,
-        "year_built": None,   # form says 1965, public remarks say 1966 — Larissa to confirm
+        "year_built": 1965,   # form says 1965, public remarks say 1966 — Larissa to confirm
         "property_type": "Single-Family Residence",
-        "mls": None, "taxes_annual": None, "tax_year": None, "hoa": None,
+        "mls": "243596637", "taxes_annual": None, "tax_year": None, "hoa": None,
         "kicker": "Country Living \u00b7 Dead-End Road",
         "tagline": "Three quarters of an acre on a private dead-end road, minutes from Fern Ridge.",
         "description": [
@@ -423,7 +423,7 @@ LISTINGS = [
         ],
         "fact_groups": [
             ("Structure", [
-                ("Style", "Single-level ranch"), ("Year built", None),
+                ("Style", "Single-level ranch"), ("Year built", "1965"),
                 ("Living area", "1,910 sq ft (RLID)"), ("Levels", "1"),
                 ("Bedrooms", "4"), ("Bathrooms", "1.5"),
                 ("Roof", "New in 2025"),
@@ -482,7 +482,7 @@ LISTINGS = [
         "sold_price": None, "sold_date": None,
         "beds": 3, "baths": 1, "sqft": 874, "acres": None,
         "year_built": 1954, "property_type": "Single-Family Residence",
-        "mls": None, "taxes_annual": None, "tax_year": None, "hoa": None,
+        "mls": "553006363", "taxes_annual": None, "tax_year": None, "hoa": None,
         "kicker": "First Home or Investment",
         "tagline": "A tidy 1954 Springfield house with good bones and room to add value.",
         "description": [
@@ -550,7 +550,7 @@ LISTINGS = [
         "price": 59000, "sold_price": None, "sold_date": None,
         "beds": None, "baths": None, "sqft": None, "acres": 0.18,
         "year_built": None, "property_type": "Residential Lot",
-        "mls": None, "taxes_annual": None, "tax_year": None, "hoa": None,
+        "mls": "573861003", "taxes_annual": None, "tax_year": None, "hoa": None,
         "kicker": "Building Lot \u00b7 Aspen Heights",
         "tagline": "A serviced 0.18-acre lot in Aspen Heights \u2014 bring your own builder.",
         "description": [

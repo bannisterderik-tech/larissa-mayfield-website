@@ -20,38 +20,59 @@ agent remarks or from any of the transaction paperwork in those folders.
 | 1219 Pleasant St, Springfield | — | 3 / 1 | 874 | 41 |
 | 0 10th St, Veneta (lot) | — | — | 0.18 ac | 15 |
 
-## Open items — Larissa needs to answer these before any page goes public
+## Verified against the live RMLS feed — 13 Aug 2026
 
-1. **~~Three prices are missing~~ — filled from the live syndicated listings,
-   NOT from the MLS sheet. Confirm these against RMLS.**
-   - 88790 Faulhaber Rd — **$525,000**
-   - 1219 Pleasant St — **$325,000** (matches the `325.00` on the form, and
-     Redfin/Estately/Movoto all agree)
-   - 0 10th St, Veneta — **$59,000**
+Every price, MLS number and status below was read off the property's own
+listing page (Zillow, `Source: RMLS (OR)`), not off the input form.
 
-   These came from third-party aggregators, which are not one of this site's
-   allowed sources. Each was cross-checked against facts already verified from
-   the input form (acreage, beds, sq ft, and in two cases the public remarks
-   verbatim), and one conflict was resolved: a $485,000 figure for Faulhaber
-   came attached to a 20.06-acre lot, i.e. a different property on that road.
-   Still worth ten seconds in RMLS to confirm all three.
-2. **88790 Faulhaber Rd year built.** The form says **1965**; the public remarks
-   on the same form say "this **1966** ranch-style home". Left blank until she
-   confirms which is right.
-3. **310 Pitney Ln bathrooms.** Not stated on the form or in the remarks.
-4. **Faulhaber water and septic.** A 0.78-acre Elmira property will be on well
-   and/or septic, but the form fields did not extract cleanly and I would not
-   guess. These are the two facts rural buyers ask about first — worth adding.
-5. **0 10th St is dated.** Its paperwork is from Sep–Oct 2025. Confirm it is
-   still on the market before publishing.
-6. **Who is the listing agent on 1219 Pleasant St?** A search result for that
-   address names **Daniel Gandee** at Real Broker as the listing agent, not
-   Larissa. Derik confirmed all six are hers, so this is probably a team or
-   co-listing arrangement — but if the listing is held by another agent, the
-   page should say so rather than presenting it as Larissa's.
-7. **555 N Danebo Ave Spc 7 was not built.** That folder has listing paperwork
-   only (dated 9–11 Aug 2026) — no RMLS input form and no photos yet. Nothing to
-   build a page from. It needs to be shot and entered into RMLS first.
+| Listing | Price | MLS # | Status |
+|---|---|---|---|
+| 1009 Royal Saint Georges Dr, Florence | $710,000 | 132439191 | Active |
+| 88790 Faulhaber Rd, Elmira | $525,000 | 243596637 | Active |
+| 1219 Pleasant St, Springfield | $325,000 | 553006363 | Active |
+| 310 Pitney Ln Unit 71, Junction City | $189,000 | 547423009 | Active |
+| 0 10th St, Veneta | $59,000 | 573861003 | Active |
+
+**All five are co-listed: Daniel Gandee and Larissa Mayfield, both Real Broker.**
+That answers the earlier attribution question — Larissa is a listing agent on
+every one. The pages currently present them under her name and agent card only.
+That is accurate but not complete; if you want Daniel named too, say so.
+
+### The input forms were stale, and it mattered
+
+310 Pitney Ln was on the site at **$225,000**, taken from its 23 Apr input form.
+The live listing is **$189,000** after two cuts:
+
+    23 Apr 2026   listed         $225,000
+     5 Jun 2026   price change   $199,900   (-11.2%)
+    11 Jul 2026   price change   $189,000   (-5.5%)
+
+The site was advertising a live listing $36,000 above its actual price. 0 10th
+St had also been cut ($11K on 21 Jun) but happened to already be correct.
+
+**Lesson for the `new-listing` skill: the RMLS input form is a point-in-time
+document, not current state. Price and status must be confirmed against the
+live listing before publishing, and re-checked whenever a listing has been on
+market a while.**
+
+### Also resolved
+
+- **Faulhaber year built = 1965.** The published listing text reads "This 1965
+  ranch-style home", agreeing with the form's YEAR BUILT field over the 1966 in
+  its own remarks. Now on the page.
+- **310 Pitney has 2 bathrooms.** Was blank.
+- **MLS numbers added to all five** — they were missing entirely.
+
+## Still open
+
+1. **Faulhaber bathrooms.** Larissa's own description says "1.5 bathrooms";
+   Zillow's summary field says 2. The page shows **1.5**, following her copy.
+   Worth a glance.
+2. **Faulhaber water and septic.** Still unknown, so that page still has no
+   rural panel. On a 0.78-acre Elmira property this is the first thing an
+   acreage buyer asks.
+3. **555 N Danebo Ave Spc 7 has no page.** Listing paperwork only — no RMLS
+   input form, no photos. Needs shooting and RMLS entry first.
 
 ## Deliberate choices
 

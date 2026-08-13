@@ -155,13 +155,23 @@ document.addEventListener('DOMContentLoaded',function(){
         if(contactVal.indexOf('@')>-1)emailVal=contactVal;
         else phoneVal=contactVal;
       }
+      var isPrivacy = formType==='privacy-request';
+      if(isPrivacy){
+        // A do-not-sell request is a compliance obligation, not a lead.
+        notesParts.unshift('⚠ CCPA / DO-NOT-SELL REQUEST — DO NOT MARKET TO THIS PERSON');
+      }
       var payload={
         assigned_to:'Larissa Mayfield',
+        lead_type: isPrivacy ? 'privacy_request' : (formType==='valuation' ? 'seller' : 'buyer'),
+        tags: isPrivacy ? ['privacy-request','do-not-sell','do-not-market'] : ['website',formType],
         name:fields.name||'Unknown',
         email:emailVal||null,
         phone:phoneVal||null,
-        source:'larissamayfield.com'+window.location.pathname+' ('+formType+')',
-        notes:notesParts.join(' | ')||null
+        source:window.location.hostname+window.location.pathname+' ('+formType+')',
+        notes:notesParts.join(' | ')||null,
+        seller_listing_address: fields.listing_address||null,
+        seller_listing_mls: fields.listing_mls||null,
+        consent_email: true
       };
       fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json','X-Webhook-Key':WEBHOOK_KEY},body:JSON.stringify(payload)})
         .then(function(r){

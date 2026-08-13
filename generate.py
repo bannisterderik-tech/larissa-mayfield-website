@@ -97,6 +97,120 @@ def enhance_images(html, depth):
     return re.sub(r"<img\b[^>]*>", repl, html)
 
 
+def link_targets():
+    """topic phrase -> page it should point at. Built from the site's own data
+    so it can't drift out of sync with what actually exists."""
+    t = {}
+    for c in COMMUNITIES:                      # place names
+        t[c["name"]] = f"communities/{c['slug']}.html"
+    # Curated topical phrases. Longest phrases first at match time, so
+    # "well flow test" wins over "well".
+    t.update({
+        "well flow test": "blog/well-flow-tests-oregon.html",
+        "flow test": "blog/well-flow-tests-oregon.html",
+        "holding tank": "blog/well-holding-tanks-low-flow.html",
+        "septic system": "services/wells-septic-guide.html",
+        "septic": "services/wells-septic-guide.html",
+        "ATT system": "blog/att-septic-systems-lane-county.html",
+        "private well": "services/wells-septic-guide.html",
+        "water rights": "blog/water-rights-oregon.html",
+        "Measure 49": "blog/measure-49-property-oregon.html",
+        "forest zoning": "blog/lane-county-f1-f2-forest-zoning.html",
+        "easement": "blog/easements-explained.html",
+        "property taxes": "blog/property-tax-oregon.html",
+        "USDA loan": "blog/usda-loans-lane-county.html",
+        "Oregon Bond": "blog/oregon-bond-vs-fha.html",
+        "pre-approval": "blog/pre-approval-letters-explained.html",
+        "closing costs": "blog/closing-costs-explained.html",
+        "home inspection": "blog/home-inspection-checklist.html",
+        "first-time buyer": "guides/first-time-buyer-guide.html",
+        "rural buyer": "guides/rural-buyer-playbook.html",
+        "acreage": "rural-acreage.html",
+        "home valuation": "services/home-valuation.html",
+        "current listings": "listings/index.html",
+    })
+    return t
+
+
+_LINKS = None
+def add_internal_links(html, canonical, depth, limit=7):
+    """Auto-link topic phrases in body prose to the page that covers them.
+
+    Every page was a topical island — 3 body links, all navigation. Search
+    engines infer topical authority from how a site links its own subject
+    matter together, and PageRank only flows along real links.
+
+    Deliberately conservative: only inside <p> prose, only the first mention of
+    a phrase, never inside an existing <a>, never to the current page, and
+    capped so a page reads like prose rather than a link farm.
+    """
+    global _LINKS
+    if _LINKS is None:
+        _LINKS = sorted(link_targets().items(), key=lambda kv: -len(kv[0]))
+    pfx = prefix(depth)
+    used, count = set(), 0
+
+    def link_paragraph(pm):
+        nonlocal count
+        para = pm.group(0)
+        if "<a " in para:            # leave paragraphs that already link out
+            return para
+        for phrase, target in _LINKS:
+            if count >= limit or phrase in used or target == canonical:
+                continue
+            # Whole-word, case-sensitive for place names, first mention only.
+            m = re.search(rf"(?<![\w-]){re.escape(phrase)}(?![\w-])", para)
+            if not m:
+                continue
+            para = (para[:m.start()]
+                    + f'<a href="{pfx}/{target}">{m.group(0)}</a>'
+                    + para[m.end():])
+            used.add(phrase); count += 1
+        return para
+
+    # Work section by section. Matching the body <div> directly failed on blog
+    # posts: their article-body contains nested callout divs, so a non-greedy
+    # .*?</div> stopped at the first inner close and linked nothing.
+    def section(sm):
+        head = sm.group(0)[:120]
+        # Skip calls-to-action and the closing pitch — those are conversion
+        # copy, and burying links in them just leaks the click.
+        if "cta-" in head or "showing-section" in head or "lead-" in head:
+            return sm.group(0)
+        return re.sub(r"<p[^>]*>.*?</p>", link_paragraph, sm.group(0), flags=re.S)
+
+    body_start = html.find("<section")
+    if body_start == -1:
+        return html
+    body_end = html.find("<footer")
+    head, body, tail = html[:body_start], html[body_start:body_end], html[body_end:]
+    body = re.sub(r"<section\b.*?</section>", section, body, flags=re.S)
+    return head + body + tail
+
+
+def seo_title(raw):
+    """Trim to what Google actually shows (~60 chars), keeping the keyword.
+
+    Strips any brand suffix already baked into the caller's title, then adds a
+    short one back only if it still fits. Never truncates mid-word.
+    """
+    t = re.sub(r"\s*[—|-]\s*Larissa Mayfield.*$", "", raw).strip()
+    t = re.sub(r"\s*&mdash;\s*Larissa Mayfield.*$", "", t).strip()
+    brand = " | Larissa Mayfield"
+    # Rough display width: entities count as one character.
+    plain = re.sub(r"&[a-z]+;", "x", t)
+    if len(plain) + len(brand) <= 60:
+        return t + brand
+    if len(plain) <= 60:
+        return t
+    words, out = t.split(" "), ""
+    for w in words:
+        if len(re.sub(r"&[a-z]+;", "x", out + " " + w).strip()) > 60:
+            break
+        out = (out + " " + w).strip()
+    return out or t
+
+
 def add_faq_schema(html):
     """Any page rendering .faq-item blocks gets FAQPage markup built from the
     questions actually on the page. AI answer engines lift Q&A pairs directly,
@@ -249,9 +363,9 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{title} | Larissa Mayfield &mdash; Real Broker, Oregon</title>
+<title>{seo_title(title)}</title>
 <meta name="description" content="{desc}">
-<meta property="og:title" content="{title} | Larissa Mayfield">
+<meta property="og:title" content="{seo_title(title)}">
 <meta property="og:description" content="{desc}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://larissamayfieldre.com/{canonical}">
@@ -259,7 +373,7 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{title} | Larissa Mayfield">
+<meta name="twitter:title" content="{seo_title(title)}">
 <meta name="twitter:description" content="{desc}">
 <meta name="twitter:image" content="{og}">
 <link rel="canonical" href="https://larissamayfieldre.com/{canonical}">
@@ -280,6 +394,7 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
 <script src="{pfx}/js/main.js?v={asset_ver("js/main.js")}"></script>
 </body>
 </html>'''
+    html = add_internal_links(html, canonical, depth)
     html = enhance_images(html, depth)
     html = add_breadcrumb_schema(html, canonical, crumbs)
     html = add_faq_schema(html)

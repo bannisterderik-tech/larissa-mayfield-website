@@ -160,8 +160,12 @@ document.addEventListener('DOMContentLoaded',function(){
         // A do-not-sell request is a compliance obligation, not a lead.
         notesParts.unshift('⚠ CCPA / DO-NOT-SELL REQUEST — DO NOT MARKET TO THIS PERSON');
       }
+      // NOTE: do not send assigned_to here. The webhook receiver ignores it
+      // (it isn't in its ACCEPTED_FIELDS), and assignment is by user UUID, not
+      // by name. Routing to Larissa happens server-side from lead_source via a
+      // lead_auto_assign_rules row — which is why the source below must keep
+      // carrying the real hostname.
       var payload={
-        assigned_to:'Larissa Mayfield',
         lead_type: isPrivacy ? 'privacy_request' : (formType==='valuation' ? 'seller' : 'buyer'),
         tags: isPrivacy ? ['privacy-request','do-not-sell','do-not-market'] : ['website',formType],
         name:fields.name||'Unknown',

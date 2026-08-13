@@ -1942,8 +1942,10 @@ def gen_listings_index():
                 f"{fmt_dec(l.get('baths'))} ba" if l.get("baths") else None,
                 f"{fmt_int(l.get('sqft'))} sq ft" if l.get("sqft") else None,
                 f"{fmt_dec(l.get('acres'))} ac" if l.get("acres") else None] if x)
-            d = f" reveal-d{(i % 3) + 1}" if i % 3 else ""
-            cards += f'''    <a class="listing-card reveal{d}" href="{l['slug']}.html">
+            # Deliberately NOT .reveal — those start at opacity:0 and only become
+            # visible when JS runs. A listing must never be invisible because a
+            # script failed, was blocked, or hadn't fired yet.
+            cards += f'''    <a class="listing-card" href="{l['slug']}.html">
       <div class="lc-img"><img src="{src}" alt="{listing_addr(l, full=False)}" loading="lazy">
         <span class="status-pill status-{l['status']}">{STATUS_LABEL.get(l['status'])}</span></div>
       <div class="lc-body">
@@ -1974,15 +1976,24 @@ def gen_listings_index():
         intro = ("When I have a property on the market it lives here &mdash; with the disclosures, "
                  "the well and septic detail, and photographs worth looking at.")
 
-    body = f'''<section class="inner-hero">
+    # No hero photograph here on purpose. This page's job is to show inventory,
+    # and a full-bleed stock image pushed the first card ~1,100px down the page
+    # — visitors landed on a generic "for sale" sign and concluded there were no
+    # listings. Compact masthead, then straight into the real photography.
+    count = len(pub)
+    counter = (f"{count} propert{'y' if count == 1 else 'ies'} on the market"
+               if count else "Between listings right now")
+    body = f'''<section class="listings-masthead">
   <div>
-    <div class="tag tag-purple reveal">Listings</div>
-    <h1 class="page-title reveal reveal-d1" style="margin-top:18px">Currently<br><em>on the market.</em></h1>
-    <p class="body-text reveal reveal-d2" style="margin-top:32px;max-width:460px">{intro}</p>
+    <div class="tag tag-purple">Listings</div>
+    <h1 class="page-title" style="margin-top:14px">Currently <em>on the market.</em></h1>
   </div>
-  <div class="parallax-wrap"><img class="parallax-img reveal" src="{stock_path('forsale', 1)}" alt="{stock_alt('forsale')}"></div>
+  <div class="lm-aside">
+    <div class="lm-count">{counter}</div>
+    <p>{intro}</p>
+  </div>
 </section>
-<section style="padding:72px 56px 96px">
+<section class="listings-section">
     {listing_block}
 </section>
 <section class="cta-dark">
@@ -1999,10 +2010,13 @@ def gen_listings_index():
 
 
 def gen_sitemap():
+    # terms/privacy/do-not-sell are intentionally absent: they carry
+    # <meta name="robots" content="noindex">, and submitting a noindex URL earns
+    # a "Submitted URL marked 'noindex'" error in Search Console. A sitemap
+    # should list only pages you actually want indexed.
     urls = ["index.html", "about.html", "sellers.html", "rural-acreage.html", "buyers.html",
             "communities/index.html", "resources.html", "testimonials.html", "contact.html",
-            "blog/index.html", "terms.html", "privacy.html", "do-not-sell.html",
-            "photo-credits.html"]
+            "blog/index.html", "photo-credits.html"]
     # An empty listings index is a thin page — keep it out of search until the
     # feature is actually surfaced on the site.
     if SHOW_LISTINGS_NAV:
@@ -2021,13 +2035,32 @@ def gen_sitemap():
     for s in SERVICES:
         urls.append(f"services/{s['slug']}.html")
 
-    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    # lastmod from the file's last real content change (git), not the build
+    # time — every page is rewritten on every run, so mtime would claim the
+    # whole site changed today and the signal would be worthless to a crawler.
+    import subprocess
+    def lastmod(rel):
+        try:
+            out = subprocess.run(["git", "log", "-1", "--format=%cs", "--", rel],
+                                 cwd=SITE, capture_output=True, text=True, timeout=10)
+            return out.stdout.strip() or None
+        except Exception:
+            return None
+
+    seen = set()
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
     for u in urls:
-        xml += f'  <url><loc>https://larissamayfieldre.com/{u}</loc></url>\n'
+        if u in seen:            # a duplicate <loc> just wastes crawl budget
+            continue
+        seen.add(u)
+        lm = lastmod(u)
+        xml += (f'  <url><loc>https://larissamayfieldre.com/{u}</loc>'
+                + (f'<lastmod>{lm}</lastmod>' if lm else '') + '</url>\n')
     xml += '</urlset>'
     with open(f"{SITE}/sitemap.xml", "w") as f:
         f.write(xml)
-    print("  ✓ sitemap.xml")
+    print(f"  ✓ sitemap.xml ({len(seen)} urls)")
 
 def gen_robots():
     with open(f"{SITE}/robots.txt", "w") as f:
@@ -2522,6 +2555,22 @@ def verify_site():
         # The accuracy disclaimer is not optional on a licensed broker's site.
         if "not guaranteed" not in flat and l.get("fact_groups"):
             errors.append(f"{page}: fact table without the buyer-to-verify disclaimer")
+
+    # 9. The sitemap must list every indexable page and nothing else.
+    #    Two failure modes, both of which have already bitten this site:
+    #    a noindex page submitted for indexing, and a real page never submitted.
+    listed = {m.group(1).split(".com/")[-1] for m in re.finditer(r"<loc>([^<]+)</loc>", sitemap)}
+    for p in pages:
+        rel = p[len(SITE) + 1:]
+        html_src = open(p).read()
+        is_noindex = 'name="robots" content="noindex' in html_src
+        if is_noindex and rel in listed:
+            errors.append(f"sitemap.xml: lists {rel}, which is noindex")
+        if not is_noindex and rel not in listed:
+            errors.append(f"sitemap.xml: missing indexable page {rel}")
+    for u in sorted(listed):
+        if not os.path.exists(f"{SITE}/{u}"):
+            errors.append(f"sitemap.xml: lists {u}, which does not exist on disk")
 
     if errors:
         print(f"\n❌ {len(errors)} problem(s):")

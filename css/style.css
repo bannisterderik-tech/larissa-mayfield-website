@@ -696,3 +696,17 @@ body.lb-open{overflow:hidden}
   .gtile img,.listing-card,.listing-card .lc-img img,.ol-card,.doc-card,
   .listing-stickybar,.mf-play{transition:none!important;transform:none!important}
 }
+
+/* --- Listings index masthead ------------------------------------------------
+   Compact by design: the grid of real properties must be reachable without
+   scrolling past a decorative hero. */
+.listings-masthead{padding:52px 56px 34px;display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:end;border-bottom:1px solid var(--rule)}
+.listings-masthead h1{font-size:clamp(38px,5.4vw,74px);line-height:.98}
+.lm-aside{padding-bottom:6px}
+.lm-count{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--purple);margin-bottom:12px}
+.lm-aside p{font-family:var(--sans);font-size:15px;line-height:1.6;color:var(--muted);max-width:420px}
+.listings-section{padding:40px 56px 96px}
+@media(max-width:1024px){
+  .listings-masthead{grid-template-columns:1fr;gap:20px;padding:36px 24px 26px;align-items:start}
+  .listings-section{padding:28px 24px 72px}
+}

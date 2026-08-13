@@ -730,3 +730,33 @@ body.lb-open{overflow:hidden}
 .mk-d{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:8px}
 @media(max-width:1024px){.market-section{padding:56px 24px}.mk-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.mk-grid{grid-template-columns:1fr}}
+
+/* --- Answer pages ----------------------------------------------------------
+   The direct answer sits above everything in a block a featured snippet or an
+   AI engine can lift whole. Sources are visible, not buried — on regulatory
+   claims that is what separates this from a content farm. */
+.answer-hero{padding:64px 56px 8px;max-width:860px;margin:0 auto}
+.answer-hero h1{font-family:var(--serif);font-size:clamp(32px,4.4vw,54px);line-height:1.06;letter-spacing:-.028em;font-weight:400;margin:14px 0 28px}
+.answer-direct{background:var(--purple);color:var(--cream);padding:32px 34px;border-radius:2px}
+.ad-label{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,239,230,.55);margin-bottom:14px}
+.answer-direct p{font-family:var(--sans);font-size:17.5px;line-height:1.65;color:var(--cream)}
+.answer-direct strong{font-weight:600}
+.answer-meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:20px;line-height:1.8}
+.answer-body{max-width:860px;margin:0 auto;padding:44px 56px 80px}
+.answer-sources{margin-top:52px;padding-top:28px;border-top:2px solid var(--purple)}
+.answer-sources h3{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--purple);margin-bottom:16px}
+.answer-sources ul{list-style:none;display:grid;gap:10px;font-family:var(--sans);font-size:14.5px}
+.answer-sources a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;transition:color .3s}
+.answer-sources a:hover{color:var(--purple)}
+.related-answers{padding:72px 56px;background:var(--cream-deep)}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.rel-card{display:block;background:var(--cream);border:1px solid var(--rule);padding:26px;transition:border-color .3s,transform .3s}
+.rel-card:hover{border-color:var(--purple);transform:translateY(-2px)}
+.rel-tag{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--purple);margin-bottom:10px}
+.rel-q{display:block;font-family:var(--serif);font-size:23px;line-height:1.2;letter-spacing:-.012em}
+.rel-a{display:block;font-family:var(--sans);font-size:13.5px;line-height:1.55;color:var(--muted);margin-top:12px}
+@media(max-width:1024px){
+  .answer-hero{padding:40px 24px 8px}.answer-body{padding:32px 24px 64px}
+  .related-answers{padding:52px 24px}.rel-grid{grid-template-columns:1fr}
+  .answer-direct{padding:26px 24px}.answer-direct p{font-size:16.5px}
+}

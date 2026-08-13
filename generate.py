@@ -266,6 +266,7 @@ def header(pfx, active=""):
         ("rural-acreage.html", "rural", "Rural &amp; Acreage"),
         ("buyers.html", "buyers", "Buyers"),
         ("communities/index.html", "communities", "Communities"),
+        ("answers/index.html", "answers", "Answers"),
         ("resources.html", "resources", "Resources"),
         ("contact.html", "contact", "Contact"),
     ]
@@ -319,6 +320,7 @@ def footer(pfx):
       <ul>
         <li><a href="{pfx}/guides/first-time-buyer-guide.html">First-Time Guide</a></li>
         <li><a href="{pfx}/guides/rural-buyer-playbook.html">Rural Playbook</a></li>
+        <li><a href="{pfx}/answers/index.html">Answers</a></li>
         <li><a href="{pfx}/blog/index.html">Blog</a></li>
         <li><a href="{pfx}/testimonials.html">Testimonials</a></li>
       </ul>
@@ -2373,6 +2375,106 @@ def gen_listings_index():
               "listings", [("listings/index.html", "LISTINGS")], body)
 
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ANSWER PAGES
+# ══════════════════════════════════════════════════════════════════════════════
+from answers_data import ANSWERS
+
+
+def gen_answer_page(a):
+    """One question, answered properly, with its sources on the page.
+
+    Layout is deliberate: the direct answer sits first, above everything, in a
+    block a featured snippet or an AI engine can lift whole. Depth follows for
+    the human who wants it. Sources are visible rather than hidden — on
+    regulatory claims that is what separates this from every content-farm page
+    on the same query.
+    """
+    body_sections = ""
+    for h, paras in a["sections"]:
+        body_sections += (f'<h2>{h}</h2>'
+                          + "".join(f"<p>{para}</p>" for para in paras))
+    srcs = "".join(
+        f'<li><a href="{url}" rel="nofollow noopener" target="_blank">{label}</a></li>'
+        for label, url in a["sources"])
+    related = "".join(
+        f'<a class="rel-card" href="{o["slug"]}.html"><span class="rel-tag">{o["tag"]}</span>'
+        f'<span class="rel-q">{o["question"]}</span></a>'
+        for o in ANSWERS if o["slug"] != a["slug"])
+
+    body = f'''<section class="answer-hero">
+  <div class="tag tag-purple">{a["tag"]}</div>
+  <h1>{a["question"]}</h1>
+  <div class="answer-direct">
+    <div class="ad-label">Short answer</div>
+    <p>{a["short_answer"]}</p>
+  </div>
+  <div class="answer-meta">Written by Larissa Mayfield, Principal Broker, Real Broker LLC
+    &middot; Oregon licence 201231874 &middot; Sources checked {a["verified"]}</div>
+</section>
+<section class="article-body answer-body">
+  {body_sections}
+  <div class="answer-sources">
+    <h3>Sources</h3>
+    <ul>{srcs}</ul>
+    <p class="fine">This is general information about Oregon requirements, not legal advice
+      and not a substitute for the county or the state. Rules change &mdash; the sources above
+      were checked on {a["verified"]}. For your specific property, ask me and I will find out.</p>
+  </div>
+</section>
+{f'<section class="related-answers"><div class="tag tag-purple">Related</div><h2 class="section-heading" style="margin:14px 0 24px">Other things worth knowing.</h2><div class="rel-grid">{related}</div></section>' if related else ""}
+<section class="cta-dark">
+  <h2>Got a property in mind?</h2>
+  <p>Send me the address and I will tell you what the county actually has on file for it
+    &mdash; well log, septic record, zoning, the lot. No charge, no pitch.</p>
+  <a href="../contact.html">ASK ME ABOUT A PROPERTY &rarr;</a>
+</section>'''
+
+    import json as _j
+    faq = _j.dumps({"@context": "https://schema.org", "@type": "FAQPage",
+                    "mainEntity": [{"@type": "Question", "name": a["question"],
+                                    "acceptedAnswer": {"@type": "Answer",
+                                        "text": re.sub(r"<[^>]+>", "", a["short_answer"])}}]
+                    }).replace("<", "\\u003c")
+    extra_head = f'<script type="application/ld+json">{faq}</script>\n'
+    make_page(f"{SITE}/answers/{a['slug']}.html", 1,
+              a["question"], a["seo_desc"], "resources",
+              [("answers/index.html", "ANSWERS"), (f"answers/{a['slug']}.html", a["tag"].upper())],
+              body, schema_type="Article", extra_head=extra_head)
+
+
+def gen_answers_index():
+    cards = "".join(
+        f'<a class="rel-card" href="{a["slug"]}.html"><span class="rel-tag">{a["tag"]}</span>'
+        f'<span class="rel-q">{a["question"]}</span>'
+        f'<span class="rel-a">{re.sub(r"<[^>]+>", "", a["short_answer"])[:150]}&hellip;</span></a>'
+        for a in ANSWERS)
+    body = f'''<section class="listings-masthead">
+  <div>
+    <div class="tag tag-purple">Answers</div>
+    <h1 class="page-title" style="margin-top:14px">Straight <em>answers.</em></h1>
+  </div>
+  <div class="lm-aside">
+    <div class="lm-count">{len(ANSWERS)} question{"s" if len(ANSWERS) != 1 else ""} answered</div>
+    <p>The questions people actually ask me about rural Oregon property &mdash; wells, septic,
+      zoning, financing &mdash; answered properly, with the statute or the county page cited so
+      you can check me.</p>
+  </div>
+</section>
+<section class="listings-section"><div class="rel-grid">{cards}</div></section>
+<section class="cta-dark">
+  <h2>Question not here?</h2>
+  <p>Ask it. If it is a good one it will probably end up on this page.</p>
+  <a href="../contact.html">ASK ME &rarr;</a>
+</section>'''
+    make_page(f"{SITE}/answers/index.html", 1,
+              "Rural Oregon Property Answers — Wells, Septic, Zoning",
+              "Straight answers on Oregon rural property: well testing law, septic records, "
+              "zoning and financing. Each answer cites the statute or county source.",
+              "resources", [("answers/index.html", "ANSWERS")], body)
+
+
 def gen_sitemap():
     # terms/privacy/do-not-sell are intentionally absent: they carry
     # <meta name="robots" content="noindex">, and submitting a noindex URL earns
@@ -2380,7 +2482,8 @@ def gen_sitemap():
     # should list only pages you actually want indexed.
     urls = ["index.html", "about.html", "sellers.html", "rural-acreage.html", "buyers.html",
             "communities/index.html", "resources.html", "testimonials.html", "contact.html",
-            "blog/index.html", "photo-credits.html"]
+            "blog/index.html", "photo-credits.html", "answers/index.html"]
+    urls += [f"answers/{a['slug']}.html" for a in ANSWERS]
     # An empty listings index is a thin page — keep it out of search until the
     # feature is actually surfaced on the site.
     if SHOW_LISTINGS_NAV:
@@ -3047,6 +3150,7 @@ if __name__ == "__main__":
     os.makedirs(f"{SITE}/guides", exist_ok=True)
     os.makedirs(f"{SITE}/services", exist_ok=True)
     os.makedirs(f"{SITE}/listings", exist_ok=True)
+    os.makedirs(f"{SITE}/answers", exist_ok=True)
 
     print("Generating pages...")
     print("\n── Core Pages ──")
@@ -3059,6 +3163,11 @@ if __name__ == "__main__":
     gen_resources()
     gen_testimonials()
     gen_contact()
+
+    print("\n── Answers ──")
+    gen_answers_index()
+    for a in ANSWERS:
+        gen_answer_page(a)
 
     print("\n── Listings ──")
     gen_listings_index()

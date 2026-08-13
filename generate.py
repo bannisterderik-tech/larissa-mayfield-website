@@ -357,7 +357,7 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
     # Listing pages pass their hero photo so a shared link previews the house
     # rather than the generic brand card.
     og = og_image or "https://larissamayfieldre.com/images/og-share.jpg"
-    schema = f'''{{"@context":"https://schema.org","@type":"{schema_type}","name":"{title}","description":"{desc}","url":"https://larissamayfieldre.com/{canonical}","author":{{"@type":"RealEstateAgent","name":"Larissa Mayfield","telephone":"541-784-7745","email":"larissa@theoperativegroup.com","url":"https://larissamayfieldre.com","areaServed":[{{"@type":"City","name":"Veneta, Oregon"}},{{"@type":"City","name":"Elmira, Oregon"}},{{"@type":"AdministrativeArea","name":"Lane County, Oregon"}},{{"@type":"AdministrativeArea","name":"Linn County, Oregon"}},{{"@type":"AdministrativeArea","name":"Benton County, Oregon"}},{{"@type":"AdministrativeArea","name":"Douglas County, Oregon"}}]}}{extra_schema}}}'''
+    schema = f'''{{"@context":"https://schema.org","@type":"{schema_type}","name":"{title}","description":"{desc}","url":"https://larissamayfieldre.com/{canonical}","author":{{"@type":"RealEstateAgent","name":"Larissa Mayfield","telephone":"541-784-7745","email":"larissa@theoperativegroup.com","url":"https://larissamayfieldre.com","sameAs":["https://www.zillow.com/profile/LarissaMayfield","https://www.facebook.com/MayfieldRE/","https://www.youtube.com/@eugeneoregonrealtor"],"knowsAbout":["Rural and acreage real estate","Wells and septic systems","Oregon land use zoning","USDA and Oregon Bond financing","Lane County Oregon real estate"],"hasCredential":{{"@type":"EducationalOccupationalCredential","credentialCategory":"Real Estate Broker License","recognizedBy":{{"@type":"Organization","name":"Oregon Real Estate Agency"}},"identifier":"201231874"}},"worksFor":{{"@type":"Organization","name":"Real Broker, LLC"}},"areaServed":[{{"@type":"City","name":"Veneta, Oregon"}},{{"@type":"City","name":"Elmira, Oregon"}},{{"@type":"AdministrativeArea","name":"Lane County, Oregon"}},{{"@type":"AdministrativeArea","name":"Linn County, Oregon"}},{{"@type":"AdministrativeArea","name":"Benton County, Oregon"}},{{"@type":"AdministrativeArea","name":"Douglas County, Oregon"}}]}}{extra_schema}}}'''
     html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1538,21 +1538,11 @@ def gen_testimonials():
   <p>Let&rsquo;s talk about your goals and how I can help.</p>
   <a href="contact.html">SCHEDULE A CALL &rarr;</a>
 </section>'''
-    import json as _j
-    reviews = [{"@type": "Review",
-                "author": {"@type": "Person", "name": re.sub(r"&[a-z]+;", "&", t[0])},
-                "reviewRating": {"@type": "Rating", "ratingValue": 5, "bestRating": 5},
-                "reviewBody": re.sub(r"&[a-z]+;", "'", t[2])[:500],
-                "itemReviewed": {"@type": "RealEstateAgent", "name": "Larissa Mayfield"}}
-               for t in TESTIMONIALS]
-    review_schema = ',"aggregateRating":' + _j.dumps({
-        "@type": "AggregateRating", "ratingValue": 5, "bestRating": 5,
-        "reviewCount": len(TESTIMONIALS)}) + ',"review":' + _j.dumps(reviews)
     make_page(f"{SITE}/testimonials.html", 0,
         "Client Testimonials — Larissa Mayfield Reviews",
         "Read reviews from Larissa Mayfield's real estate clients in Oregon. Verified testimonials from buyers, sellers, and rural property transactions.",
         "testimonials", [("testimonials.html", "TESTIMONIALS")], body,
-        schema_type="RealEstateAgent", extra_schema=review_schema)
+        schema_type="RealEstateAgent")
 
 def gen_contact():
     body = f'''<section class="inner-hero">

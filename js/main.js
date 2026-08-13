@@ -265,6 +265,23 @@ document.addEventListener('DOMContentLoaded', function(){
     }, {passive:true});
   }
 
+  /* --- Gallery expand ------------------------------------------------------
+     The extra tiles are already in the DOM (so they're in the page source for
+     crawlers and work with the lightbox immediately) — this just unhides them. */
+  document.querySelectorAll('[data-gallery-more]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var grid = btn.closest('.listing-gallery').querySelector('.ggrid');
+      var hidden = grid.querySelectorAll('.gtile.is-hidden');
+      if(!hidden.length) return;
+      var first = hidden[0];
+      hidden.forEach(function(t){ t.classList.remove('is-hidden'); });
+      btn.parentNode.remove();
+      // Land the viewport on the first newly revealed row rather than leaving
+      // the reader stranded where the button used to be.
+      if(first.scrollIntoView) first.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+  });
+
   /* --- Payment estimator ---------------------------------------------------
      Standard amortisation. Deliberately not persisted or transmitted — it is a
      back-of-envelope tool, and the disclaimer on the page says so. */

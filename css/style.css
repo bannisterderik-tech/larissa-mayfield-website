@@ -442,11 +442,21 @@ input,textarea,button,select{font-family:inherit}
    goes tall, which reads as an edit rather than a camera dump. */
 .listing-gallery{padding:88px 56px}
 .lg-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:32px;flex-wrap:wrap}
-.gmosaic{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:12px}
-.gtile{position:relative;overflow:hidden;cursor:zoom-in;background:var(--cream-deep)}
-.gtile.wide{grid-column:span 2}
-.gtile.tall{grid-row:span 2}
+/* Uniform 3:2 tiles. Every photo gets the same weight and the same crop, so
+   the grid reads as one considered set rather than a collage. */
+.ggrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.gtile{position:relative;overflow:hidden;cursor:zoom-in;background:var(--cream-deep);aspect-ratio:3/2}
+.gtile.is-hidden{display:none}
 .gtile img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+
+/* Expand control */
+.gallery-more-wrap{display:flex;justify-content:center;margin-top:28px}
+.gallery-more{display:inline-flex;align-items:center;gap:14px;background:transparent;border:1px solid var(--rule);
+  padding:16px 30px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink);cursor:pointer;transition:border-color .3s,background .3s,color .3s}
+.gallery-more:hover{border-color:var(--purple);background:var(--purple);color:var(--cream)}
+.gallery-more .gm-count{font-size:11px;letter-spacing:.1em;color:var(--muted);transition:color .3s}
+.gallery-more:hover .gm-count{color:rgba(244,239,230,.7)}
 .gtile:hover img{transform:scale(1.045)}
 .gtile figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 12px;background:linear-gradient(transparent,rgba(31,18,38,.8));color:var(--cream);font-family:var(--sans);font-size:12.5px;line-height:1.4;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s}
 .gtile:hover figcaption,.gtile:focus-within figcaption{opacity:1;transform:translateY(0)}
@@ -644,9 +654,7 @@ body.lb-open{overflow:hidden}
   .lh-content{left:24px;right:24px;bottom:32px;grid-template-columns:1fr;gap:28px}
   .fact-cols,.feat-cols,.ru-grid,.doc-grid,.ol-grid,.listings-grid{grid-template-columns:1fr 1fr}
   .calc-section,.loc-grid,.showing-grid,.media-grid:has(.media-frame):has(.media-facade){grid-template-columns:1fr}
-  .gmosaic{grid-template-columns:repeat(2,1fr);grid-auto-rows:200px}
-  .gtile.wide{grid-column:span 2}
-  .gtile.tall{grid-row:span 1}
+  .ggrid{grid-template-columns:repeat(3,1fr)}
 }
 @media(max-width:768px){
   .listing-hero{height:min(72vh,560px)}
@@ -661,8 +669,7 @@ body.lb-open{overflow:hidden}
   .lsb-cta{padding:10px 14px;font-size:10px}
   .fact-cols,.feat-cols,.ru-grid,.doc-grid,.ol-grid,.listings-grid,.calc-grid,.sf-two,
   .hl-grid,.calc-out{grid-template-columns:1fr}
-  .gmosaic{grid-template-columns:1fr;grid-auto-rows:240px}
-  .gtile.wide,.gtile.tall{grid-column:auto;grid-row:auto}
+  .ggrid{grid-template-columns:repeat(2,1fr);gap:8px}
   .agent-card{grid-template-columns:1fr}
   .agent-card img{aspect-ratio:3/2;height:auto}
   .oh-row{grid-template-columns:1fr;gap:8px}
@@ -687,7 +694,9 @@ body.lb-open{overflow:hidden}
   .rural-panel,.calc-section{background:#fff!important;color:#000!important}
   .rural-panel *,.calc-section *{color:#000!important}
   .ru-item{background:#fff;border:1px solid #ccc}
-  .gmosaic{grid-template-columns:repeat(3,1fr);grid-auto-rows:150px}
+  .ggrid{grid-template-columns:repeat(3,1fr)}
+  .gtile.is-hidden{display:block}
+  .gallery-more-wrap{display:none}
   section{page-break-inside:avoid;padding:16px 0!important}
 }
 

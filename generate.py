@@ -20,6 +20,17 @@ def prefix(depth):
     if depth == 0: return "."
     return "/".join([".."] * depth)
 
+# Cache-bust CSS/JS by content hash. Without this, a returning visitor keeps the
+# stylesheet and script the browser cached last time — so a deploy that changes
+# the calculator colour or adds a gallery control simply doesn't reach them.
+_ASSET_VER = {}
+def asset_ver(rel):
+    if rel not in _ASSET_VER:
+        import hashlib
+        with open(f"{SITE}/{rel}", "rb") as f:
+            _ASSET_VER[rel] = hashlib.md5(f.read()).hexdigest()[:8]
+    return _ASSET_VER[rel]
+
 def header(pfx, active=""):
     links = [
         ("about.html", "about", "About"),
@@ -145,7 +156,7 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{pfx}/css/style.css">
+<link rel="stylesheet" href="{pfx}/css/style.css?v={asset_ver("css/style.css")}">
 <script type="application/ld+json">{schema}</script>
 {extra_head}</head>
 <body>
@@ -153,7 +164,7 @@ def make_page(path, depth, title, desc, active, crumbs, body, schema_type="WebPa
 {breadcrumb(pfx, crumbs) if crumbs else ""}
 {body}
 {footer(pfx)}
-<script src="{pfx}/js/main.js"></script>
+<script src="{pfx}/js/main.js?v={asset_ver("js/main.js")}"></script>
 </body>
 </html>'''
     os.makedirs(os.path.dirname(path) if "/" in path[len(SITE)+1:] else SITE, exist_ok=True)
@@ -1596,15 +1607,25 @@ def gen_listing_page(l):
         [{"src": s, "alt": a, "cap": c or ""} for s, a, c in photos]
     ).replace("<", "\\u003c")
     if len(photos) > 1:
+        # Uniform tiles, every one the same 3:2 crop — a property gallery reads
+        # as a considered set, not a ransom note. Only the first GALLERY_PREVIEW
+        # are in the initial view; the rest ship in the HTML (so they are in the
+        # page source for crawlers) but are display:none until expanded.
+        GALLERY_PREVIEW = 12
+        rest = photos[1:]
         tiles = ""
-        for i, (src, alt, cap) in enumerate(photos[1:], start=1):
-            # A 5-tile repeating rhythm keeps the grid from reading as a
-            # uniform contact sheet the way every other listing page does.
-            cls = " wide" if i % 5 == 1 else (" tall" if i % 5 == 3 else "")
-            tiles += (f'<figure class="gtile{cls}" data-lightbox-open="{i}">'
+        for i, (src, alt, cap) in enumerate(rest, start=1):
+            hidden = " is-hidden" if i > GALLERY_PREVIEW else ""
+            tiles += (f'<figure class="gtile{hidden}" data-lightbox-open="{i}">'
                       f'<img src="{src}" alt="{alt}" loading="lazy">'
                       + (f'<figcaption>{cap}</figcaption>' if cap else '')
                       + '</figure>')
+        more = ""
+        if len(rest) > GALLERY_PREVIEW:
+            more = (f'<div class="gallery-more-wrap">'
+                    f'<button class="gallery-more" type="button" data-gallery-more '
+                    f'data-total="{len(photos)}">Show all {len(photos)} photos'
+                    f'<span class="gm-count">+{len(rest) - GALLERY_PREVIEW} more</span></button></div>')
         S.append(f'''<section class="listing-gallery" id="gallery" data-photos="{len(photos)}">
   <script type="application/json" id="galleryPhotos">{gallery_data}</script>
   <div class="lg-head">
@@ -1612,9 +1633,10 @@ def gen_listing_page(l):
       <div class="tag tag-purple">Gallery</div>
       <h2 class="section-heading" style="margin-top:12px">See it properly.</h2>
     </div>
-    <button class="btn-link" type="button" data-lightbox-open="0">View all {len(photos)} photos &rarr;</button>
+    <button class="btn-link" type="button" data-lightbox-open="0">Open full screen &rarr;</button>
   </div>
-  <div class="gmosaic">{tiles}</div>
+  <div class="ggrid">{tiles}</div>
+  {more}
 </section>''')
     else:
         S.append(f'<script type="application/json" id="galleryPhotos">{gallery_data}</script>')

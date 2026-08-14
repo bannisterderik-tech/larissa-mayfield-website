@@ -1,9 +1,14 @@
 # Listing build notes — 13 Aug 2026
 
 Five listing pages built from the RMLS input forms and photo sets in the
-"Active Listings" Google Drive folder. **All five are `status: "draft"`** —
-noindex, kept out of the sitemap and the listings index, and carrying a red
-PREVIEW banner. Larissa checks each against her sheet, then we flip to `active`.
+"Active Listings" Google Drive folder.
+
+> **Status update — 14 Aug 2026: all five are now `status: "active"`.**
+> `SHOW_LISTINGS_NAV` is `True`, the Listings nav item is live, and all five
+> plus the index are in the sitemap. The only remaining draft is the
+> `1234-example-road` template placeholder. The "To publish" checklist at the
+> bottom of this file has been carried out — it is kept for reference on the
+> next listing, not as outstanding work.
 
 ## What each page was built from
 
@@ -91,7 +96,7 @@ market a while.**
 - **No rural panel on Faulhaber** despite the acreage — that section is only
   honest when the well/septic/zoning facts are in hand. See item 4.
 
-## To publish
+## To publish (done for these five — the recipe for the next one)
 
 1. Larissa confirms the facts on each page and fills the gaps above.
 2. Update `listings_data.py`, set `status: "active"`.

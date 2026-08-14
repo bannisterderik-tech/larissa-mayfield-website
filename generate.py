@@ -2382,6 +2382,10 @@ def gen_listings_index():
 # ══════════════════════════════════════════════════════════════════════════════
 from answers_data import ANSWERS
 
+# How many "related" cards an answer page links to. Same-tag questions fill the
+# slots first. See gen_answer_page.
+RELATED_MAX = 6
+
 
 def gen_answer_page(a):
     """One question, answered properly, with its sources on the page.
@@ -2399,10 +2403,17 @@ def gen_answer_page(a):
     srcs = "".join(
         f'<li><a href="{url}" rel="nofollow noopener" target="_blank">{label}</a></li>'
         for label, url in a["sources"])
+    # Same-tag answers first, then the rest, capped. Linking every other answer
+    # from every answer was fine at two pages and is noise at fifty: it buries
+    # the genuinely related question and spreads internal link equity evenly
+    # over pages that have nothing to do with each other.
+    others = [o for o in ANSWERS if o["slug"] != a["slug"]]
+    same_tag = [o for o in others if o["tag"] == a["tag"]]
+    rest = [o for o in others if o["tag"] != a["tag"]]
     related = "".join(
         f'<a class="rel-card" href="{o["slug"]}.html"><span class="rel-tag">{o["tag"]}</span>'
         f'<span class="rel-q">{o["question"]}</span></a>'
-        for o in ANSWERS if o["slug"] != a["slug"])
+        for o in (same_tag + rest)[:RELATED_MAX])
 
     body = f'''<section class="answer-hero">
   <div class="tag tag-purple">{a["tag"]}</div>
@@ -2439,18 +2450,41 @@ def gen_answer_page(a):
                                         "text": re.sub(r"<[^>]+>", "", a["short_answer"])}}]
                     }).replace("<", "\\u003c")
     extra_head = f'<script type="application/ld+json">{faq}</script>\n'
+    # A long question survives seo_title() as a dangling clause — "…do I owe" —
+    # because that helper only guarantees it won't split a word. Any answer
+    # whose question runs past the title budget carries an explicit `title`
+    # instead. The <h1> always stays the full question.
     make_page(f"{SITE}/answers/{a['slug']}.html", 1,
-              a["question"], a["seo_desc"], "resources",
+              a.get("title", a["question"]), a["seo_desc"], "resources",
               [("answers/index.html", "ANSWERS"), (f"answers/{a['slug']}.html", a["tag"].upper())],
               body, schema_type="Article", extra_head=extra_head)
 
 
 def gen_answers_index():
-    cards = "".join(
-        f'<a class="rel-card" href="{a["slug"]}.html"><span class="rel-tag">{a["tag"]}</span>'
-        f'<span class="rel-q">{a["question"]}</span>'
-        f'<span class="rel-a">{re.sub(r"<[^>]+>", "", a["short_answer"])[:150]}&hellip;</span></a>'
-        for a in ANSWERS)
+    """Grouped by topic, not one flat wall of cards.
+
+    A reader arriving here has a septic question or a zoning question, not a
+    general curiosity, so the page is organised the way the questions arrive.
+    Tag order follows ANSWERS rather than being alphabetised — the sequence in
+    the data file is the editorial judgement about what matters most.
+    """
+    by_tag = {}
+    for a in ANSWERS:
+        by_tag.setdefault(a["tag"], []).append(a)
+
+    def card(a):
+        return (f'<a class="rel-card" href="{a["slug"]}.html">'
+                f'<span class="rel-tag">{a["tag"]}</span>'
+                f'<span class="rel-q">{a["question"]}</span>'
+                f'<span class="rel-a">'
+                f'{re.sub(r"<[^>]+>", "", a["short_answer"])[:150]}&hellip;</span></a>')
+
+    groups = ""
+    for tag, items in by_tag.items():
+        groups += (f'<h2 class="section-heading" style="margin:44px 0 20px">{tag}'
+                   f' <span class="fine">&middot; {len(items)}</span></h2>'
+                   f'<div class="rel-grid">{"".join(card(a) for a in items)}</div>')
+
     body = f'''<section class="listings-masthead">
   <div>
     <div class="tag tag-purple">Answers</div>
@@ -2463,7 +2497,7 @@ def gen_answers_index():
       you can check me.</p>
   </div>
 </section>
-<section class="listings-section"><div class="rel-grid">{cards}</div></section>
+<section class="listings-section">{groups}</section>
 <section class="cta-dark">
   <h2>Question not here?</h2>
   <p>Ask it. If it is a good one it will probably end up on this page.</p>

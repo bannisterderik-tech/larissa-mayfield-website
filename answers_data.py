@@ -1153,4 +1153,112 @@ ANSWERS = [
             "the state. Fern Ridge and Long Tom context.",
     },
 
+    {
+        "slug": "rainwater-collection-oregon",
+        "question": "Is it legal to collect rainwater in Oregon?",
+        "title": "Rainwater Collection in Oregon",
+        "nav_label": "Collecting rainwater",
+        "tag": "Rainwater",
+        "verified": "14 August 2026",
+        "short_answer":
+            "Yes. This is one of the most persistent bits of misinformation in rural property "
+            "&mdash; people are thinking of Colorado's old rule, not Oregon's. ORS 537.141(1)(h) "
+            "puts <em>\"the collection of precipitation water from an artificial impervious "
+            "surface and the use of such water\"</em> on the list of uses that require "
+            "<strong>no water right application, permit or certificate</strong>. \"Artificial "
+            "impervious surface\" means a roof, in practice. The exemption turns on the water "
+            "never touching the ground between the sky and the tank &mdash; catch it off a roof "
+            "and you are exempt; divert it out of a creek, a pond or a ditch and you are in water "
+            "right territory, which is an entirely different body of law. What <em>can</em> "
+            "require a permit is the plumbing, and that depends on how you use it.",
+        "sections": [
+            ("Where the myth comes from, and why it matters here", [
+                "Colorado restricted residential rainwater capture for years on prior "
+                "appropriation grounds, it made national news, and the story stuck to the whole "
+                "West. Oregon is not that state on this question and never has been.",
+                "It matters because west Lane County has real water problems and rainwater is a "
+                "real answer to some of them. On a parcel where the well is marginal, or where a "
+                "site evaluation is pending and you need irrigation now, being wrongly convinced "
+                "the option is illegal costs you a genuinely useful supply.",
+            ]),
+            ("The line that actually defines the exemption", [
+                "The exempt category is <strong>precipitation from an artificial impervious "
+                "surface</strong>. Two conditions do all the work: it has to be precipitation "
+                "&mdash; rain or snow &mdash; and it has to be collected off a built surface "
+                "before it reaches the soil.",
+                "Once water has hit the ground it is surface water or ground water, and Oregon "
+                "regulates both. That is the whole distinction. A roof, gutters and a downspout "
+                "into a cistern sit comfortably inside the exemption. A swale collecting runoff "
+                "off the pasture into a pond does not, and neither does a pipe into the creek.",
+                "The exemption is not limited to houses, and it is not capped at some hobby "
+                "volume. A barn roof and a shop roof are artificial impervious surfaces too, and "
+                "on an Oregon winter they produce a serious quantity of water.",
+            ]),
+            ("When you need a plumbing permit", [
+                "This is where the actual regulation lives, and it keys on <strong>what the water "
+                "touches</strong>, not on whether you may collect it.",
+                "<strong>Exterior only, non-potable &mdash; generally no plumbing permit.</strong> "
+                "Gutters into a tank, tank to a hose or a drip line for irrigation, everything "
+                "outside the building. This is the ordinary case and it is the easy one.",
+                "<strong>Plumbed into the building &mdash; plumbing permit.</strong> The moment "
+                "components, piping or fittings connect to plumbing or drainage inside a "
+                "structure, you are permitted. Flushing toilets and supplying a washing machine "
+                "are the common versions. That work falls under the Oregon Plumbing Specialty "
+                "Code's <strong>Chapter 16, Nonpotable Rainwater Catchment Systems</strong>, "
+                "which brings requirements like backflow prevention and labelling the tank and "
+                "outlets so nobody mistakes it for drinking water.",
+                "<strong>Drinking water &mdash; a considerably higher bar.</strong> Potable "
+                "rainwater is allowed, but the system has to be designed by a licensed or "
+                "registered design professional and permitted through your local building "
+                "department, under <strong>Appendix K, Potable Rainwater Catchment Systems</strong>. "
+                "This is an engineered system with treatment, not a barrel with a tap.",
+            ]),
+            ("Check which code edition is in force", [
+                "The current version is the <strong>2023 Oregon Plumbing Specialty Code</strong>, "
+                "effective 1 October 2023 and based on the 2021 Uniform Plumbing Code, adopting "
+                "chapters 1&ndash;11 and 13&ndash;17 plus appendices A, B, C, D, E, K and M.",
+                "The State Plumbing Board has the <strong>2026 edition</strong> in the adoption "
+                "process, with an anticipated effective date of <strong>1 October 2026</strong>. "
+                "That is close enough to matter: if you are designing a system this autumn, "
+                "confirm which edition your permit will be reviewed under before you buy "
+                "equipment.",
+                "Local jurisdictions administer this. Lane County Land Management, or the city "
+                "building department if you are inside city limits, is who actually issues the "
+                "permit and answers the specific question.",
+            ]),
+            ("What it is realistically good for around here", [
+                "Western Oregon's problem is not annual rainfall, it is timing &mdash; a very wet "
+                "winter and a dry summer. Rainwater harvesting is fundamentally a storage play: "
+                "you are moving February water into August, and the tank, not the roof, is the "
+                "binding constraint.",
+                "For irrigation, stock water, a shop, or reducing summer draw on a tired well, it "
+                "does real work with no water right and usually no permit. As a whole-house "
+                "potable supply it is a serious engineered project, and on most parcels a well is "
+                "still the sensible primary source.",
+                "One practical note for buyers: an existing cistern setup on a property is worth "
+                "asking about rather than ignoring. Find out what it is plumbed to, whether "
+                "anything was permitted, and whether it is connected to the potable system &mdash; "
+                "because an unpermitted cross-connection to drinking water is a real problem, and "
+                "it is one you would rather find before closing.",
+            ]),
+        ],
+        "sources": [
+            ("ORS 537.141 &mdash; Uses of water not requiring water right application, permit "
+             "or certificate",
+             "https://oregon.public.law/statutes/ors_537.141"),
+            ("Oregon Building Codes Division &mdash; Oregon Plumbing Specialty Code adoption",
+             "https://www.oregon.gov/bcd/codes-stand/pages/opsc-adoption.aspx"),
+            ("Oregon Plumbing Specialty Code &mdash; Appendix K, Potable Rainwater Catchment "
+             "Systems",
+             "https://up.codes/viewer/oregon/upc-2021/chapter/K/potable-rainwater-catchment-systems"),
+            ("OSU Extension EM 9448 &mdash; Rainwater harvesting in tanks or cisterns: Oregon "
+             "regulations",
+             "https://extension.oregonstate.edu/catalog/em-9448-rainwater-harvesting-tanks-or-cisterns-oregon-regulations"),
+        ],
+        "seo_desc":
+            "Collecting rainwater is legal in Oregon — ORS 537.141 exempts precipitation caught "
+            "from a roof from the water right system. When a plumbing permit is required, the "
+            "potable vs non-potable rules, and which code edition applies.",
+    },
+
 ]

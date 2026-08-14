@@ -682,4 +682,475 @@ ANSWERS = [
             "and why it is not the same as the assessor's tax classification.",
     },
 
+    {
+        "slug": "septic-site-evaluation-bare-land-oregon",
+        "question": "How do I find out if bare land will pass for a septic system?",
+        "title": "Septic Site Evaluation on Bare Land",
+        "nav_label": "Site evaluation on bare land",
+        "tag": "Septic",
+        "verified": "14 August 2026",
+        "short_answer":
+            "You apply for a <strong>site evaluation</strong>. Under OAR 340-071-0150 it is the "
+            "required first step before anyone can issue a construction-installation permit for a "
+            "new system &mdash; you cannot get the permit without a site evaluation report finding "
+            "the site suitable. You dig test pits and the county reads the soil in them. The state "
+            "rule calls for at least two pits roughly 75 feet apart within the proposed system "
+            "area including the repair area; <strong>Lane County asks for at least two and "
+            "prefers three, 50 to 100 feet apart</strong>, each two feet wide, four feet long and "
+            "five feet deep, stepped or ramped at one end so an inspector can walk in safely. What "
+            "decides the outcome is soil type, soil depth and depth to the water table.",
+        "sections": [
+            ("Why this is the whole ballgame on bare land", [
+                "A parcel with no septic approval is not a homesite yet. It is a bet. Price, "
+                "views, road frontage and zoning are all irrelevant if the ground will not accept "
+                "a drainfield, and around Veneta, Elmira and the Fern Ridge flats the water table "
+                "is the thing that most often says no.",
+                "This is why \"buildable lot\" in a listing deserves a follow-up question rather "
+                "than a nod. Ask whether there is an approved site evaluation on file, and ask to "
+                "see it.",
+            ]),
+            ("What the county is actually looking at", [
+                "<strong>Soil type and depth.</strong> How much usable soil sits above whatever "
+                "stops water &mdash; bedrock, hardpan, heavy clay.",
+                "<strong>Depth to the water table.</strong> The one that catches valley-floor "
+                "parcels. A site that looks bone dry in August can have water eighteen inches down "
+                "in February, and the winter condition is the one that governs.",
+                "<strong>Everything around it.</strong> Slope, parcel size, and distance to wells, "
+                "streams, cuts, fills and property lines. Lane County's setbacks run 100 to 150 "
+                "feet from wells and surface water, 50 to 100 feet from intermittent streams, and "
+                "20 to 30 feet from property lines and foundations. On a small or awkward parcel "
+                "the setbacks alone can eliminate every candidate area.",
+            ]),
+            ("What you have to do", [
+                "Submit the application with the fee and a plot plan showing your proposed test "
+                "pit locations, the wells, the property lines and all existing and proposed "
+                "development.",
+                "Dig the pits where the system would actually go &mdash; including the repair "
+                "area, which people forget. The county needs to approve a place for the "
+                "replacement system too, not just the first one.",
+                "Then tell the county the pits are ready, put the green card with your site "
+                "inspection number somewhere visible from the road, keep open pits covered so "
+                "nobody and nothing falls in, and backfill once the evaluation is done.",
+                "One more: do not regrade, fill or drive over the drainfield area after approval. "
+                "Compaction and fill can undo the approval you just paid for.",
+            ]),
+            ("Timing, and the mistake that costs a year", [
+                "Soil evaluation depends on reading the water table, so the wet season is often "
+                "the informative time to look. That is a scheduling problem, not a technicality "
+                "&mdash; a buyer who waits until spring to start can lose the window and end up "
+                "waiting.",
+                "If you are buying bare land, make the site evaluation a condition of the sale "
+                "with enough inspection period to actually complete it, or accept that you are "
+                "buying the risk. Those are the two honest options. Closing first and evaluating "
+                "afterward is how people end up owning ground they cannot build on.",
+            ]),
+        ],
+        "sources": [
+            ("OAR 340-071-0150 &mdash; Site Evaluation Procedures",
+             "https://oregon.public.law/rules/oar_340-071-0150"),
+            ("Lane County &mdash; Test Pit Information",
+             "https://www.lanecounty.org/government/county_departments/public_works/land_management_division/on-_site_wastewater/test_pit_information"),
+            ("OAR 340-071-0130 &mdash; General Standards, Prohibitions and Requirements",
+             "https://oregon.public.law/rules/oar_340-071-0130"),
+            ("Oregon DEQ &mdash; Onsite Wastewater Treatment System Rules (OAR 340-071/073)",
+             "https://www.oregon.gov/deq/Residential/Documents/OAR340-071-073.pdf"),
+        ],
+        "seo_desc":
+            "A septic site evaluation is the required first step before a permit on Oregon bare "
+            "land. Lane County test pit requirements, the setbacks that eliminate small parcels, "
+            "and why the water table decides it.",
+    },
+
+    {
+        "slug": "farm-dwelling-income-test-oregon",
+        "question": "How much farm income do I need to build a farm dwelling?",
+        "title": "Oregon Farm Dwelling Income Test",
+        "nav_label": "The farm income test",
+        "tag": "Land use",
+        "verified": "14 August 2026",
+        "short_answer":
+            "On <strong>high-value farmland</strong> the tract must have produced at least "
+            "<strong>$80,000</strong> in gross annual income from the sale of farm products. On "
+            "land <strong>not</strong> identified as high-value farmland the figure is "
+            "<strong>$40,000</strong> &mdash; or the midpoint of the county's median income range "
+            "from the 1992 Census of Agriculture, whichever applies. Either threshold has to be "
+            "met in each of the last two years, or in three of the last five years, or as an "
+            "average of three of the last five. The counting is strict: the cost of purchased "
+            "livestock comes off the top, only income from land you <em>own</em> counts &mdash; "
+            "not leased or rented ground &mdash; and income already used to qualify another "
+            "dwelling cannot be used again.",
+        "sections": [
+            ("Note which number goes with which land", [
+                "It reads backwards to most people, so it is worth stating twice: the "
+                "<strong>higher</strong> bar, $80,000, applies to <strong>high-value</strong> "
+                "farmland. The $40,000 figure is for ground that is not high-value.",
+                "The logic follows from what the rules are protecting. The better the soil, the "
+                "more the state wants proof that a house on it is genuinely serving a working farm "
+                "rather than a rural homesite with a hobby attached.",
+            ]),
+            ("Gross, but not as gross as you would like", [
+                "It is gross income from the sale of farm products, not net &mdash; you are not "
+                "deducting your expenses. But three limits do real damage to the arithmetic:",
+                "<strong>Purchased livestock comes off.</strong> Buy calves for $30,000 and sell "
+                "them for $50,000 and you have contributed $20,000, not $50,000. This ends most "
+                "quick paths to a qualifying number.",
+                "<strong>Owned land only.</strong> Income earned off leased or rented ground does "
+                "not count toward your tract. Farming 200 leased acres does not qualify your 40.",
+                "<strong>No double-dipping.</strong> Gross farm income already used to qualify "
+                "another parcel's dwelling cannot be reused for this one.",
+            ]),
+            ("The years matter as much as the money", [
+                "One outstanding year does not do it. You need each of the last two years, or "
+                "three of the last five, or an average across three of the last five.",
+                "That means this is a multi-year project rather than a box to tick before an "
+                "application. If building a farm dwelling is the plan, the income record has to be "
+                "built first &mdash; deliberately, with documentation, in the name of the tract.",
+                "Keep the paperwork as you go: Schedule F, sales receipts, settlement sheets. The "
+                "county will want to see it, and reconstructing four-year-old cash sales at the "
+                "hay barn is not a thing that can be done.",
+            ]),
+            ("If the income is not there", [
+                "Then the farm dwelling route is not your route, and the honest move is to find "
+                "out which one is &mdash; before you buy, not after. A lot of record dwelling "
+                "turns on the 1 January 1985 ownership test. Forest ground has its own template "
+                "dwelling test. Replacement dwellings have their own rules again.",
+                "Ask the county planner assigned to your parcel which route, if any, is open. It "
+                "is one phone call and it is the difference between land you can live on and land "
+                "you can look at.",
+            ]),
+        ],
+        "sources": [
+            ("OAR 660-033-0135 &mdash; Dwellings in Conjunction with Farm Use",
+             "https://oregon.public.law/rules/oar_660-033-0135"),
+            ("ORS 215.213 &mdash; Uses permitted in exclusive farm use zones in counties that "
+             "adopted marginal lands system prior to 1993",
+             "https://oregon.public.law/statutes/ors_215.213"),
+            ("ORS 215.283 &mdash; Uses permitted in exclusive farm use zones in nonmarginal "
+             "lands counties",
+             "https://oregon.public.law/statutes/ors_215.283"),
+            ("Lane County &mdash; Farm Dwellings handout (Land Management Division)",
+             "https://www.lanecounty.org/government/county_departments/public_works/land_management_division"),
+        ],
+        "seo_desc":
+            "Oregon farm dwelling income test: $80,000 gross farm income on high-value farmland, "
+            "$40,000 on land that is not. The year requirements, why purchased livestock is "
+            "deducted, and why leased ground does not count.",
+    },
+
+    {
+        "slug": "partition-acreage-oregon",
+        "question": "Can I split my acreage and sell off a piece?",
+        "title": "Partitioning Acreage in Oregon",
+        "nav_label": "Splitting acreage",
+        "tag": "Land use",
+        "verified": "14 August 2026",
+        "short_answer":
+            "Maybe, and the first thing to get straight is which process you are in. Under ORS "
+            "92.010 dividing a tract into <strong>two or three parcels within one calendar "
+            "year</strong> is a <strong>partition</strong>; producing <strong>four or more</strong> "
+            "units makes it a <strong>subdivision</strong>, with substantially heavier "
+            "requirements. The count is by calendar year across all divisions of that tract, so "
+            "you cannot take three this year and call next year's fourth a fresh partition of the "
+            "same ground without consequence. On top of Chapter 92, resource zoning applies its "
+            "own minimum parcel sizes &mdash; and on EFU or forest ground those minimums are "
+            "usually what actually stops the split, not the partition process.",
+        "sections": [
+            ("Partition or subdivision", [
+                "A partition creates parcels. A subdivision creates lots. The words are not "
+                "decorative &mdash; they select which body of law and which county process you are "
+                "subject to, and partitions are meaningfully less burdensome.",
+                "The line is drawn by counting the units produced by one or more divisions of the "
+                "same tract in a single calendar year: three or fewer are parcels, four or more "
+                "are lots.",
+            ]),
+            ("Zoning is the harder gate", [
+                "Chapter 92 tells you the procedure. Your zone tells you whether there is anything "
+                "to procedure about. EFU and forest zones carry minimum parcel sizes that are "
+                "large by design, and the entire point of resource zoning is to stop working "
+                "ground being chipped into homesites.",
+                "So the sequence is: find out your zone and its minimum parcel size first. If the "
+                "split you have in mind would create a parcel under that minimum, the partition "
+                "process is not the obstacle &mdash; the zone is, and no amount of surveying gets "
+                "around it.",
+            ]),
+            ("What the county will want to see", [
+                "Legal access to each new parcel. A parcel with no enforceable access to a public "
+                "road is a problem you are creating for yourself and for whoever buys it.",
+                "Septic feasibility for any parcel intended to be built on &mdash; which means a "
+                "site evaluation, which means test pits.",
+                "Water. Whether each parcel can actually be served, and on what.",
+                "A survey and a recorded partition plat. This is a real project with real cost and "
+                "a real timeline, not a paperwork afternoon.",
+            ]),
+            ("The consequences people miss", [
+                "<strong>Special assessment.</strong> If the ground is in farm or forest deferral, "
+                "understand what the split and the resulting use do to that status before you "
+                "start. Recording a subdivision plat is itself a disqualifying event for farm use "
+                "special assessment.",
+                "<strong>Dwelling rights.</strong> Splitting can change what is approvable on what "
+                "is left. Where a lot of record dwelling is allowed, the remainder of the tract "
+                "gets consolidated &mdash; you do not get a house and keep the pieces separately "
+                "saleable.",
+                "<strong>The value question.</strong> Two parcels are not automatically worth more "
+                "than one. Sometimes they are worth less, because the thing that made the property "
+                "desirable was that it was whole.",
+            ]),
+            ("Start here", [
+                "Call Lane County Land Management with your tax lot number and ask two questions: "
+                "what is the minimum parcel size in this zone, and is a partition of this tract "
+                "approvable at all. Free, and it saves surveyor money on parcels where the answer "
+                "was always no.",
+                "If the answer is yes, the next calls are a surveyor and a land use planner. If "
+                "the ground is in deferral, add your CPA before anything is recorded.",
+            ]),
+        ],
+        "sources": [
+            ("ORS 92.010 &mdash; Definitions for ORS 92.010 to 92.192",
+             "https://oregon.public.law/statutes/ors_92.010"),
+            ("ORS 92.075 &mdash; Declaration required to subdivide or partition property; contents",
+             "https://oregon.public.law/statutes/ors_92.075"),
+            ("ORS Chapter 92 &mdash; Subdivisions and Partitions",
+             "https://www.oregonlegislature.gov/bills_laws/ors/ors092.html"),
+            ("ORS 308A.116 &mdash; Disqualification of nonexclusive farm use zone farmland",
+             "https://oregon.public.law/statutes/ors_308a.116"),
+        ],
+        "seo_desc":
+            "Splitting Oregon acreage: two or three parcels in a calendar year is a partition, "
+            "four or more is a subdivision (ORS 92.010). Why zoning minimums — not the partition "
+            "process — usually decide it, and what a split does to farm deferral.",
+    },
+
+    {
+        "slug": "landlocked-property-legal-access-oregon",
+        "question": "What happens if a property has no legal access?",
+        "title": "Landlocked Property and Legal Access",
+        "nav_label": "Landlocked and legal access",
+        "tag": "Access",
+        "verified": "14 August 2026",
+        "short_answer":
+            "A driveway is not legal access. What matters is whether there is a <strong>recorded, "
+            "enforceable right</strong> to cross the ground between the parcel and a public road. "
+            "An easement appurtenant attaches to the property and transfers automatically with it "
+            "&mdash; it cannot be sold off separately from the land it serves. Where there is "
+            "genuinely no access and no right to any, Oregon allows a landowner to petition for a "
+            "<strong>statutory way of necessity</strong> under ORS 376.150 to 376.200. It is a "
+            "real remedy but a slow, contested and expensive one, it requires proving you have no "
+            "enforceable access at all, and a way of necessity created this way "
+            "<strong>must be open to public use</strong>. If you already have enforceable access, "
+            "you do not qualify &mdash; even if what you have is inconvenient.",
+        "sections": [
+            ("\"We've always driven in that way\" is not a right", [
+                "Long use with a neighbour's blessing is a permission, and permissions end &mdash; "
+                "when the neighbour sells, when the neighbour dies, when the neighbour's new "
+                "spouse takes a different view.",
+                "The question is not how people get to the property. It is what is recorded. Ask "
+                "the title company to show you the access easement, and read it.",
+            ]),
+            ("What an easement appurtenant actually does", [
+                "It attaches to the ownership interest and becomes part of it. Transfer the "
+                "property and the easement goes with it automatically; it cannot be transferred "
+                "independently of the land it benefits.",
+                "That is the protection you want, and it is why the recorded document matters more "
+                "than the gravel. Read it for what it actually grants: who may use it, for what, "
+                "how wide it is, whether it permits utilities, and who maintains it.",
+                "<strong>Maintenance is where the arguments live.</strong> A shared road with no "
+                "maintenance agreement is a dispute with a delay on it. If the easement is silent, "
+                "that silence is a term of your purchase.",
+            ]),
+            ("The way of necessity, honestly described", [
+                "Where a parcel is landlocked with no other access easement, ORS 376.150 and "
+                "following let the owner petition for a way of necessity across another's land to "
+                "reach a public road. The petition has to name a specific proposed location and "
+                "show that the petitioner has no existing easement, no right to one, and no "
+                "enforceable access.",
+                "Two conditions people do not expect. First, if you <em>do</em> have enforceable "
+                "access, you are not entitled to a way of necessity &mdash; regardless of whether "
+                "your access is reasonable or convenient. Second, a way of necessity created under "
+                "these sections <strong>must be open to public use</strong>. You are not obtaining "
+                "a private driveway.",
+                "It is a proceeding against a neighbour who does not want it, with compensation, "
+                "counsel and time attached. Treat it as the last resort it is, not as a reason to "
+                "buy a landlocked parcel cheap.",
+            ]),
+            ("Before you buy", [
+                "Get the title report and find the access. If your agent or the title officer "
+                "cannot point to a recorded easement running from the parcel to a public road, "
+                "assume there is not one until somebody proves otherwise.",
+                "Check the road at the other end too. A recorded easement onto a road that is "
+                "itself private, or a road nobody has accepted for maintenance, moves the problem "
+                "rather than solving it.",
+                "And ask the lender early. Access problems affect insurability and financing, and "
+                "it is better to learn that in week one than in week five.",
+            ]),
+        ],
+        "sources": [
+            ("ORS 376.150 to 376.200 &mdash; Ways of necessity (ORS Chapter 376)",
+             "https://www.oregonlegislature.gov/bills_laws/ors/ors376.html"),
+            ("ORS 376.155 &mdash; Petition to establish way of necessity; contents; requirements",
+             "https://oregon.public.law/statutes/ors_376.155"),
+            ("ORS 376.180 &mdash; Conditions for way of necessity",
+             "https://oregon.public.law/statutes/ors_376.180"),
+        ],
+        "seo_desc":
+            "A driveway is not legal access. What a recorded easement appurtenant gives you, and "
+            "how Oregon's statutory way of necessity under ORS 376.150 actually works — including "
+            "why it must be open to public use.",
+    },
+
+    {
+        "slug": "shared-well-agreement-oregon",
+        "question": "The house shares a well with a neighbour. What should I check?",
+        "title": "Shared Well Agreements in Oregon",
+        "nav_label": "Shared wells",
+        "tag": "Wells",
+        "verified": "14 August 2026",
+        "short_answer":
+            "Whether there is a <strong>recorded shared well agreement</strong>, and what it says. "
+            "A shared well without a recorded agreement is a financing problem and a future "
+            "dispute at the same time &mdash; mortgage lenders generally require one before they "
+            "will lend, and the government-backed programs are explicit about wanting it recorded "
+            "so that it binds current <em>and future</em> owners rather than just the two "
+            "neighbours who shook hands. The agreement should cover who owns the well, who may use "
+            "how much, how maintenance and repair costs are split, who has physical access to the "
+            "well head and equipment, and what happens when the pump fails at 11pm in January.",
+        "sections": [
+            ("Recorded is the word that matters", [
+                "An unrecorded arrangement binds the people who signed it, not the person who buys "
+                "next door in three years. Recording is what attaches the arrangement to both "
+                "properties so it survives a sale.",
+                "This is also what lenders look for. Expect a recorded agreement, along with a "
+                "permanent easement covering physical access to the well and the water line, to be "
+                "a condition rather than a nicety &mdash; particularly on FHA and VA financing, "
+                "where the requirement is long-standing.",
+                "Lender guidelines change and individual lenders add their own overlays, including "
+                "on minimum yield and on how many homes may share one well. Confirm the current "
+                "requirements with the actual lender early, because this is a condition that can "
+                "surface late and stall a closing.",
+            ]),
+            ("What the agreement needs to say", [
+                "<strong>Who owns the well</strong>, and whose land it sits on.",
+                "<strong>Access.</strong> A permanent, recorded easement for getting to the well "
+                "head, the pump and the line &mdash; including for a repair crew. Right to the "
+                "water is worthless without the right to reach the equipment.",
+                "<strong>Cost sharing.</strong> How routine maintenance, power, testing and "
+                "capital repairs are split, and how a party who will not pay gets dealt with.",
+                "<strong>Use limits.</strong> What each household may draw, and what happens in a "
+                "dry summer when the well cannot serve both at full tilt.",
+                "<strong>Failure and replacement.</strong> Who decides, who contracts, who fronts "
+                "the money, and what happens if the well has to be redrilled somewhere else.",
+                "<strong>Water testing.</strong> Who tests, how often, and who pays &mdash; "
+                "separate from the seller's own testing obligation on a sale.",
+            ]),
+            ("Do the physical diligence too", [
+                "Pull the well log through the Water Resources Department and look at the depth "
+                "and the yield at completion. One well serving two households is doing twice the "
+                "work, and a modest yield that is fine for one house can be marginal for two.",
+                "Find out where the well, the pressure tank and the lines actually are, and whose "
+                "power runs the pump. A pump on the neighbour's meter is an arrangement waiting to "
+                "become an argument.",
+                "Ask what has actually happened. Has it run dry in a hot August? Has the pump been "
+                "replaced? Who paid, and did anybody argue about it?",
+            ]),
+            ("If there is no agreement", [
+                "Getting one drafted and recorded before closing is usually the cleanest fix, and "
+                "it is far easier while the seller still has a reason to cooperate. After closing "
+                "you are asking a neighbour for a favour with nothing to trade.",
+                "If the neighbour will not sign, that tells you something worth knowing about the "
+                "next ten years, and it belongs in your decision rather than in your hopes.",
+            ]),
+        ],
+        "sources": [
+            ("Oregon Water Resources Department &mdash; Well Report Query",
+             "https://apps.wrd.state.or.us/apps/gw/well_log/"),
+            ("ORS 448.271 &mdash; Transfer of property that includes well; testing; effect",
+             "https://oregon.public.law/statutes/ors_448.271"),
+            ("Water Systems Council &mdash; Shared Well Agreements (wellcare information sheet)",
+             "https://www.watersystemscouncil.org/download/wellcare_information_sheets/other_information_sheets/Shared_Well_Agreement.pdf"),
+            ("Water Systems Council &mdash; Sharing a Well",
+             "https://www.watersystemscouncil.org/download/wellcare_information_sheets/other_information_sheets/Sharing_a_Well.pdf"),
+        ],
+        "seo_desc":
+            "Buying a house on a shared well in Oregon: why the agreement must be recorded to bind "
+            "future owners, what it needs to cover, and the physical diligence to do on a well "
+            "serving two households.",
+    },
+
+    {
+        "slug": "floodplain-development-lane-county-oregon",
+        "question": "The property is in a flood zone. What does that actually mean?",
+        "title": "Flood Zones and Building in Lane County",
+        "nav_label": "Flood zones",
+        "tag": "Floodplain",
+        "verified": "14 August 2026",
+        "short_answer":
+            "It means development there is regulated, and that the rules come from your "
+            "<strong>city or county</strong> rather than from the state. Oregon's Department of "
+            "Land Conservation and Development is explicit that cities and counties adopt the "
+            "floodplain maps and regulations and issue floodplain development permits locally "
+            "&mdash; there is no single statewide elevation standard to quote you. In a Special "
+            "Flood Hazard Area you will generally need a <strong>floodplain development "
+            "permit</strong> before building, and how far above the base flood elevation your "
+            "lowest floor must sit is set by the local ordinance. For anything in Lane County, get "
+            "that number from Land Management directly, in writing, before you design anything.",
+        "sections": [
+            ("Why I will not quote you an elevation figure", [
+                "Local freeboard requirements are adopted locally and they change. Publishing a "
+                "number that is out of date, on a page a buyer might rely on to size a foundation, "
+                "would be worse than publishing nothing.",
+                "So this page tells you what to ask and who to ask. The specific requirement for "
+                "your parcel comes from Lane County Land Management Division, 3050 N. Delta "
+                "Highway, Eugene &mdash; phone (541) 682-4651.",
+            ]),
+            ("The words on the map", [
+                "<strong>Special Flood Hazard Area (SFHA).</strong> The area FEMA maps as having a "
+                "1% annual chance of flooding &mdash; the \"100-year flood\", which is a "
+                "probability, not a schedule. Two in ten years is entirely possible.",
+                "<strong>Base flood elevation (BFE).</strong> How high the water is expected to "
+                "reach in that event. Local rules are written in terms of height above it.",
+                "<strong>Zone A versus Zone AE.</strong> Both are high-risk. The difference is "
+                "study: AE zones have a determined base flood elevation, A zones do not &mdash; "
+                "they were mapped without a detailed engineering study, so no BFE was established. "
+                "An A zone is not lower risk than an AE zone; it is less measured. In practice "
+                "that can mean you have to produce the elevation data yourself.",
+                "<strong>Floodway.</strong> The channel and the adjoining land needed to carry the "
+                "flood. This is the most restricted designation and the one most likely to make a "
+                "building site unusable.",
+            ]),
+            ("What it does to the transaction", [
+                "<strong>Insurance.</strong> A federally backed lender will require flood "
+                "insurance on a structure in an SFHA. Get an actual quote during your inspection "
+                "period &mdash; it is a permanent line in the monthly cost and it can be "
+                "substantial.",
+                "<strong>An elevation certificate</strong> documents where the building actually "
+                "sits relative to the BFE, and it is what an insurer prices from. If the seller "
+                "has one, get it. If not, factor in obtaining one.",
+                "<strong>Permits and design.</strong> Elevation, flood-resistant construction, "
+                "anchoring and where the mechanical equipment sits are all constrained. This is a "
+                "cost and design conversation to have before you are committed, not after.",
+            ]),
+            ("Around Fern Ridge and the Long Tom", [
+                "West Lane County has genuine flood geography &mdash; Fern Ridge Reservoir sits on "
+                "the Long Tom River, and the low ground around it and its tributaries floods.",
+                "It does not make property there a bad buy. Plenty of good land carries a flood "
+                "designation on part of it, and where the mapped area falls on a parcel matters "
+                "enormously &mdash; a floodway across the back pasture is a very different fact "
+                "from an AE zone under the house site.",
+                "Send me an address and I will pull what the county has mapped for it before you "
+                "spend money on anything else.",
+            ]),
+        ],
+        "sources": [
+            ("Oregon DLCD &mdash; National Flood Insurance Program (NFIP) in Oregon",
+             "https://www.oregon.gov/lcd/NH/Pages/NFIP.aspx"),
+            ("FEMA &mdash; Permit for Floodplain Development",
+             "https://www.fema.gov/about/glossary/permit-floodplain-development"),
+            ("Lane County &mdash; Land Management Division",
+             "https://www.lanecounty.org/government/county_departments/public_works/land_management_division"),
+        ],
+        "seo_desc":
+            "What a flood zone means for an Oregon property: SFHA, base flood elevation, Zone A vs "
+            "AE vs floodway, and why the elevation requirement comes from the county rather than "
+            "the state. Fern Ridge and Long Tom context.",
+    },
+
 ]

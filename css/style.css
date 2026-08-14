@@ -760,3 +760,20 @@ body.lb-open{overflow:hidden}
   .related-answers{padding:52px 24px}.rel-grid{grid-template-columns:1fr}
   .answer-direct{padding:26px 24px}.answer-direct p{font-size:16.5px}
 }
+
+/* --- Market pages ----------------------------------------------------------- */
+.market-sibs{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--rule);border:1px solid var(--rule)}
+.market-sibs a{background:var(--cream);padding:18px 20px;font-family:var(--serif);font-size:19px;letter-spacing:-.01em;transition:background .3s}
+.market-sibs a:hover{background:var(--cream-deep)}
+.market-sibs a span{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--purple);margin-top:6px}
+.mkt-county{margin-bottom:52px}
+.mkt-county h2{font-family:var(--serif);font-size:clamp(28px,3.2vw,40px);letter-spacing:-.022em;font-weight:400}
+.mkt-note{font-family:var(--sans);font-size:14.5px;color:var(--muted);margin:6px 0 18px}
+.mkt-list{display:grid;grid-template-columns:1fr;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.mkt-row{display:grid;grid-template-columns:1fr auto auto;gap:24px;align-items:baseline;background:var(--cream);padding:15px 20px;transition:background .3s}
+.mkt-row:hover{background:var(--cream-deep)}
+.mr-name{font-family:var(--serif);font-size:21px;letter-spacing:-.012em}
+.mr-med{font-family:var(--serif);font-size:19px;color:var(--purple);letter-spacing:-.015em}
+.mr-dom{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--muted);min-width:74px;text-align:right}
+@media(max-width:1024px){.market-sibs{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.market-sibs{grid-template-columns:1fr}.mkt-row{grid-template-columns:1fr auto}.mr-dom{grid-column:2}}

@@ -266,6 +266,7 @@ def header(pfx, active=""):
         ("rural-acreage.html", "rural", "Rural &amp; Acreage"),
         ("buyers.html", "buyers", "Buyers"),
         ("communities/index.html", "communities", "Communities"),
+        ("markets/index.html", "markets", "Markets"),
         ("answers/index.html", "answers", "Answers"),
         ("resources.html", "resources", "Resources"),
         ("contact.html", "contact", "Contact"),
@@ -2475,6 +2476,154 @@ def gen_answers_index():
               "resources", [("answers/index.html", "ANSWERS")], body)
 
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# MARKET PAGES  —  one per verified city, /markets/<slug>.html
+# ══════════════════════════════════════════════════════════════════════════════
+from places_data import PLACES, COUNTIES, REJECTED, PERIOD as MP_PERIOD, \
+    SOURCE as MP_SOURCE, ASOF as MP_ASOF, slugify
+
+
+def _pace(dom, prev):
+    """Say what the days-on-market number actually means. Derived from the
+    figure itself — never asserted beyond what the data supports."""
+    if dom <= 15:
+        pace = ("This is a fast market. At {d} days a well-priced house is gone before most "
+                "buyers have finished arranging a viewing, and there is very little room to "
+                "test a price.").format(d=dom)
+    elif dom <= 35:
+        pace = ("This is a normal market. {d} days is long enough to see a property properly "
+                "and short enough that hesitating on the right one costs you.").format(d=dom)
+    elif dom <= 75:
+        pace = ("This is a patient market. At {d} days sellers are negotiating and buyers have "
+                "time to do diligence properly &mdash; inspections, well, septic &mdash; without "
+                "losing the house.").format(d=dom)
+    else:
+        pace = ("This is a slow market. {d} days means listings sit, price reductions are "
+                "common, and a buyer who is ready has real leverage.").format(d=dom)
+    if prev:
+        if dom > prev * 1.3:
+            pace += (" It has slowed noticeably &mdash; a year ago the same figure was "
+                     "{p} days.").format(p=prev)
+        elif dom < prev * 0.7:
+            pace += (" It has tightened sharply &mdash; a year ago it was {p} days.").format(p=prev)
+    return pace
+
+
+def _volume(sold, name):
+    if sold is None:
+        return ""
+    if sold <= 10:
+        return ("Only {s} homes sold here in the month. That is a thin market: one unusual "
+                "sale moves the median a long way, so treat the percentage change as noise "
+                "and the days-on-market as the number worth trusting.").format(s=sold)
+    if sold <= 40:
+        return ("{s} homes sold in the month &mdash; enough to be meaningful, few enough that "
+                "the mix of what sold still moves the median.").format(s=sold)
+    return ("{s} homes sold in the month, which is enough volume for the median to be a "
+            "genuinely stable number.").format(s=sold)
+
+
+def gen_market_page(rec, by_county):
+    name, county, median, yoy, dom, dom_prev, sold = rec
+    slug = slugify(name)
+    cells = [("Median sale price", median, yoy),
+             ("Days on market", str(dom), f"was {dom_prev} a year ago" if dom_prev else None),
+             ("Homes sold", str(sold) if sold else None, "in the month")]
+    tiles = "".join(
+        f'<div class="mk-cell"><span class="mk-n">{v}</span><span class="mk-k">{k}</span>'
+        + (f'<span class="mk-d">{d}</span>' if d else "") + "</div>"
+        for k, v, d in cells if v)
+    siblings = [p for p in by_county[county] if p[0] != name][:8]
+    sib = "".join(f'<a href="{slugify(o[0])}.html">{o[0]} <span>{o[2]}</span></a>' for o in siblings)
+    yoy_line = (f"Prices are {'up' if yoy.startswith('+') else 'down'} {yoy.lstrip('+-')} on the "
+                f"same period last year." if yoy else
+                "The year-on-year change could not be read reliably from the source, so it is "
+                "not quoted here.")
+
+    body = f'''<section class="listings-masthead">
+  <div>
+    <div class="tag tag-purple">{county} County</div>
+    <h1 class="page-title" style="margin-top:14px">{name} <em>market.</em></h1>
+  </div>
+  <div class="lm-aside">
+    <div class="lm-count">{MP_PERIOD}</div>
+    <p>What {name} is actually doing, from {MP_SOURCE} data rather than adjectives.</p>
+  </div>
+</section>
+<section class="market-section" style="background:var(--cream)">
+  <div class="mk-grid">{tiles}</div>
+</section>
+<section class="chapter">
+  <div class="chapter-sticky">
+    <div class="tag tag-purple">Reading it</div>
+    <h2 class="section-heading" style="margin-top:18px">What the<br>numbers mean.</h2>
+  </div>
+  <div class="chapter-body">
+    <p>{yoy_line}</p>
+    <p>{_pace(dom, dom_prev)}</p>
+    {f"<p>{_volume(sold, name)}</p>" if sold else ""}
+    <p>A median is the middle of what sold &mdash; not a valuation of any particular house.
+      Two properties on the same street can sit either side of it for reasons a median cannot
+      see: acreage, water, septic, outbuildings, condition. If you want to know what a specific
+      place is worth, that takes comparables, and I will run them.</p>
+  </div>
+</section>
+{f'<section class="section-alt"><div class="tag tag-purple">Nearby</div><h2 class="section-heading" style="margin:14px 0 24px">Other {county} County markets.</h2><div class="market-sibs">{sib}</div></section>' if sib else ""}
+<section class="cta-dark">
+  <h2>Buying or selling in {name}?</h2>
+  <p>I am licensed throughout Oregon. Tell me the property and I will tell you what the county
+    record shows and what it is actually worth.</p>
+  <a href="../contact.html">START A CONVERSATION &rarr;</a>
+</section>'''
+
+    desc = (f"{name}, Oregon housing market: median sale price {median}, {dom} days on market, "
+            f"{MP_PERIOD}. {MP_SOURCE} data, read by an Oregon broker.")
+    make_page(f"{SITE}/markets/{slug}.html", 1,
+              f"{name} OR Housing Market &mdash; Median {median}", desc, "markets",
+              [("markets/index.html", "MARKETS"), (f"markets/{slug}.html", name.upper())], body)
+
+
+def gen_markets_index(by_county):
+    blocks = ""
+    for county in sorted(by_county):
+        rows = "".join(
+            f'<a class="mkt-row" href="{slugify(p[0])}.html"><span class="mr-name">{p[0]}</span>'
+            f'<span class="mr-med">{p[2]}</span><span class="mr-dom">{p[4]} days</span></a>'
+            for p in by_county[county])
+        blocks += (f'<div class="mkt-county"><h2>{county} County</h2>'
+                   f'<p class="mkt-note">{COUNTIES.get(county, "")}</p>'
+                   f'<div class="mkt-list">{rows}</div></div>')
+    body = f'''<section class="listings-masthead">
+  <div>
+    <div class="tag tag-purple">Markets</div>
+    <h1 class="page-title" style="margin-top:14px">Every market<br>I <em>work.</em></h1>
+  </div>
+  <div class="lm-aside">
+    <div class="lm-count">{len(PLACES)} cities &middot; 7 counties</div>
+    <p>Lane County and every county that borders it, each with its own verified numbers for the
+      {MP_PERIOD}. Sorted by median so you can see the spread &mdash; it runs from
+      {PLACES[-1][2]} to {max(PLACES, key=lambda p: int(p[2].replace("$","").replace(",","")))[2]}.</p>
+  </div>
+</section>
+<section class="listings-section">{blocks}
+  <p class="fine">Source: {MP_SOURCE} market data for each city, retrieved {MP_ASOF}, covering the
+    {MP_PERIOD}. {len(REJECTED)} further cities were checked and left out because their most
+    recent published figures were stale or incomplete &mdash; a missing page is better than a
+    wrong number.</p>
+</section>
+<section class="cta-dark">
+  <h2>Licensed throughout Oregon.</h2>
+  <p>If your market is on this page, I can work in it. If it is not, ask me anyway.</p>
+  <a href="../contact.html">GET IN TOUCH &rarr;</a>
+</section>'''
+    make_page(f"{SITE}/markets/index.html", 1,
+              "Oregon Housing Markets &mdash; Lane County &amp; Bordering Counties",
+              f"Median sale price and days on market for {len(PLACES)} Oregon cities across Lane "
+              f"County and every county bordering it. {MP_SOURCE} data, {MP_PERIOD}.",
+              "markets", [("markets/index.html", "MARKETS")], body)
+
+
 def gen_sitemap():
     # terms/privacy/do-not-sell are intentionally absent: they carry
     # <meta name="robots" content="noindex">, and submitting a noindex URL earns
@@ -2482,7 +2631,8 @@ def gen_sitemap():
     # should list only pages you actually want indexed.
     urls = ["index.html", "about.html", "sellers.html", "rural-acreage.html", "buyers.html",
             "communities/index.html", "resources.html", "testimonials.html", "contact.html",
-            "blog/index.html", "photo-credits.html", "answers/index.html"]
+            "blog/index.html", "photo-credits.html", "answers/index.html", "markets/index.html"]
+    urls += [f"markets/{slugify(p[0])}.html" for p in PLACES]
     urls += [f"answers/{a['slug']}.html" for a in ANSWERS]
     # An empty listings index is a thin page — keep it out of search until the
     # feature is actually surfaced on the site.
@@ -3156,6 +3306,7 @@ if __name__ == "__main__":
     os.makedirs(f"{SITE}/services", exist_ok=True)
     os.makedirs(f"{SITE}/listings", exist_ok=True)
     os.makedirs(f"{SITE}/answers", exist_ok=True)
+    os.makedirs(f"{SITE}/markets", exist_ok=True)
 
     print("Generating pages...")
     print("\n── Core Pages ──")
@@ -3168,6 +3319,14 @@ if __name__ == "__main__":
     gen_resources()
     gen_testimonials()
     gen_contact()
+
+    print("\n── Markets ──")
+    _by_county = {}
+    for _p in PLACES:
+        _by_county.setdefault(_p[1], []).append(_p)
+    gen_markets_index(_by_county)
+    for _p in PLACES:
+        gen_market_page(_p, _by_county)
 
     print("\n── Answers ──")
     gen_answers_index()

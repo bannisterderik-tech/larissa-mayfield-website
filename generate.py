@@ -881,6 +881,60 @@ BLOGS = [
 # ── Guide data ───────────────────────────────────────────────────────────────
 GUIDES = [
     {
+        "slug": "lane-county-new-construction",
+        "img_key": "suburban",
+        "title": "The Lane County New Construction Guide",
+        "tag": "GUIDE &middot; FALL 2026",
+        "desc": "Every new-construction home and plan I am tracking in Eugene, Springfield and Veneta &mdash; advertised prices, square footage and build status, side by side.",
+        "seo_desc": "Free Lane County new construction guide: 21 homes and 10 plans across 6 communities in Eugene, Springfield and Veneta, with advertised prices, square footage and build status. By Larissa Mayfield, Real Broker.",
+        "pdf": "lane-county-new-construction-2026.pdf",
+        "body": '''<section class="article-header">
+  <div class="tag tag-purple reveal">GUIDE &middot; FALL 2026</div>
+  <h1 class="page-title reveal reveal-d1" style="margin-top:18px;font-size:clamp(36px,5vw,64px)">The Lane County New Construction Guide</h1>
+  <p class="body-text reveal reveal-d2" style="margin-top:24px">Every new-construction home and plan I am tracking in Eugene, Springfield and Veneta &mdash; advertised prices, square footage and build status side by side, so you walk into any sales office already knowing the numbers.</p>
+  <div class="article-meta reveal reveal-d3"><span>BY LARISSA MAYFIELD</span><span>FALL 2026</span><span>10 PAGES &middot; PDF</span></div>
+</section>
+<section class="article-body reveal">
+  <div class="guide-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:0 0 40px">
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">21</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">HOMES + 10 PLANS</div></div>
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">6</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">COMMUNITIES</div></div>
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">$362,600</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">LOWEST ADVERTISED</div></div>
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">$461,900</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">MEDIAN PRICE</div></div>
+  </div>
+
+  <form class="contact-form reveal" data-form-type="guide" data-guide-file="lane-county-new-construction-2026.pdf" style="margin-bottom:48px">
+    <input type="hidden" name="guide" value="Lane County New Construction Guide &mdash; Fall 2026">
+    <div><div class="form-label">YOUR NAME</div><input type="text" name="name" placeholder="First and last" required></div>
+    <div><div class="form-label">EMAIL</div><input type="email" name="email" placeholder="you@email.com" required></div>
+    <div style="grid-column:1/-1"><button type="submit" class="btn-primary">Send Me the Guide &rarr;</button></div>
+    <p style="grid-column:1/-1;font-size:13px;color:var(--muted);margin-top:4px">It opens straight away, and I will email you when these numbers change. Nothing else, and nobody else sees your address.</p>
+  </form>
+
+  <h2>What is inside</h2>
+  <p>Twenty-one homes and ten floor plans across six communities, each with its advertised price, bedroom and bathroom count, square footage, price per square foot and build status &mdash; available, under construction, or to be built. Lennar in Eugene and Springfield, Hayden Homes and Wiechert in Springfield, and the rest, with what each builder includes as standard.</p>
+
+  <h2>Before you walk into a model home</h2>
+  <p><strong>The sales rep works for the builder.</strong> The person in the model home is paid to get the best outcome for the builder &mdash; their contract, their lender, their timeline. You deserve someone at the table whose only job is you.</p>
+  <p><strong>Register me before your first visit.</strong> Many builders require a buyer&rsquo;s broker to be registered at, or before, your first visit or online sign-up. If you visit or sign up on your own first, you may not be able to have your own broker represent you on that home. Text me before you go and I will handle the registration.</p>
+  <p><strong>The advertised price is only part of the deal.</strong> Builders may offer closing-cost credits, rate buydowns, upgrade packages or lot premiums, and these change often. Incentives tied to a builder&rsquo;s affiliated lender are optional &mdash; compare them against an outside lender before deciding.</p>
+
+  <h2>A starting point, not a price sheet</h2>
+  <p>This guide is not a complete list of new construction in Lane County, and builders change pricing, incentives and release schedules constantly. Prices and status are as advertised on 15&ndash;16 September 2026. Use it to shortlist, then let me confirm today&rsquo;s numbers.</p>
+
+  <div class="article-author">
+    <img src="../images/larissa-headshot-square.jpg" alt="Larissa Mayfield">
+    <div>
+      <div style="font-weight:600;font-family:var(--sans);font-size:15px">Larissa Mayfield</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted);margin-top:4px">REAL BROKER &middot; LIC. 201231874</div>
+    </div>
+  </div>
+  <div class="article-cta">
+    <h3 style="font-family:var(--serif);font-size:28px;letter-spacing:-.01em;font-weight:400;margin-bottom:16px">Touring a community this week?</h3>
+    <a class="btn-primary" href="../contact.html">Get Me Registered First &rarr;</a>
+  </div>
+</section>''',
+    },
+    {
         "slug": "first-time-buyer-guide",
         "title": "The First-Time Buyer&rsquo;s Guide to Oregon",
         "tag": "GUIDE &middot; 2026 EDITION",
@@ -1658,6 +1712,14 @@ def gen_blog_article(b):
         "resources", [("blog/index.html", "BLOG"), (f"blog/{b['slug']}.html", b['title'][:30].upper())], body, "BlogPosting")
 
 def gen_guide(g):
+    # A guide can be an article (sections) or a page that hands over a file
+    # (body + pdf). The download ones carry the email gate; the site's own
+    # form handler files the lead and opens the file.
+    if g.get("body"):
+        make_page(f"{SITE}/guides/{g['slug']}.html", 1,
+            g['title'], g['seo_desc'],
+            "resources", [("guides/" + g['slug'] + ".html", g['title'][:30].upper())], g["body"])
+        return
     sections = ""
     for heading, text in g["sections"]:
         sections += f'''  <h2>{heading}</h2>

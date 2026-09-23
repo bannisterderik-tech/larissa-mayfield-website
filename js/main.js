@@ -111,6 +111,16 @@ document.addEventListener('DOMContentLoaded',function(){
         +'<p>'+({valuation:'I’ll review your property details and be in touch shortly.',
                  showing:'Your showing request is in. I’ll confirm a time by text, usually within a couple of hours.'
                 }[form.dataset.formType]||'Your message has been received. I’ll be in touch shortly.')+'</p>';
+      // A guide form is a trade: they give an address, they get the file.
+      // Hand it over in the same breath, and leave the link in place for
+      // anyone whose browser blocks the new tab.
+      var file=form.dataset.guideFile;
+      if(file){
+        msg.innerHTML='<div class="form-success-check">✓</div>'
+          +'<h3>Here it is'+(name?', '+name.split(' ')[0]:'')+'.</h3>'
+          +'<p>Your guide is opening now. <a href="'+file+'" target="_blank" rel="noopener">Open it here</a> if it does not.</p>';
+        try{window.open(file,'_blank','noopener')}catch(e){}
+      }
       form.parentNode.replaceChild(msg,form);
     }
     form.addEventListener('submit',function(e){
@@ -146,6 +156,8 @@ document.addEventListener('DOMContentLoaded',function(){
         if(fields.listing_address)notesParts.push('SHOWING REQUEST: '+fields.listing_address);
         if(fields.listing_mls)notesParts.push('MLS# '+fields.listing_mls);
       }
+      // Which guide they asked for is the whole point of a guide lead.
+      if(formType==='guide'&&fields.guide)notesParts.push('Requested: '+fields.guide);
       if(interests.length)notesParts.push((formType==='showing'?'Availability: ':'Interests: ')+interests.join(', '));
       if(fields.message)notesParts.push(fields.message);
       var contactVal=fields.contact||'';

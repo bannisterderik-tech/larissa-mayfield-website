@@ -2,7 +2,8 @@
 # Site generator for Larissa Mayfield Heritage Editorial website
 # Generates 50+ static HTML pages from templates
 
-SITE="/Users/derikbannister9/larissa-mayfield-website"
+# Wherever this checkout lives, not one laptop.
+SITE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SITE"
 
 # Depth helper: how many ../ for CSS/JS/images paths

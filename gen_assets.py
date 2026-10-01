@@ -3,7 +3,9 @@
 from PIL import Image, ImageDraw, ImageFont
 import os
 
-SITE = "/Users/derikbannister9/larissa-mayfield-website"
+# Wherever this checkout lives. It was a path on one laptop, so the site
+# could only ever be rebuilt there.
+SITE = os.path.dirname(os.path.abspath(__file__))
 
 # ── Favicon (32x32 and 16x16 ICO) ──────────────────────────────────────────
 

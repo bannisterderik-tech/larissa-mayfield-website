@@ -3,7 +3,9 @@
 import os
 import re, textwrap
 
-SITE = "/Users/derikbannister9/larissa-mayfield-website"
+# Wherever this checkout lives. It was a path on one laptop, so the site
+# could only ever be rebuilt there.
+SITE = os.path.dirname(os.path.abspath(__file__))
 
 # Listing pages are built and reachable by direct URL, but the "Listings" nav
 # item and the listings index stay out of the site until Larissa signs off on

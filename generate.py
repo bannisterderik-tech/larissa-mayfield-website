@@ -986,7 +986,7 @@ GUIDES = [
     },
     {
         "slug": "lane-county-seller-guide",
-        "img_key": "keys",
+        "img_key": "whitehome",
         "title": "The Lane County Seller Guide",
         "tag": "GUIDE &middot; FALL 2026",
         "desc": "Every step of selling a home here, in order: the price, the prep, the launch, the offers, the inspection and closing day, with the Oregon rules sellers need to know.",

@@ -881,6 +881,24 @@ BLOGS = [
 ]
 
 # ── Guide data ───────────────────────────────────────────────────────────────
+def guide_form(g):
+    """The sign-up in front of a guide's PDF: name and email, an optional
+    phone with its own unticked box for calls and texts, then the file opens.
+    One copy, so every guide page asks the same way and carries the same
+    consent words; js/main.js files the lead and records the yes or no."""
+    pdf, name = g["pdf"], g.get("form_name") or g["title"]
+    note = g.get("form_note") or "It opens straight away. Your phone is optional, and nobody else sees your details."
+    return f'''<form class="contact-form reveal" data-form-type="guide" data-guide-file="{pdf}" style="margin-bottom:48px">
+    <input type="hidden" name="guide" value="{name}">
+    <div><div class="form-label">YOUR NAME</div><input type="text" name="name" placeholder="First and last" autocomplete="name" required></div>
+    <div><div class="form-label">EMAIL</div><input type="email" name="email" placeholder="you@email.com" autocomplete="email" required></div>
+    <div><div class="form-label">PHONE (OPTIONAL)</div><input type="tel" name="phone" placeholder="541-555-0123" autocomplete="tel"></div>
+    <label class="form-consent" style="grid-column:1/-1"><input type="checkbox" name="sms_consent" value="yes"><span>Yes, Larissa Mayfield of Real Broker, LLC may call and text me at the number above about homes and real estate, including by automated means. Consent is not required to get the guide or to buy anything. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See the <a href="../privacy.html">Privacy Policy</a>.</span></label>
+    <div style="grid-column:1/-1"><button type="submit" class="btn-primary">{g.get("form_button") or "Send Me the Guide &rarr;"}</button></div>
+    <p style="grid-column:1/-1;font-size:13px;color:var(--muted);margin-top:4px">{note}</p>
+  </form>'''
+
+
 GUIDES = [
     {
         "slug": "lane-county-new-construction",
@@ -890,6 +908,8 @@ GUIDES = [
         "desc": "Every new-construction home and plan I am tracking in Eugene, Springfield and Veneta, with advertised prices, square footage and build status side by side.",
         "seo_desc": "Free Lane County new construction guide: 21 homes and 10 plans across 6 communities in Eugene, Springfield and Veneta, with advertised prices, square footage and build status. By Larissa Mayfield, Real Broker.",
         "pdf": "lane-county-new-construction-2026.pdf",
+        "form_name": "Lane County New Construction Guide, Fall 2026",
+        "form_note": "It opens straight away, and I will email you when these numbers change. Your phone is optional, and nobody else sees your details.",
         "body": '''<section class="article-header">
   <div class="tag tag-purple reveal">GUIDE &middot; FALL 2026</div>
   <h1 class="page-title reveal reveal-d1" style="margin-top:18px;font-size:clamp(36px,5vw,64px)">The Lane County New Construction Guide</h1>
@@ -904,15 +924,7 @@ GUIDES = [
     <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">$461,900</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">MEDIAN PRICE</div></div>
   </div>
 
-  <form class="contact-form reveal" data-form-type="guide" data-guide-file="lane-county-new-construction-2026.pdf" style="margin-bottom:48px">
-    <input type="hidden" name="guide" value="Lane County New Construction Guide, Fall 2026">
-    <div><div class="form-label">YOUR NAME</div><input type="text" name="name" placeholder="First and last" required></div>
-    <div><div class="form-label">EMAIL</div><input type="email" name="email" placeholder="you@email.com" autocomplete="email" required></div>
-    <div><div class="form-label">PHONE (OPTIONAL)</div><input type="tel" name="phone" placeholder="541-555-0123" autocomplete="tel"></div>
-    <label class="form-consent" style="grid-column:1/-1"><input type="checkbox" name="sms_consent" value="yes"><span>Yes, Larissa Mayfield of Real Broker, LLC may call and text me at the number above about homes and real estate, including by automated means. Consent is not required to get the guide or to buy anything. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See the <a href="../privacy.html">Privacy Policy</a>.</span></label>
-    <div style="grid-column:1/-1"><button type="submit" class="btn-primary">Send Me the Guide &rarr;</button></div>
-    <p style="grid-column:1/-1;font-size:13px;color:var(--muted);margin-top:4px">It opens straight away, and I will email you when these numbers change. Your phone is optional, and nobody else sees your details.</p>
-  </form>
+  {{FORM}}
 
   <h2>What is inside</h2>
   <p>Twenty-one homes and ten floor plans across six communities, each with its advertised price, bedroom and bathroom count, square footage, price per square foot and build status: available, under construction, or to be built. Lennar in Eugene and Springfield, Hayden Homes and Wiechert in Springfield, and the rest, with what each builder includes as standard.</p>
@@ -936,6 +948,40 @@ GUIDES = [
     <h3 style="font-family:var(--serif);font-size:28px;letter-spacing:-.01em;font-weight:400;margin-bottom:16px">Touring a community this week?</h3>
     <a class="btn-primary" href="../contact.html">Get Me Registered First &rarr;</a>
   </div>
+</section>''',
+    },
+    {
+        "slug": "lane-county-buyer-guide",
+        "img_key": "keys",
+        "title": "The Lane County Buyer Guide",
+        "tag": "GUIDE &middot; FALL 2026",
+        "desc": "Every step of buying a home here, in order: the money, the search, the offer, the inspections and closing day, with the Oregon details other guides leave out.",
+        "seo_desc": "Free Lane County home buyer guide: pre-approval, loan options including the Oregon Bond loan, offers, inspections, wells and septic, appraisal and closing. By Larissa Mayfield, The Operative Group at Real Broker.",
+        "pdf": "lane-county-buyer-guide-2026.pdf",
+        "form_name": "Lane County Buyer Guide, Fall 2026",
+        "body": '''<section class="article-header">
+  <div class="tag tag-purple reveal">GUIDE &middot; FALL 2026</div>
+  <h1 class="page-title reveal reveal-d1" style="margin-top:18px;font-size:clamp(36px,5vw,64px)">The Lane County Buyer Guide</h1>
+  <p class="body-text reveal reveal-d2" style="margin-top:24px">From first showing to keys in hand. Every step of buying a home here, in the order it happens, with the Oregon details other guides leave out: the seller&rsquo;s disclosure, well and septic, how property tax really works, and what a buyer&rsquo;s broker owes you.</p>
+  <div class="article-meta reveal reveal-d3"><span>BY LARISSA MAYFIELD</span><span>FALL 2026</span><span>22 PAGES &middot; PDF</span></div>
+</section>
+<section class="article-body reveal">
+  <div class="guide-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:0 0 40px">
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">8</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">STEPS, IN ORDER</div></div>
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">3.5%</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">MIN. DOWN, FHA</div></div>
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">10</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">BUSINESS DAYS TO INSPECT</div></div>
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">30&ndash;45</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">DAYS TO CLOSE</div></div>
+  </div>
+
+  {{FORM}}
+
+  <h2>What is inside</h2>
+  <p><strong>Before you shop.</strong> What a lender needs for pre-approval, the five questions to ask any lender, the loans Lane County buyers actually use (conventional, FHA, VA, USDA, the Oregon Bond loan and 203(k)), every cost to plan for beyond the price, and the written buyer agreement Oregon now requires.</p>
+  <p><strong>Finding it, and making it yours.</strong> How to tour so a second showing catches what the first missed, why you register your broker before walking into a builder&rsquo;s model, and what makes an offer strong beyond the price.</p>
+  <p><strong>Under contract, to keys.</strong> Earnest money, your five business days after the seller&rsquo;s disclosure, inspections, the state well test, septic and access on rural property, title, the appraisal, the final walkthrough, and how to keep your closing money safe from wire fraud.</p>
+
+  <h2>Who I am</h2>
+  <p>I am Larissa Mayfield, a broker with The Operative Group at Real Broker, LLC, working Lane County and the rural ground around it. This guide is how I walk my own buyers through a purchase. Keep it, write in it, and text me at 541.784.7745 whenever a page raises a question.</p>
 </section>''',
     },
     {
@@ -1720,6 +1766,8 @@ def gen_guide(g):
     # (body + pdf). The download ones carry the email gate; the site's own
     # form handler files the lead and opens the file.
     if g.get("body"):
+        if "{{FORM}}" in g["body"]:
+            g = {**g, "body": g["body"].replace("{{FORM}}", guide_form(g))}
         make_page(f"{SITE}/guides/{g['slug']}.html", 1,
             g['title'], g['seo_desc'],
             "resources", [("guides/" + g['slug'] + ".html", g['title'][:30].upper())], g["body"])

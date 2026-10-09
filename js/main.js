@@ -139,6 +139,8 @@ document.addEventListener('DOMContentLoaded',function(){
       var fields={};
       form.querySelectorAll('input[name],textarea[name]').forEach(function(el){
         if(el.classList.contains('hp-field'))return;
+        // An unticked box still has a value; only a ticked one counts.
+        if(el.type==='checkbox'&&!el.checked)return;
         if(el.value.trim())fields[el.name]=el.value.trim();
       });
       var chips=form.querySelectorAll('.chip.active');
@@ -158,6 +160,14 @@ document.addEventListener('DOMContentLoaded',function(){
       }
       // Which guide they asked for is the whole point of a guide lead.
       if(formType==='guide'&&fields.guide)notesParts.push('Requested: '+fields.guide);
+      // Calls and texts need their own yes, kept with the words they agreed to
+      // and when. A phone with no tick is a number to look at, not to text.
+      var smsBox=form.querySelector('input[name="sms_consent"]');
+      if(smsBox&&fields.phone){
+        notesParts.push(smsBox.checked
+          ?'Call/text consent: YES, '+new Date().toISOString()+', "'+smsBox.parentNode.textContent.replace(/\s+/g,' ').trim()+'"'
+          :'Call/text consent: NO, do not call or text');
+      }
       if(interests.length)notesParts.push((formType==='showing'?'Availability: ':'Interests: ')+interests.join(', '));
       if(fields.message)notesParts.push(fields.message);
       var contactVal=fields.contact||'';
@@ -179,7 +189,7 @@ document.addEventListener('DOMContentLoaded',function(){
       // carrying the real hostname.
       var payload={
         lead_type: isPrivacy ? 'privacy_request' : (formType==='valuation' ? 'seller' : 'buyer'),
-        tags: isPrivacy ? ['privacy-request','do-not-sell','do-not-market'] : ['website',formType],
+        tags: isPrivacy ? ['privacy-request','do-not-sell','do-not-market'] : ['website',formType].concat(fields.phone&&fields.sms_consent?['sms-consent']:fields.phone&&smsBox?['no-sms-consent']:[]),
         name:fields.name||'Unknown',
         email:emailVal||null,
         phone:phoneVal||null,
@@ -187,7 +197,8 @@ document.addEventListener('DOMContentLoaded',function(){
         notes:notesParts.join(' | ')||null,
         seller_listing_address: fields.listing_address||null,
         seller_listing_mls: fields.listing_mls||null,
-        consent_email: true
+        consent_email: true,
+        consent_sms: !!(fields.phone&&fields.sms_consent)
       };
       fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json','X-Webhook-Key':WEBHOOK_KEY},body:JSON.stringify(payload)})
         .then(function(r){

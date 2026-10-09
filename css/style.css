@@ -322,6 +322,9 @@ input,textarea,button,select{font-family:inherit}
 .contact-form input,.contact-form textarea{width:100%;padding:12px 14px;border:1px solid var(--rule);background:#fff;font-family:var(--sans);font-size:15px;outline:none;transition:border-color .3s}
 .contact-form input:focus,.contact-form textarea:focus{border-color:var(--purple)}
 .contact-form textarea{resize:vertical}
+.contact-form .form-consent{display:flex;gap:12px;align-items:flex-start;font-size:12px;line-height:1.55;color:var(--muted);cursor:pointer}
+.contact-form .form-consent input{width:18px;height:18px;flex:0 0 18px;margin:1px 0 0;padding:0;accent-color:var(--purple)}
+.contact-form .form-consent a{color:inherit;text-decoration:underline}
 .interest-chips{display:flex;gap:10px;flex-wrap:wrap}
 .chip{padding:10px 16px;border:1px solid var(--rule);font-family:var(--sans);font-size:13px;border-radius:999px;cursor:pointer;transition:all .3s;background:transparent;color:var(--ink)}
 .chip.active{border-color:var(--purple);background:var(--purple);color:var(--cream)}

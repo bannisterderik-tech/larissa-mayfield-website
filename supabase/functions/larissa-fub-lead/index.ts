@@ -1,9 +1,8 @@
 // larissa-fub-lead: hands a lead from larissamayfieldre.com to Follow Up Boss.
 //
-// Deployed to Supabase project ayskxkjorhoaknkqtyvm. The site's forms post
-// here and to RealtyGrind's webhook-receive at the same time; this one is
-// only for FUB. Self-contained on purpose: nothing from the shared
-// RealtyGrind code, so neither side can break the other.
+// Deployed to Supabase project ayskxkjorhoaknkqtyvm. Since 9 Oct 2026 this is
+// the only place the site's forms post: leads go to FUB, not RealtyGrind.
+// Self-contained on purpose: nothing from the shared RealtyGrind code.
 //
 // The key lives in the FUB_API_KEY secret on that project and never leaves
 // this function. Leads go through /v1/events, not /v1/people, because that

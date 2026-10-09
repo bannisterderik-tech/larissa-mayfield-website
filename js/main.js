@@ -86,11 +86,9 @@ document.addEventListener('DOMContentLoaded',function(){
       s.classList.add('active');
     });
   });
-  // Form submission → Supabase webhook
-  var WEBHOOK_URL='https://ayskxkjorhoaknkqtyvm.supabase.co/functions/v1/webhook-receive';
-  var WEBHOOK_KEY='e3302b5d21fc46979aacd6da8576642f';
-  // Every lead also goes to Follow Up Boss. The FUB key stays server-side in
-  // the larissa-fub-lead function; nothing secret lives in this file.
+  // Form submission → Follow Up Boss, and nowhere else. The FUB key stays
+  // server-side in the larissa-fub-lead function; nothing secret lives in
+  // this file. (Leads stopped going to RealtyGrind on 9 Oct 2026.)
   var FUB_URL='https://ayskxkjorhoaknkqtyvm.supabase.co/functions/v1/larissa-fub-lead';
   document.querySelectorAll('form[data-form-type]').forEach(function(form){
     // Spam defenses. Stamp when the form became interactive (time trap),
@@ -185,11 +183,8 @@ document.addEventListener('DOMContentLoaded',function(){
         // A do-not-sell request is a compliance obligation, not a lead.
         notesParts.unshift('⚠ CCPA / DO-NOT-SELL REQUEST — DO NOT MARKET TO THIS PERSON');
       }
-      // NOTE: do not send assigned_to here. The webhook receiver ignores it
-      // (it isn't in its ACCEPTED_FIELDS), and assignment is by user UUID, not
-      // by name. Routing to Larissa happens server-side from lead_source via a
-      // lead_auto_assign_rules row — which is why the source below must keep
-      // carrying the real hostname.
+      // Who gets the lead is Follow Up Boss's lead routing, not this file.
+      // The source carries the page it came from, so FUB shows which form.
       var payload={
         lead_type: isPrivacy ? 'privacy_request' : (formType==='valuation' ? 'seller' : 'buyer'),
         tags: isPrivacy ? ['privacy-request','do-not-sell','do-not-market'] : ['website',formType].concat(fields.phone&&fields.sms_consent?['sms-consent']:fields.phone&&smsBox?['no-sms-consent']:[]),
@@ -203,19 +198,11 @@ document.addEventListener('DOMContentLoaded',function(){
         consent_email: true,
         consent_sms: !!(fields.phone&&fields.sms_consent)
       };
-      // RealtyGrind and Follow Up Boss each get the lead on their own; one
-      // being down never blocks the other. Only both failing is an error.
-      var body=JSON.stringify(payload);
-      function send(url,headers){
-        return fetch(url,{method:'POST',headers:headers,body:body})
-          .then(function(r){if(!r.ok)throw new Error(r.status)});
-      }
-      // Thank them as soon as the first one lands, so a slow side never
-      // keeps a visitor waiting.
-      Promise.any([
-        send(WEBHOOK_URL,{'Content-Type':'application/json','X-Webhook-Key':WEBHOOK_KEY}),
-        send(FUB_URL,{'Content-Type':'application/json'})
-      ]).then(function(){
+      // One place takes the lead now, so the thank-you means it landed: a
+      // refusal shows the error and keeps their words in the form to retry.
+      fetch(FUB_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+        .then(function(r){if(!r.ok)throw new Error(r.status)})
+        .then(function(){
           showSuccess(fields.name);
         })
         .catch(function(){

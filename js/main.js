@@ -89,6 +89,9 @@ document.addEventListener('DOMContentLoaded',function(){
   // Form submission → Supabase webhook
   var WEBHOOK_URL='https://ayskxkjorhoaknkqtyvm.supabase.co/functions/v1/webhook-receive';
   var WEBHOOK_KEY='e3302b5d21fc46979aacd6da8576642f';
+  // Every lead also goes to Follow Up Boss. The FUB key stays server-side in
+  // the larissa-fub-lead function; nothing secret lives in this file.
+  var FUB_URL='https://ayskxkjorhoaknkqtyvm.supabase.co/functions/v1/larissa-fub-lead';
   document.querySelectorAll('form[data-form-type]').forEach(function(form){
     // Spam defenses. Stamp when the form became interactive (time trap),
     // and inject a hidden honeypot field that real users never see.
@@ -200,9 +203,18 @@ document.addEventListener('DOMContentLoaded',function(){
         consent_email: true,
         consent_sms: !!(fields.phone&&fields.sms_consent)
       };
-      fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json','X-Webhook-Key':WEBHOOK_KEY},body:JSON.stringify(payload)})
-        .then(function(r){
-          if(!r.ok)throw new Error(r.status);
+      // RealtyGrind and Follow Up Boss each get the lead on their own; one
+      // being down never blocks the other. Only both failing is an error.
+      var body=JSON.stringify(payload);
+      function send(url,headers){
+        return fetch(url,{method:'POST',headers:headers,body:body})
+          .then(function(r){if(!r.ok)throw new Error(r.status)});
+      }
+      Promise.allSettled([
+        send(WEBHOOK_URL,{'Content-Type':'application/json','X-Webhook-Key':WEBHOOK_KEY}),
+        send(FUB_URL,{'Content-Type':'application/json'})
+      ]).then(function(results){
+          if(results.every(function(x){return x.status==='rejected'}))throw new Error('both failed');
           showSuccess(fields.name);
         })
         .catch(function(){

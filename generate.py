@@ -985,6 +985,40 @@ GUIDES = [
 </section>''',
     },
     {
+        "slug": "lane-county-seller-guide",
+        "img_key": "keys",
+        "title": "The Lane County Seller Guide",
+        "tag": "GUIDE &middot; FALL 2026",
+        "desc": "Every step of selling a home here, in order: the price, the prep, the launch, the offers, the inspection and closing day, with the Oregon rules sellers need to know.",
+        "seo_desc": "Free Lane County home seller guide: pricing and the real cost of listing too high, what to fix, the Oregon seller disclosure, wells and septic, offers, inspections, net proceeds and closing. By Larissa Mayfield, The Operative Group at Real Broker.",
+        "pdf": "lane-county-seller-guide-2026.pdf",
+        "form_name": "Lane County Seller Guide, Fall 2026",
+        "body": '''<section class="article-header">
+  <div class="tag tag-purple reveal">GUIDE &middot; FALL 2026</div>
+  <h1 class="page-title reveal reveal-d1" style="margin-top:18px;font-size:clamp(36px,5vw,64px)">The Lane County Seller Guide</h1>
+  <p class="body-text reveal reveal-d2" style="margin-top:24px">From start to sold. Every step of selling a home here, in the order it happens: what &ldquo;a little high&rdquo; really costs, what is worth fixing before the photos, the Oregon disclosure, and what you actually walk away with.</p>
+  <div class="article-meta reveal reveal-d3"><span>BY LARISSA MAYFIELD</span><span>FALL 2026</span><span>25 PAGES &middot; PDF</span></div>
+</section>
+<section class="article-body reveal">
+  <div class="guide-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:0 0 40px">
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">10</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">STEPS, IN ORDER</div></div>
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">5</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">BUSINESS DAYS, EARNEST MONEY</div></div>
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">10</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">BUSINESS DAYS TO INSPECT</div></div>
+    <div style="background:var(--paper-deep,#EBE3D0);padding:18px 20px"><div style="font-family:var(--serif);font-size:27px;line-height:1.1">30&ndash;45</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);margin-top:4px">DAYS TO CLOSE</div></div>
+  </div>
+
+  {{FORM}}
+
+  <h2>What is inside</h2>
+  <p><strong>Before you list.</strong> The listing consultation, how buyers really find your home by price band, the overpricing math with your own numbers, what to fix and what to skip, getting each room ready for photos, the Oregon seller&rsquo;s disclosure, and the rural questions: well, septic, outbuildings and access.</p>
+  <p><strong>On the market.</strong> Photo day and launch, how your home gets seen, and showings and open houses that make it easy for a buyer to say yes.</p>
+  <p><strong>From offer to closing.</strong> Comparing offers side by side, the contingencies, inspection repair requests, the appraisal, title and escrow, a net proceeds worksheet, moving out, and how to keep your proceeds safe from wire fraud.</p>
+
+  <h2>Who I am</h2>
+  <p>I am Larissa Mayfield, a broker with The Operative Group at Real Broker, LLC, working Lane County and the rural ground around it. This guide is how I walk my own sellers through a sale. When you want a real number for your home, text me at 541.784.7745.</p>
+</section>''',
+    },
+    {
         "slug": "first-time-buyer-guide",
         "title": "The First-Time Buyer&rsquo;s Guide to Oregon",
         "tag": "GUIDE &middot; 2026 EDITION",
@@ -3319,6 +3353,10 @@ def verify_site():
             errors.append(f"{p[len(SITE)+1:]}: form present but not wired (no data-form-type)")
         if 'onsubmit="event.preventDefault()"' in html_src:
             errors.append(f"{p[len(SITE)+1:]}: dead form (onsubmit preventDefault)")
+
+    # 4b. ...and every lead must also reach Follow Up Boss.
+    if "larissa-fub-lead" not in open(f"{SITE}/js/main.js").read():
+        errors.append("js/main.js: lead forms no longer post to larissa-fub-lead (Follow Up Boss)")
 
     # 5. Compliance + credit links must appear in every footer.
     for p in pages:

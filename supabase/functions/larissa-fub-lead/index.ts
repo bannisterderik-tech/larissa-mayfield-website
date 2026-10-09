@@ -1,4 +1,4 @@
-// larissa-fub-lead: hands a lead from larissamayfield.com to Follow Up Boss.
+// larissa-fub-lead: hands a lead from larissamayfieldre.com to Follow Up Boss.
 //
 // Deployed to Supabase project ayskxkjorhoaknkqtyvm. The site's forms post
 // here and to RealtyGrind's webhook-receive at the same time; this one is
@@ -9,7 +9,12 @@
 // this function. Leads go through /v1/events, not /v1/people, because that
 // is what fires FUB's lead routing and action plans.
 
+// Her site is larissamayfieldre.com, with the "re". The first version listed
+// larissamayfield.com only, so every real form was refused here with a 403
+// while RealtyGrind took the lead, and nothing reached FUB.
 const ALLOWED_ORIGINS = [
+  'https://larissamayfieldre.com',
+  'https://www.larissamayfieldre.com',
   'https://larissamayfield.com',
   'https://www.larissamayfield.com',
   'https://bannisterderik-tech.github.io',
@@ -84,7 +89,7 @@ Deno.serve(async (req) => {
   }
 
   const event: Record<string, unknown> = {
-    source: 'larissamayfield.com',
+    source: 'larissamayfieldre.com',
     system: 'LarissaMayfieldWebsite',
     type: eventType(leadType, source),
     message: message || undefined,

@@ -210,11 +210,12 @@ document.addEventListener('DOMContentLoaded',function(){
         return fetch(url,{method:'POST',headers:headers,body:body})
           .then(function(r){if(!r.ok)throw new Error(r.status)});
       }
-      Promise.allSettled([
+      // Thank them as soon as the first one lands, so a slow side never
+      // keeps a visitor waiting.
+      Promise.any([
         send(WEBHOOK_URL,{'Content-Type':'application/json','X-Webhook-Key':WEBHOOK_KEY}),
         send(FUB_URL,{'Content-Type':'application/json'})
-      ]).then(function(results){
-          if(results.every(function(x){return x.status==='rejected'}))throw new Error('both failed');
+      ]).then(function(){
           showSuccess(fields.name);
         })
         .catch(function(){
